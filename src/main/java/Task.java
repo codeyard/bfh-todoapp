@@ -57,11 +57,7 @@ public class Task  implements Comparable{
     }
 
     public LocalDate getDueDate() {
-        if (dueDate != null) {
-            return dueDate;
-        } else {
-            throw new DateTimeException("Due Date not provided.");
-        }
+        return dueDate;
     }
 
     public void setDueDate(LocalDate dueDate) {
