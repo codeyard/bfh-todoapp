@@ -7,9 +7,6 @@ public class User {
     private String userID;
     private String userName;
     private String password;
-    private String firstName; // todo: check if needed
-    private String lastName; // todo: check if needed
-    private String email; // todo: check if needed
     private Set<Task> tasks = new TreeSet<>();
 
     public User(String userName, String password) {
@@ -38,28 +35,8 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public String getPassword() {
+        return password;
     }
 
     public Set<Task> getTasks() {
@@ -68,10 +45,6 @@ public class User {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
-    }
-
-    public boolean authenticate(String userName, String password){
-        return this.userName.equalsIgnoreCase(userName) && this.password.equals(password);
     }
 
     public void addTask(Task task){
@@ -103,6 +76,4 @@ public class User {
             }
         }
     }
-
-    // todo: check if usermanagment needed? --> addUser()?
 }

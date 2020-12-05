@@ -1,12 +1,14 @@
-import java.util.Date;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Task  implements Comparable{
     private String taskID;
-    private String userID; //todo: needed??
+    private String userID;
     private String title;
     private String category;
-    private Date dueDate;
+    private LocalDate dueDate;
     private boolean isImportant = false;
     private boolean isCompleted = false;
 
@@ -15,13 +17,13 @@ public class Task  implements Comparable{
         this.title = title;
     }
 
-    public Task(String title, String category, Date dueDate) {
+    public Task(String title, String category, LocalDate dueDate) {
         this(title);
         this.category = category;
         this.dueDate = dueDate;
     }
 
-    public Task(String title, String category, Date dueDate, boolean isImportant) {
+    public Task(String title, String category, LocalDate dueDate, boolean isImportant) {
         this(title, category, dueDate);
         this.isImportant = isImportant;
     }
@@ -54,11 +56,15 @@ public class Task  implements Comparable{
         this.category = category;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public LocalDate getDueDate() {
+        if (dueDate != null) {
+            return dueDate;
+        } else {
+            throw new DateTimeException("Due Date not provided.");
+        }
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -79,15 +85,50 @@ public class Task  implements Comparable{
     }
 
     public boolean isOverdue(){
-        return (dueDate.compareTo(new Date()) < 0) && !isCompleted;
+        return (dueDate.compareTo(LocalDate.now()) < 0) && !isCompleted;
     }
 
     @Override
-    public int compareTo(Object task) {
-        if(task instanceof Task){
-            return ((Task) task).getDueDate().compareTo(dueDate);
-        }else{
-            return 0;
+    public int compareTo(Object other) {
+        try {
+            if (this.equals(other)) {
+                return 0;
+            } else {
+                LocalDate taskDate = ((Task) other).getDueDate();
+                if (dueDate != null) {
+                    if (dueDate.compareTo(taskDate) == 0) {
+                        return compareTitleOrTaskID((Task) other);
+                    } else {
+                        return dueDate.compareTo(taskDate);
+                    }
+                } else {
+                    return compareTitleOrTaskID((Task) other);
+                }
+            }
+        } catch (DateTimeException ex) {
+            ex.printStackTrace();
+            return compareTitleOrTaskID((Task) other);
         }
+    }
+
+    private int compareTitleOrTaskID(Task other) {
+        if (title.compareTo(other.getTitle()) == 0) {
+            return taskID.compareTo(other.getTaskID());
+        } else {
+            return title.compareTo(other.getTitle());
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(taskID, task.taskID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskID);
     }
 }
