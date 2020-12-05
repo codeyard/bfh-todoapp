@@ -6,3 +6,12 @@ A Java web application collaboration by:
 * Sabina Löffel @loffs2
 * Christophe Leupi @leupc1
 * Raphael Gerber @gerbr19
+
+***
+
+ ### Domain Model
+![Domain Model](docs/DomainModel.png)
+
+
+### Page Flow
+![Page Flow](docs/PageFlow.png)
