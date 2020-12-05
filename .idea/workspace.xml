@@ -31,8 +31,7 @@
   <component name="ChangeListManager">
     <list default="true" id="97cba892-4017-4c06-b287-dde77ffc6551" name="Default Changelist" comment="Initial commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Klassendiagramm.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Klassendiagramm.xml" afterDir="false" />
     </list>
     <list id="4aa710fd-e36e-40ce-a947-f4d269ab4539" name="Revert &quot;Initial commit&quot;" comment="Revert &quot;Initial commit&quot;&#10;&#10;This reverts commit 207dbe85" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\plugins\maven\lib\maven3" />
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -78,21 +77,6 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -106,6 +90,12 @@
       <workItem from="1606340741264" duration="94000" />
       <workItem from="1606340896284" duration="272000" />
       <workItem from="1606757257087" duration="4344000" />
+      <workItem from="1606762469010" duration="278000" />
+      <workItem from="1606767432682" duration="194000" />
+      <workItem from="1606824260905" duration="353000" />
+      <workItem from="1606845634011" duration="1563000" />
+      <workItem from="1607010456017" duration="9000" />
+      <workItem from="1607155702879" duration="1734000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1606326277701</created>
@@ -150,6 +140,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Initial commit&quot;&#10;&#10;This reverts commit 207dbe85" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="2344" y="753" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606847343960">
+      <screen x="0" y="23" width="3840" height="2137" />
+    </state>
+    <state x="2344" y="753" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3840.2137@0.23.3840.2137" timestamp="1606847343960" />
     <state x="446" y="385" key="#com.intellij.ide.util.MemberChooser" timestamp="1606760602365">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -162,22 +156,22 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400/-1600.0.1600.860@0.0.2560.1400" timestamp="1606757650704" />
-    <state width="1878" height="646" key="GridCell.Tab.0.bottom" timestamp="1606340730533">
+    <state width="1878" height="646" key="GridCell.Tab.0.bottom" timestamp="1606767627417">
       <screen x="0" y="23" width="3840" height="2137" />
     </state>
-    <state width="1878" height="646" key="GridCell.Tab.0.bottom/0.23.3840.2137@0.23.3840.2137" timestamp="1606340730533" />
-    <state width="1878" height="646" key="GridCell.Tab.0.center" timestamp="1606340730532">
+    <state width="1878" height="646" key="GridCell.Tab.0.bottom/0.23.3840.2137@0.23.3840.2137" timestamp="1606767627417" />
+    <state width="1878" height="646" key="GridCell.Tab.0.center" timestamp="1606767627416">
       <screen x="0" y="23" width="3840" height="2137" />
     </state>
-    <state width="1878" height="646" key="GridCell.Tab.0.center/0.23.3840.2137@0.23.3840.2137" timestamp="1606340730532" />
-    <state width="1878" height="646" key="GridCell.Tab.0.left" timestamp="1606340730532">
+    <state width="1878" height="646" key="GridCell.Tab.0.center/0.23.3840.2137@0.23.3840.2137" timestamp="1606767627416" />
+    <state width="1878" height="646" key="GridCell.Tab.0.left" timestamp="1606767627416">
       <screen x="0" y="23" width="3840" height="2137" />
     </state>
-    <state width="1878" height="646" key="GridCell.Tab.0.left/0.23.3840.2137@0.23.3840.2137" timestamp="1606340730532" />
-    <state width="1878" height="646" key="GridCell.Tab.0.right" timestamp="1606340730533">
+    <state width="1878" height="646" key="GridCell.Tab.0.left/0.23.3840.2137@0.23.3840.2137" timestamp="1606767627416" />
+    <state width="1878" height="646" key="GridCell.Tab.0.right" timestamp="1606767627417">
       <screen x="0" y="23" width="3840" height="2137" />
     </state>
-    <state width="1878" height="646" key="GridCell.Tab.0.right/0.23.3840.2137@0.23.3840.2137" timestamp="1606340730533" />
+    <state width="1878" height="646" key="GridCell.Tab.0.right/0.23.3840.2137@0.23.3840.2137" timestamp="1606767627417" />
     <state x="194" y="217" key="SettingsEditor" timestamp="1606758426388">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -186,6 +180,10 @@
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="240" y="151" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1606326203433" />
+    <state x="2693" y="1012" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1607155741237">
+      <screen x="0" y="23" width="3840" height="2137" />
+    </state>
+    <state x="2693" y="1012" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.3840.2137@0.23.3840.2137" timestamp="1607155741237" />
     <state x="303" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1606758380834">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
