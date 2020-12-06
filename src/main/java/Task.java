@@ -89,6 +89,27 @@ public class Task  implements Comparable{
         try {
             if (this.equals(other)) {
                 return 0;
+            }
+            LocalDate otherDate = ((Task) other).getDueDate();
+            if(dueDate == null && otherDate == null)  {
+                return compareTitleOrTaskID((Task) other);
+            }
+            if (dueDate == null && otherDate != null) {
+                return 1;
+            }
+            if(dueDate.compareTo(otherDate) == 0) {
+                return compareTitleOrTaskID((Task) other);
+            }
+            return dueDate.compareTo(otherDate);
+        } catch (DateTimeException ex) {
+            ex.printStackTrace();
+            return compareTitleOrTaskID((Task) other);
+        }
+
+        /**
+        try {
+            if (this.equals(other)) {
+                return 0;
             } else {
                 LocalDate taskDate = ((Task) other).getDueDate();
                 if (dueDate != null) {
@@ -98,13 +119,14 @@ public class Task  implements Comparable{
                         return dueDate.compareTo(taskDate);
                     }
                 } else {
-                    return compareTitleOrTaskID((Task) other);
+                    return 1;
                 }
             }
         } catch (DateTimeException ex) {
             ex.printStackTrace();
             return compareTitleOrTaskID((Task) other);
         }
+         */
     }
 
     private int compareTitleOrTaskID(Task other) {
