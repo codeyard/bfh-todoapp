@@ -1,3 +1,5 @@
+package model;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -76,13 +78,23 @@ public class Task  implements Comparable{
         return isCompleted;
     }
 
+    /**
+     *
+     * @param completed
+     */
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isOverdue(){
         return (dueDate.compareTo(LocalDate.now()) < 0) && !isCompleted;
     }
+
+    //todo: add filter method (for category for example)
 
     @Override
     public int compareTo(Object other) {
@@ -111,10 +123,10 @@ public class Task  implements Comparable{
             if (this.equals(other)) {
                 return 0;
             } else {
-                LocalDate taskDate = ((Task) other).getDueDate();
+                LocalDate taskDate = ((model.Task) other).getDueDate();
                 if (dueDate != null) {
                     if (dueDate.compareTo(taskDate) == 0) {
-                        return compareTitleOrTaskID((Task) other);
+                        return compareTitleOrTaskID((model.Task) other);
                     } else {
                         return dueDate.compareTo(taskDate);
                     }
@@ -124,7 +136,7 @@ public class Task  implements Comparable{
             }
         } catch (DateTimeException ex) {
             ex.printStackTrace();
-            return compareTitleOrTaskID((Task) other);
+            return compareTitleOrTaskID((model.Task) other);
         }
          */
     }

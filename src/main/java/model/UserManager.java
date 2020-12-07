@@ -1,3 +1,5 @@
+package model;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -21,7 +23,7 @@ public class UserManager {
 
     public User authenticate(String userName, String password) throws UserException {
         if (!isRegistered(userName)) {
-            throw new UserException("User does not exist!");
+            throw new UserException("model.User does not exist!");
         } else {
             Iterator<User> iterator = users.iterator();
             while (iterator.hasNext()) {
