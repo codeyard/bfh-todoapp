@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/register")
-public class RegisterServlet extends HttpServlet{
+public class RegisterServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -26,11 +26,11 @@ public class RegisterServlet extends HttpServlet{
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)  {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String name = request.getParameter("userName");
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
-        if(firstPassword != null && !firstPassword.isEmpty() && secondPassword!= null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)){
+        if (firstPassword != null && !firstPassword.isEmpty() && secondPassword != null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)) {
             UserManager userManager = new UserManager();
             try {
                 userManager.register(name, firstPassword);
@@ -38,15 +38,15 @@ public class RegisterServlet extends HttpServlet{
                 view.forward(request, response);
             } catch (UserException e) {
                 e.printStackTrace();
-                try(PrintWriter out = response.getWriter()){
+                try (PrintWriter out = response.getWriter()) {
                     htmlHelper(false, out);
-                }catch (IOException exception){
+                } catch (IOException exception) {
                     exception.printStackTrace();
                 }
             } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             try (PrintWriter out = response.getWriter()) {
                 htmlHelper(true, out);
             } catch (IOException exception) {
@@ -55,11 +55,11 @@ public class RegisterServlet extends HttpServlet{
         }
     }
 
-    private void htmlHelper(boolean isPasswordInvalid, PrintWriter out){
+    private void htmlHelper(boolean isPasswordInvalid, PrintWriter out) {
         out.println("<html><body>");
-        if(isPasswordInvalid){
+        if (isPasswordInvalid) {
             out.println(" <h1>Invalid password or not the same password</h1>");
-        }else{
+        } else {
             out.println(" <h1>Username already exists</h1>");
         }
         out.println(" <a href='login'>Back</a>");

@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         String name = request.getParameter("name");
-        if (name == null || name .isEmpty()) name = "World";
+        if (name == null || name.isEmpty()) name = "World";
         String greeting = "Hello " + name + "!";
         response.setContentType("text/html");
         try (PrintWriter out = response.getWriter()) {

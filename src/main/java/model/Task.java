@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Task  implements Comparable{
+public class Task implements Comparable {
     private String taskID;
     private String userID;
     private String title;
@@ -14,7 +14,7 @@ public class Task  implements Comparable{
     private boolean isImportant = false;
     private boolean isCompleted = false;
 
-    public Task(String title){
+    public Task(String title) {
         this.taskID = UUID.randomUUID().toString();
         this.title = title;
     }
@@ -30,7 +30,7 @@ public class Task  implements Comparable{
         this.isImportant = isImportant;
     }
 
-    public String getTaskID(){
+    public String getTaskID() {
         return taskID;
     }
 
@@ -79,7 +79,6 @@ public class Task  implements Comparable{
     }
 
     /**
-     *
      * @param completed
      */
     public void setCompleted(boolean completed) {
@@ -87,10 +86,9 @@ public class Task  implements Comparable{
     }
 
     /**
-     *
      * @return
      */
-    public boolean isOverdue(){
+    public boolean isOverdue() {
         return (dueDate.compareTo(LocalDate.now()) < 0) && !isCompleted;
     }
 
@@ -103,13 +101,13 @@ public class Task  implements Comparable{
                 return 0;
             }
             LocalDate otherDate = ((Task) other).getDueDate();
-            if(dueDate == null && otherDate == null)  {
+            if (dueDate == null && otherDate == null) {
                 return compareTitleOrTaskID((Task) other);
             }
             if (dueDate == null && otherDate != null) {
                 return 1;
             }
-            if(dueDate.compareTo(otherDate) == 0) {
+            if (dueDate.compareTo(otherDate) == 0) {
                 return compareTitleOrTaskID((Task) other);
             }
             return dueDate.compareTo(otherDate);
@@ -119,25 +117,25 @@ public class Task  implements Comparable{
         }
 
         /**
-        try {
-            if (this.equals(other)) {
-                return 0;
-            } else {
-                LocalDate taskDate = ((model.Task) other).getDueDate();
-                if (dueDate != null) {
-                    if (dueDate.compareTo(taskDate) == 0) {
-                        return compareTitleOrTaskID((model.Task) other);
-                    } else {
-                        return dueDate.compareTo(taskDate);
-                    }
-                } else {
-                    return 1;
-                }
-            }
-        } catch (DateTimeException ex) {
-            ex.printStackTrace();
-            return compareTitleOrTaskID((model.Task) other);
-        }
+         try {
+         if (this.equals(other)) {
+         return 0;
+         } else {
+         LocalDate taskDate = ((model.Task) other).getDueDate();
+         if (dueDate != null) {
+         if (dueDate.compareTo(taskDate) == 0) {
+         return compareTitleOrTaskID((model.Task) other);
+         } else {
+         return dueDate.compareTo(taskDate);
+         }
+         } else {
+         return 1;
+         }
+         }
+         } catch (DateTimeException ex) {
+         ex.printStackTrace();
+         return compareTitleOrTaskID((model.Task) other);
+         }
          */
     }
 

@@ -12,7 +12,7 @@ public class User {
     private Set<Task> tasks = new TreeSet<>();
 
     public User(String userName, String password) {
-        this.userID =  UUID.randomUUID().toString();
+        this.userID = UUID.randomUUID().toString();
         this.userName = userName;
         this.password = password;
     }
@@ -49,15 +49,15 @@ public class User {
         this.tasks = tasks;
     }
 
-    public void addTask(Task task){
+    public void addTask(Task task) {
         tasks.add(task);
     }
 
-    public void updateTask(Task task){
+    public void updateTask(Task task) {
         Iterator<Task> iterator = tasks.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Task tempTask = iterator.next();
-            if(tempTask.getTaskID().equals(task.getTaskID())){
+            if (tempTask.getTaskID().equals(task.getTaskID())) {
                 tempTask.setCategory(task.getCategory());
                 tempTask.setCompleted(task.isCompleted());
                 tempTask.setDueDate(task.getDueDate());
@@ -68,11 +68,11 @@ public class User {
         }
     }
 
-    public void deleteTask(Task task){
+    public void deleteTask(Task task) {
         Iterator<Task> iterator = tasks.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Task tempTask = iterator.next();
-            if(tempTask.getTaskID().equals(task.getTaskID())){
+            if (tempTask.getTaskID().equals(task.getTaskID())) {
                 iterator.remove();
                 break;
             }
