@@ -1,3 +1,7 @@
+/**
+ * The User Manager is responsible for the registration and authentication of a user.
+ */
+
 package model;
 
 import java.util.HashSet;
@@ -7,10 +11,20 @@ import java.util.Set;
 public class UserManager {
     private static Set<User> users = new HashSet<>();
 
+    /**
+     * Constructs the User Manager and loads the predefined set of users.
+     */
     public UserManager() {
         loadUsers();
     }
 
+    /**
+     * Registers a new user.
+     * @param userName the userName
+     * @param password the password
+     * @return a User object if registering was successful
+     * @throws UserException if userName is already registered
+     */
     public User register(String userName, String password) throws UserException {
         if (!isRegistered(userName)) {
             User newUser = new User(userName, password);
@@ -21,9 +35,16 @@ public class UserManager {
         }
     }
 
+    /**
+     * Authenticates a user.
+     * @param userName the userName
+     * @param password the password
+     * @return a User object if authentication was successful
+     * @throws UserException if the user does not exist or the passwords did not match
+     */
     public User authenticate(String userName, String password) throws UserException {
         if (!isRegistered(userName)) {
-            throw new UserException("model.User does not exist!");
+            throw new UserException("User does not exist!");
         } else {
             Iterator<User> iterator = users.iterator();
             while (iterator.hasNext()) {
@@ -36,6 +57,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Indicates whether a userName is already registered.
+     * @param userName the userName to check
+     * @return true if userName is already registered, false otherwise
+     */
     private boolean isRegistered(String userName) {
         Iterator<User> iterator = users.iterator();
         while (iterator.hasNext()) {
@@ -46,6 +72,9 @@ public class UserManager {
         return false;
     }
 
+    /**
+     * Loads a predefined set of users.
+     */
     private void loadUsers() {
         users.add(new User("hans", "ueli"));
         users.add(new User("sepp", "trütsch"));

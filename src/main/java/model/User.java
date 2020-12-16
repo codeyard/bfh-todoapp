@@ -1,6 +1,11 @@
+/**
+ * The User class implements a user with his set of Tasks.
+ */
+
 package model;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -12,6 +17,12 @@ public class User {
     private String password;
     private Set<Task> tasks = new TreeSet<>();
 
+    /**
+     * Constructs a user.
+     * A UUID is generated and used as the User ID.
+     * @param userName the userName
+     * @param password the password
+     */
     public User(String userName, String password) {
         this.userID = UUID.randomUUID().toString();
         this.userName = userName;
@@ -42,6 +53,10 @@ public class User {
         return password;
     }
 
+    /**
+     * Gets the set of Tasks.
+     * @return a set of Tasks.
+     */
     public Set<Task> getTasks() {
         return tasks;
     }
@@ -50,10 +65,18 @@ public class User {
         this.tasks = tasks;
     }
 
+    /**
+     * Adds a Task to the set of Tasks.
+     * @param task the Task object to add
+     */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
+    /**
+     * Updates a Task
+     * @param task the Task object to update in the set
+     */
     public void updateTask(Task task) {
         Iterator<Task> iterator = tasks.iterator();
         while (iterator.hasNext()) {
@@ -69,6 +92,10 @@ public class User {
         }
     }
 
+    /**
+     * Deletes a Task from the set
+     * @param task the Task object to remove from the set.
+     */
     public void deleteTask(Task task) {
         Iterator<Task> iterator = tasks.iterator();
         while (iterator.hasNext()) {
@@ -80,7 +107,47 @@ public class User {
         }
     }
 
+    /**
+     * Filters the set of Tasks by a category.
+     * @param category the category to filter by
+     * @return a filtered set of Tasks which contains all tasks whose category match the specified category
+     */
     public Set<Task> filterByCategory(String category) {
         return tasks.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a string representation of the User object.
+     * @return a string representation of the User object
+     */
+    @Override
+    public String toString() {
+        return "User{" +
+            "userID='" + userID + '\'' +
+            ", userName='" + userName + '\'' +
+            ", tasks=" + tasks +
+            '}';
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     * @param o the reference object with which to compare
+     * @return true if this object is the same as the o argument, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userID, user.userID);
+    }
+
+    /**
+     * Returns a hash code value for the object
+     * @return a hash code value for this object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID);
     }
 }
