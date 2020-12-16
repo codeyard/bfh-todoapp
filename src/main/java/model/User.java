@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class User {
     private String userID;
@@ -77,5 +78,9 @@ public class User {
                 break;
             }
         }
+    }
+
+    public Set<Task> filterByCategory(String category) {
+        return tasks.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
     }
 }

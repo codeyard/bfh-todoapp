@@ -4,6 +4,7 @@ import model.UserException;
 import model.UserManager;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 public class Test {
 
@@ -29,7 +30,15 @@ public class Test {
                 System.out.println("model.Task " + task.getTitle() + " is due " + task.getDueDate());
             }
 
+
             System.out.println("model.Task " + task3.getTitle() + " is overdue " + task3.isOverdue());
+
+            System.out.println("Work category");
+
+            user.filterByCategory("Work").stream().forEach(t ->
+                    System.out.println(t.getTitle() + " "
+                            + t.getCategory() + " "
+                            + t.getDueDate()));
 
             //model.User newUser = userManager.register("sepp", "schacherseppli");
 
