@@ -1,5 +1,9 @@
 package servlets;
 
+import model.User;
+import model.UserException;
+import model.UserManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,15 +29,29 @@ public class LoginServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        String name = request.getParameter("name");
-        if (name == null || name.isEmpty()) name = "World";
-        String greeting = "Hello " + name + "!";
-        response.setContentType("text/html");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<html><body>");
-            out.println(" <h1>" + greeting + "</h1>");
-            out.println(" <a href='hello'>Back</a>");
-            out.println("</body></html>");
+        String name = request.getParameter("userName");
+        String password = request.getParameter("password");
+        UserManager userManager = UserManager.getInstance();
+        try {
+            User user = userManager.authenticate(name, password);
+            if(user != null){
+                request.setAttribute("user", user);
+                request.getRequestDispatcher("/tasks.jsp").forward(request,response);
+            }
+        } catch (UserException | ServletException e) {
+            try (PrintWriter out = response.getWriter()) {
+                htmlHelper(e.getMessage(), out);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            e.printStackTrace();
         }
+    }
+
+    private void htmlHelper(String message, PrintWriter out) {
+        out.println("<html><body>");
+        out.println(" <h1>" + message + "</h1>");
+        out.println(" <a href='login'>Back</a>");
+        out.println("</body></html>");
     }
 }
