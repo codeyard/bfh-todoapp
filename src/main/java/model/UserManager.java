@@ -4,6 +4,7 @@
 
 package model;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -57,6 +58,10 @@ public class UserManager {
             while (iterator.hasNext()) {
                 User thisUser = iterator.next();
                 if (thisUser.getUserName().equalsIgnoreCase(userName) && thisUser.getPassword().equals(password)) {
+                    Task task1 = new Task("Weltherrschaft", "Work", LocalDate.of(2020, 12, 27));
+                    Task task2 = new Task("Silvesternacht", "Work", LocalDate.of(2020, 12, 31), true);
+                    //thisUser.addTask(task1);
+                    //thisUser.addTask(task2);
                     return thisUser;
                 }
             }
