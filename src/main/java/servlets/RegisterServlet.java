@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
         if (firstPassword != null && !firstPassword.isEmpty() && secondPassword != null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)) {
-            UserManager userManager = new UserManager();
+            UserManager userManager = UserManager.getInstance();
             try {
                 userManager.register(name, firstPassword);
                 RequestDispatcher view = request.getRequestDispatcher("index.html");

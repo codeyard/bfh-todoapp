@@ -11,11 +11,18 @@ import java.util.Set;
 public class UserManager {
     private static Set<User> users = new HashSet<>();
 
-    /**
-     * Constructs the User Manager and loads the predefined set of users.
-     */
-    public UserManager() {
+    private static UserManager instance;
+
+    private UserManager() {
         loadUsers();
+    }
+
+    //todo: check if UserManager needs to be thread safe
+    public static UserManager getInstance(){
+        if(UserManager.instance == null){
+            UserManager.instance = new UserManager();
+        }
+        return UserManager.instance;
     }
 
     /**

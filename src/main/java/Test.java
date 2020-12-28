@@ -9,7 +9,7 @@ import java.util.Set;
 public class Test {
 
     public static void main(String[] args)  {
-        UserManager userManager = new UserManager();
+        UserManager userManager = UserManager.getInstance();
 
         try {
             User user = userManager.authenticate("sepp", "trütsch");
