@@ -21,10 +21,18 @@ public class Task implements Comparable {
     /**
      * Constructs a task.
      * A UUID is generated and used as the User ID.
+     */
+    public Task() {
+        this.taskID = UUID.randomUUID().toString();
+    }
+
+    /**
+     * Constructs a task.
+     * A UUID is generated and used as the User ID.
      * @param title the title of the task
      */
     public Task(String title) {
-        this.taskID = UUID.randomUUID().toString();
+        this();
         this.title = title;
     }
 
@@ -134,10 +142,13 @@ public class Task implements Comparable {
             if (dueDate == null && otherDate == null) {
                 return compareTitleOrTaskID((Task) other);
             }
-            if (dueDate == null && otherDate != null) {
+            else if (dueDate == null && otherDate != null) {
                 return 1;
             }
-            if (dueDate.compareTo(otherDate) == 0) {
+            else if (dueDate != null && otherDate == null) {
+                return -1;
+            }
+            else if (dueDate.compareTo(otherDate) == 0) {
                 return compareTitleOrTaskID((Task) other);
             }
             return dueDate.compareTo(otherDate);

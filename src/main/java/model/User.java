@@ -108,6 +108,22 @@ public class User {
     }
 
     /**
+     * Gets a task from the set
+     * @param taskID the ID of the task.
+     * @return a Task object
+     */
+    public Task getTask(String taskID) {
+        Iterator<Task> iterator = tasks.iterator();
+        while (iterator.hasNext()) {
+            Task tempTask = iterator.next();
+            if (tempTask.getTaskID().equals(taskID)) {
+                return tempTask;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Filters the set of Tasks by a category.
      * @param category the category to filter by
      * @return a filtered set of Tasks which contains all tasks whose category match the specified category

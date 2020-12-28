@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         response.setContentType("text/html");
@@ -28,6 +29,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         String name = request.getParameter("userName");

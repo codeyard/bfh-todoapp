@@ -11,6 +11,7 @@ import java.io.IOException;
 @WebServlet("/tasks")
 public class TaskListServlet extends HttpServlet {
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         try {
@@ -21,6 +22,7 @@ public class TaskListServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){
 
     }

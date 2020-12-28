@@ -9,8 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>Login successful</title>
-
+    <title>Tasks</title>
 </head>
 <body>
     <h1>Hi ${user.getUserName()}</h1>
@@ -19,7 +18,7 @@
         <h2>Let's Start by adding a Task!</h2>
     </c:if>
 
-    <button href="/task">Add new Task</button>
+    <a href="task">Add new Task</a>
 
     <c:if test="${user.getTasks().size() != 0}">
         <table>
@@ -27,6 +26,8 @@
                 <th>Title</th>
                 <th>Category</th>
                 <th>Due Date</th>
+                <th>Important</th>
+                <th>Completed</th>
                 <th>Reserve</th>
             </tr>
         <c:forEach var = "task" items="${user.getTasks()}" >
@@ -34,7 +35,9 @@
                 <td><c:out value = "${task.getTitle()}"/></td>
                 <td><c:out value = "${task.getCategory()}"/></td>
                 <td><c:out value = "${task.getDueDate()}"/></td>
-                <td><button href="/task/${task.getTaskID()}">Edit</button></td>
+                <td><c:out value = "${task.isImportant()}"/></td>
+                <td><c:out value = "${task.isCompleted()}"/></td>
+                <td><a href="task?taskID=${task.getTaskID()}">Edit</a></td>
             </tr>
         </c:forEach>
 
