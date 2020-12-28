@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class UserManager {
+
     private static Set<User> users = new HashSet<>();
 
     private static UserManager instance;
@@ -60,8 +61,8 @@ public class UserManager {
                 if (thisUser.getUserName().equalsIgnoreCase(userName) && thisUser.getPassword().equals(password)) {
                     Task task1 = new Task("Weltherrschaft", "Work", LocalDate.of(2020, 12, 27));
                     Task task2 = new Task("Silvesternacht", "Work", LocalDate.of(2020, 12, 31), true);
-                    //thisUser.addTask(task1);
-                    //thisUser.addTask(task2);
+                    thisUser.addTask(task1);
+                    thisUser.addTask(task2);
                     return thisUser;
                 }
             }

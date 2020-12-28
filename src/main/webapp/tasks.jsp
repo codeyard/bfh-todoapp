@@ -13,12 +13,32 @@
 
 </head>
 <body>
-    <h1>Hallo</h1>
-    <h1>${user.getUserName()}</h1>
+    <h1>Hi ${user.getUserName()}</h1>
+
     <c:if test="${user.getTasks().size() == 0}">
-        <h2>please add a task</h2>
+        <h2>Let's Start by adding a Task!</h2>
     </c:if>
-    <c:forEach var = "task" items="${user.getTasks()}" >
-    Item <c:out value = "${task.getTitle()}"/><p></c:forEach>
+
+    <button href="/task">Add new Task</button>
+
+    <c:if test="${user.getTasks().size() != 0}">
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Due Date</th>
+                <th>Reserve</th>
+            </tr>
+        <c:forEach var = "task" items="${user.getTasks()}" >
+            <tr>
+                <td><c:out value = "${task.getTitle()}"/></td>
+                <td><c:out value = "${task.getCategory()}"/></td>
+                <td><c:out value = "${task.getDueDate()}"/></td>
+                <td><button href="/task/${task.getTaskID()}">Edit</button></td>
+            </tr>
+        </c:forEach>
+
+        </table>
+    </c:if>
 </body>
 </html>
