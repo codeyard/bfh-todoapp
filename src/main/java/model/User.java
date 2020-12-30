@@ -117,6 +117,10 @@ public class User {
 
     }
 
+    public Set<String> getDistinctCategories() {
+        return tasks.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
+    }
+
     /**
      * Filters the set of Tasks by a category.
      * @param category the category to filter by

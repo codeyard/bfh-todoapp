@@ -42,6 +42,16 @@
                     <div class="row register-form">
 
                     <c:if test="${user.getTasks().size() != 0}">
+                        <form id="categorySelection" method="Post">
+                            <label for="category">Filter by category:</label>
+                            <select name="category" id="category">
+                                <c:forEach var = "category" items="${user.getDistinctCategories()}">
+                                    <option value="${category}">${category}</option>
+                                </c:forEach>
+                            </select>
+                            <input type="submit" value="Submit" class="btnRegister">
+                        </form>
+
                         <table>
                             <thead>
                                 <tr>
@@ -52,7 +62,11 @@
                                     <th>Reserve</th>
                                 </tr>
                             </thead>
-                        <c:forEach var = "task" items="${user.getTasks()}" >
+
+                        <c:set var = "tasks"  value="${user.getTasks()}" />
+
+
+                        <c:forEach var = "task" items="${tasks}" >
                             <c:choose>
                                 <c:when test="${task.isCompleted() == true}"><tr class="done"></c:when>
                                 <c:otherwise><tr></c:otherwise>
