@@ -118,6 +118,11 @@ tr {
 #createTask {
     background: #fff;
     color: #0062cc;
+
+}
+
+#createTask:hover {
+    text-decoration: none;
 }
 
 tr.done > *:not(:last-child) {
@@ -126,4 +131,8 @@ tr.done > *:not(:last-child) {
 
 #btnDelete {
     background-color: #ff6961;
+}
+
+.instructions {
+    margin-bottom: 20px;
 }

@@ -48,7 +48,6 @@ public class TaskServlet extends HttpServlet {
         String title = request.getParameter("title");
         String category = request.getParameter("category");
         String deleteButton =request.getParameter("Delete");
-        System.out.println(deleteButton);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 

@@ -4,11 +4,7 @@
 
 package model;
 
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class User {
@@ -113,14 +109,12 @@ public class User {
      * @return a Task object
      */
     public Task getTask(String taskID) {
-        Iterator<Task> iterator = tasks.iterator();
-        while (iterator.hasNext()) {
-            Task tempTask = iterator.next();
-            if (tempTask.getTaskID().equals(taskID)) {
-                return tempTask;
-            }
+        Task task = tasks.stream().filter(t -> t.getTaskID().equals(taskID)).findFirst().get();
+        if (task != null) {
+            return task;
         }
         return null;
+
     }
 
     /**
