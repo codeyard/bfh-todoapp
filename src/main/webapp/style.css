@@ -46,11 +46,10 @@
     margin-top: -9%;
 }
 .register .register-form{
-    padding: 10%;
+    padding: 10% 5%;
     margin-top: 10%;
 }
 .btnRegister{
-    float: right;
     margin-top: 10%;
     border: none;
     border-radius: 1.5rem;
@@ -92,4 +91,35 @@
     margin-top: 8%;
     margin-bottom: -15%;
     color: #495057;
+}
+
+input, label {
+    display:block;
+}
+task {
+    float:left;
+    margin-right:20px;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse:separate;
+    border-spacing:0.8em;
+}
+
+
+tr {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-bottom: 1em;
+}
+
+#createTask {
+    background: #fff;
+    color: #0062cc;
+}
+
+tr.done > *:not(:last-child) {
+    text-decoration: line-through;
 }
