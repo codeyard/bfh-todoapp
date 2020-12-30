@@ -47,6 +47,20 @@ public class TaskServlet extends HttpServlet {
         String taskID = request.getParameter("taskID");
         String title = request.getParameter("title");
         String category = request.getParameter("category");
+        String deleteButton =request.getParameter("Delete");
+        System.out.println(deleteButton);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if(deleteButton != null && deleteButton.equals( "Delete")) {
+            try {
+                user.deleteTask(user.getTask(taskID));
+                response.sendRedirect("tasks");
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         try {
             Boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
@@ -58,8 +72,7 @@ public class TaskServlet extends HttpServlet {
             Boolean isImportant = request.getParameter("isImportant") != null;
             Boolean isCompleted = request.getParameter("isCompleted") != null;
 
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
+
 
             if (isNew) {
                 Task task = new Task(title, category, dueDate, isImportant);

@@ -123,3 +123,7 @@ tr {
 tr.done > *:not(:last-child) {
     text-decoration: line-through;
 }
+
+#btnDelete {
+    background-color: #ff6961;
+}

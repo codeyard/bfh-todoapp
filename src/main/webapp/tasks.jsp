@@ -63,6 +63,7 @@
                                 <td><c:out value = "${task.isImportant()}"/></td>
                                 <td><c:out value = "${task.isCompleted()}"/></td>
                                 <td><a href="task?taskID=${task.getTaskID()}">Edit</a></td>
+
                             </tr>
                         </c:forEach>
 

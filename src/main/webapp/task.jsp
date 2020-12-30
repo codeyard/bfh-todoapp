@@ -71,7 +71,10 @@
                     </div>
                         <div>
                             <c:choose>
-                                <c:when test="${isNew==false}"><input type="submit" value="Update" class="btnRegister"></c:when>
+                                <c:when test="${isNew==false}">
+                                    <input type="submit" value="Update" class="btnRegister">
+                                    <input type="submit" value="Delete" name="Delete" class="btnRegister" id="btnDelete">
+                                </c:when>
                                 <c:otherwise><input type="submit" value="Save" class="btnRegister"></c:otherwise>
                             </c:choose>
                         </div>
