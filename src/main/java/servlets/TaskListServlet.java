@@ -17,6 +17,9 @@ public class TaskListServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        request.setAttribute("tasks", user.getTasks());
         try {
             RequestDispatcher view = request.getRequestDispatcher("tasks.jsp");
             view.forward(request, response);
@@ -27,11 +30,11 @@ public class TaskListServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response){
-        response.setContentType("text/html");
         String category = request.getParameter("category");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("task", user.filterByCategory(category));
+        request.setAttribute("tasks", user.filterByCategory(category));
+        response.setContentType("text/html");
 
         try {
             RequestDispatcher view = request.getRequestDispatcher("tasks.jsp");

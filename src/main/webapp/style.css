@@ -102,7 +102,7 @@ task {
 }
 
 table {
-    table-layout: fixed;
+    table-layout: auto;
     width: 100%;
     border-collapse:separate;
     border-spacing:0.8em;
