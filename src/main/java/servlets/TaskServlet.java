@@ -19,24 +19,30 @@ public class TaskServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-        try {
-            String taskID = request.getParameter("taskID");
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
 
-            Task task = new Task();
-            Boolean isNew = true;
-            if (taskID != null && !taskID.isEmpty()) {
-                task = user.getTask(taskID);
-                isNew = false;
+        if (user == null ) {
+            response.reset();
+            response.sendRedirect("login");
+        } else {
+
+            try {
+                String taskID = request.getParameter("taskID");
+                Task task = new Task();
+                Boolean isNew = true;
+                if (taskID != null && !taskID.isEmpty()) {
+                    task = user.getTask(taskID);
+                    isNew = false;
+                }
+                request.setAttribute("task", task);
+                request.setAttribute("isNew", isNew);
+
+                RequestDispatcher view = request.getRequestDispatcher("task.jsp");
+                view.forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
             }
-            request.setAttribute("task", task);
-            request.setAttribute("isNew", isNew);
-
-            RequestDispatcher view = request.getRequestDispatcher("task.jsp");
-            view.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
         }
     }
 

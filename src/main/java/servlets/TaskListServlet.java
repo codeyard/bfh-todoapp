@@ -19,13 +19,18 @@ public class TaskListServlet extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("tasks", user.getTasks());
-        try {
-            RequestDispatcher view = request.getRequestDispatcher("tasks.jsp");
-            view.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
+        if (user == null) {
+            response.reset();
+            response.sendRedirect("login");
+        } else {
+            try {
+                request.setAttribute("tasks", user.getTasks());
+                RequestDispatcher view = request.getRequestDispatcher("tasks.jsp");
+                view.forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            }
+         }
     }
 
     @Override

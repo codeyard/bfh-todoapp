@@ -21,11 +21,19 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         response.setContentType("text/html");
-        try {
-            RequestDispatcher view = request.getRequestDispatcher("index.html");
-            view.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if (user != null ) {
+            response.reset();
+            response.sendRedirect("tasks");
+        } else {
+            try {
+                RequestDispatcher view = request.getRequestDispatcher("index.html");
+                view.forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            }
         }
     }
 
