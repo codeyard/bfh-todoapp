@@ -1,4 +1,4 @@
-package servlets;
+package controller.web;
 
 import model.User;
 import model.UserException;
@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null ) {
             response.reset();
-            response.sendRedirect("tasks");
+            response.sendRedirect("todos");
         } else {
             try {
                 RequestDispatcher view = request.getRequestDispatcher("index.html");
@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
             if(user != null){
                 HttpSession session = request.getSession();
                 session.setAttribute("user",user);
-                response.sendRedirect("tasks");
+                response.sendRedirect("todos");
             }
         } catch (UserException e) {
             try (PrintWriter out = response.getWriter()) {

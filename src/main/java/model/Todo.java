@@ -1,5 +1,5 @@
 /**
- * The Task class implements a Task
+ * The Todo class implements a Todo
  */
 
 package model;
@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Task implements Comparable {
-    private String taskID;
+public class Todo implements Comparable {
+    private String todoID;
     private String userID;
     private String title;
     private String category;
@@ -19,51 +19,51 @@ public class Task implements Comparable {
     private boolean isCompleted = false;
 
     /**
-     * Constructs a task.
+     * Constructs a todo.
      * A UUID is generated and used as the User ID.
      */
-    public Task() {
-        this.taskID = UUID.randomUUID().toString();
+    public Todo() {
+        this.todoID = UUID.randomUUID().toString();
     }
 
     /**
-     * Constructs a task.
+     * Constructs a todo.
      * A UUID is generated and used as the User ID.
-     * @param title the title of the task
+     * @param title the title of the todo
      */
-    public Task(String title) {
+    public Todo(String title) {
         this();
         this.title = title;
     }
 
     /**
-     * Constructs a task.
+     * Constructs a todo.
      * A UUID is generated and used as the User ID.
-     * @param title the title of the task
+     * @param title the title of the todo
      * @param category an optional category
      * @param dueDate an optional due date
      */
-    public Task(String title, String category, LocalDate dueDate) {
+    public Todo(String title, String category, LocalDate dueDate) {
         this(title);
         this.category = category;
         this.dueDate = dueDate;
     }
 
     /**
-     * Constructs a task.
+     * Constructs a todo.
      * A UUID is generated and used as the User ID.
-     * @param title the title of the task
+     * @param title the title of the todo
      * @param category an optional category
      * @param dueDate an optional due date
-     * @param isImportant an optional boolean flag indicating whether the task is marked as important
+     * @param isImportant an optional boolean flag indicating whether the todo is marked as important
      */
-    public Task(String title, String category, LocalDate dueDate, boolean isImportant) {
+    public Todo(String title, String category, LocalDate dueDate, boolean isImportant) {
         this(title, category, dueDate);
         this.isImportant = isImportant;
     }
 
-    public String getTaskID() {
-        return taskID;
+    public String getTodoID() {
+        return todoID;
     }
 
     public String getUserID() {
@@ -115,8 +115,8 @@ public class Task implements Comparable {
     }
 
     /**
-     * Indicates whether the task is overdue
-     * @return true if the task is overdue, false otherwise
+     * Indicates whether the todo is overdue
+     * @return true if the todo is overdue, false otherwise
      */
     public boolean isOverdue() {
         return dueDate != null && (dueDate.compareTo(LocalDate.now()) < 0) && !isCompleted;
@@ -126,7 +126,7 @@ public class Task implements Comparable {
      * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive
      * integer as this object is less than, equal to, or greater than the specified object.
      *
-     * The tasks are sorted first by due date, then by title and finally by the id of the Task objects.
+     * The todos are sorted first by due date, then by title and finally by the id of the Todo objects.
      *
      * @param other the object to be compared
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or
@@ -138,9 +138,9 @@ public class Task implements Comparable {
             if (this.equals(other)) {
                 return 0;
             }
-            LocalDate otherDate = ((Task) other).getDueDate();
+            LocalDate otherDate = ((Todo) other).getDueDate();
             if (dueDate == null && otherDate == null) {
-                return compareTitleOrTaskID((Task) other);
+                return compareTitleOrTodoID((Todo) other);
             }
             else if (dueDate == null && otherDate != null) {
                 return 1;
@@ -149,38 +149,38 @@ public class Task implements Comparable {
                 return -1;
             }
             else if (dueDate.compareTo(otherDate) == 0) {
-                return compareTitleOrTaskID((Task) other);
+                return compareTitleOrTodoID((Todo) other);
             }
             return dueDate.compareTo(otherDate);
         } catch (DateTimeException ex) {
             ex.printStackTrace();
-            return compareTitleOrTaskID((Task) other);
+            return compareTitleOrTodoID((Todo) other);
         }
     }
 
     /**
      * Compares this object with the specified object for order. The order is specified by the title or the id of the
-     * Task objects.
+     * Todo objects.
      * @param other the object to be compared
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or
      * greater than the specified object
      */
-    private int compareTitleOrTaskID(Task other) {
+    private int compareTitleOrTodoID(Todo other) {
         if (title.compareTo(other.getTitle()) == 0) {
-            return taskID.compareTo(other.getTaskID());
+            return todoID.compareTo(other.getTodoID());
         } else {
             return title.compareTo(other.getTitle());
         }
     }
 
     /**
-     * Returns a string representation of the Task object.
-     * @return a string representation of the Task object
+     * Returns a string representation of the Todo object.
+     * @return a string representation of the Todo object
      */
     @Override
     public String toString() {
-        return "Task{" +
-            "taskID='" + taskID + '\'' +
+        return "Todo{" +
+            "todoId='" + todoID + '\'' +
             ", userID='" + userID + '\'' +
             ", title='" + title + '\'' +
             ", category='" + category + '\'' +
@@ -200,8 +200,8 @@ public class Task implements Comparable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(taskID, task.taskID);
+        Todo todo = (Todo) o;
+        return Objects.equals(todoID, todo.todoID);
     }
 
     /**
@@ -210,6 +210,6 @@ public class Task implements Comparable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(taskID);
+        return Objects.hash(todoID);
     }
 }

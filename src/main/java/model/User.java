@@ -1,5 +1,5 @@
 /**
- * The User class implements a user with his set of Tasks.
+ * The User class implements a user with his set of Todos.
  */
 
 package model;
@@ -11,7 +11,7 @@ public class User {
     private String userID;
     private String userName;
     private String password;
-    private Set<Task> tasks = new TreeSet<>();
+    private Set<Todo> todos = new TreeSet<>();
 
     /**
      * Constructs a user.
@@ -50,53 +50,53 @@ public class User {
     }
 
     /**
-     * Gets the set of Tasks.
-     * @return a set of Tasks.
+     * Gets the set of Todos.
+     * @return a set of Todos.
      */
-    public Set<Task> getTasks() {
-        return tasks;
+    public Set<Todo> getTodos() {
+        return todos;
     }
 
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    /**
-     * Adds a Task to the set of Tasks.
-     * @param task the Task object to add
-     */
-    public void addTask(Task task) {
-        tasks.add(task);
+    public void setTodos(Set<Todo> todos) {
+        this.todos = todos;
     }
 
     /**
-     * Updates a Task
-     * @param task the Task object to update in the set
+     * Adds a Todo to the set of Todos.
+     * @param todo the Todo object to add
      */
-    public void updateTask(Task task) {
-        Iterator<Task> iterator = tasks.iterator();
+    public void addTodo(Todo todo) {
+        todos.add(todo);
+    }
+
+    /**
+     * Updates a Todo
+     * @param todo the Todo object to update in the set
+     */
+    public void updateTodo(Todo todo) {
+        Iterator<Todo> iterator = todos.iterator();
         while (iterator.hasNext()) {
-            Task tempTask = iterator.next();
-            if (tempTask.getTaskID().equals(task.getTaskID())) {
-                tempTask.setCategory(task.getCategory());
-                tempTask.setCompleted(task.isCompleted());
-                tempTask.setDueDate(task.getDueDate());
-                tempTask.setImportant(task.isImportant());
-                tempTask.setTitle(task.getTitle());
+            Todo tempTodo = iterator.next();
+            if (tempTodo.getTodoID().equals(todo.getTodoID())) {
+                tempTodo.setCategory(todo.getCategory());
+                tempTodo.setCompleted(todo.isCompleted());
+                tempTodo.setDueDate(todo.getDueDate());
+                tempTodo.setImportant(todo.isImportant());
+                tempTodo.setTitle(todo.getTitle());
                 break;
             }
         }
     }
 
     /**
-     * Deletes a Task from the set
-     * @param task the Task object to remove from the set.
+     * Deletes a Todo from the set
+     * @param todo the Todo object to remove from the set.
      */
-    public void deleteTask(Task task) {
-        Iterator<Task> iterator = tasks.iterator();
+    public void deleteTodo(Todo todo) {
+        Iterator<Todo> iterator = todos.iterator();
         while (iterator.hasNext()) {
-            Task tempTask = iterator.next();
-            if (tempTask.getTaskID().equals(task.getTaskID())) {
+            Todo tempTodo = iterator.next();
+            if (tempTodo.getTodoID().equals(todo.getTodoID())) {
                 iterator.remove();
                 break;
             }
@@ -104,30 +104,30 @@ public class User {
     }
 
     /**
-     * Gets a task from the set
-     * @param taskID the ID of the task.
-     * @return a Task object
+     * Gets a todo from the set
+     * @param todoID the ID of the todo.
+     * @return a Todo object
      */
-    public Task getTask(String taskID) {
-        Task task = tasks.stream().filter(t -> t.getTaskID().equals(taskID)).findFirst().get();
-        if (task != null) {
-            return task;
+    public Todo getTodo(String todoID) {
+        Todo todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst().get();
+        if (todo != null) {
+            return todo;
         }
         return null;
 
     }
 
     public Set<String> getDistinctCategories() {
-        return tasks.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
+        return todos.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
     }
 
     /**
-     * Filters the set of Tasks by a category.
+     * Filters the set of Todos by a category.
      * @param category the category to filter by
-     * @return a filtered set of Tasks which contains all tasks whose category match the specified category
+     * @return a filtered set of Todos which contains all todos whose category match the specified category
      */
-    public Set<Task> filterByCategory(String category) {
-        return tasks.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
+    public Set<Todo> filterByCategory(String category) {
+        return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
     }
 
     /**
@@ -139,7 +139,7 @@ public class User {
         return "User{" +
             "userID='" + userID + '\'' +
             ", userName='" + userName + '\'' +
-            ", tasks=" + tasks +
+            ", todos=" + todos +
             '}';
     }
 
