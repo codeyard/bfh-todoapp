@@ -127,7 +127,11 @@ public class User {
      * @return a filtered set of Todos which contains all todos whose category match the specified category
      */
     public Set<Todo> filterByCategory(String category) {
-        return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
+        if (category != null && !category.isEmpty()) {
+            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
+        } else {
+            return todos;
+        }
     }
 
     /**
