@@ -4,9 +4,14 @@
 
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
+@JacksonXmlRootElement(localName = "user")
 public class User {
     private static int userCounter = 0;
     private Integer userID;
@@ -67,6 +72,7 @@ public class User {
      * @param todo the Todo object to add
      */
     public void addTodo(Todo todo) {
+        todo.setUserID(userID);
         todos.add(todo);
         Collections.sort(todos);
     }
@@ -121,6 +127,7 @@ public class User {
 
     }
 
+    @JsonIgnore
     public Set<String> getDistinctCategories() {
         return todos.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
     }

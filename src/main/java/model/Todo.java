@@ -4,6 +4,8 @@
 
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -115,6 +117,7 @@ public class Todo implements Comparable {
      * Indicates whether the todo is overdue
      * @return true if the todo is overdue, false otherwise
      */
+    @JsonIgnore
     public boolean isOverdue() {
         return dueDate != null && (dueDate.compareTo(LocalDate.now()) < 0) && !isCompleted;
     }

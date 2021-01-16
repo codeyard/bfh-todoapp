@@ -2,6 +2,7 @@ import model.Todo;
 import model.User;
 import model.UserException;
 import model.UserManager;
+import model.helper.XmlHelper;
 
 import java.time.LocalDate;
 
@@ -46,6 +47,8 @@ public class Test {
                             + t.getDueDate()));
 
             //model.User newUser = userManager.register("sepp", "schacherseppli");
+
+            XmlHelper.writeXmlData(userManager);
 
         } catch (UserException ex) {
             ex.printStackTrace();
