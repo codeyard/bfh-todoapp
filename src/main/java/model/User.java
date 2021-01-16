@@ -11,7 +11,7 @@ public class User {
     private String userID;
     private String userName;
     private String password;
-    private Set<Todo> todos = new TreeSet<>();
+    private List<Todo> todos = new ArrayList<>();
 
     /**
      * Constructs a user.
@@ -50,28 +50,29 @@ public class User {
     }
 
     /**
-     * Gets the set of Todos.
-     * @return a set of Todos.
+     * Gets the list of Todos.
+     * @return a list of Todos.
      */
-    public Set<Todo> getTodos() {
+    public List<Todo> getTodos() {
         return todos;
     }
 
-    public void setTodos(Set<Todo> todos) {
+    public void setTodos(List<Todo> todos) {
         this.todos = todos;
     }
 
     /**
-     * Adds a Todo to the set of Todos.
+     * Adds a Todo to the list of Todos.
      * @param todo the Todo object to add
      */
     public void addTodo(Todo todo) {
         todos.add(todo);
+        Collections.sort(todos);
     }
 
     /**
      * Updates a Todo
-     * @param todo the Todo object to update in the set
+     * @param todo the Todo object to update in the list
      */
     public void updateTodo(Todo todo) {
         Iterator<Todo> iterator = todos.iterator();
@@ -86,11 +87,12 @@ public class User {
                 break;
             }
         }
+        Collections.sort(todos);
     }
 
     /**
-     * Deletes a Todo from the set
-     * @param todo the Todo object to remove from the set.
+     * Deletes a Todo from the list
+     * @param todo the Todo object to remove from the list.
      */
     public void deleteTodo(Todo todo) {
         Iterator<Todo> iterator = todos.iterator();
@@ -101,10 +103,11 @@ public class User {
                 break;
             }
         }
+        Collections.sort(todos);
     }
 
     /**
-     * Gets a todo from the set
+     * Gets a todo from the list
      * @param todoID the ID of the todo.
      * @return a Todo object
      */
@@ -122,13 +125,13 @@ public class User {
     }
 
     /**
-     * Filters the set of Todos by a category.
+     * Filters the list of Todos by a category.
      * @param category the category to filter by
-     * @return a filtered set of Todos which contains all todos whose category match the specified category
+     * @return a filtered list of Todos which contains all todos whose category match the specified category
      */
-    public Set<Todo> filterByCategory(String category) {
+    public List<Todo> filterByCategory(String category) {
         if (category != null && !category.isEmpty()) {
-            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
+            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toList());
         } else {
             return todos;
         }
