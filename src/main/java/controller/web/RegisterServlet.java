@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
             response.sendRedirect("todos");
         } else {
             try {
-                RequestDispatcher view = request.getRequestDispatcher("register.html");
+                RequestDispatcher view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
@@ -52,21 +52,26 @@ public class RegisterServlet extends HttpServlet {
                 XmlHelper.writeXmlData(userManager, servletContext);
                 RequestDispatcher view = request.getRequestDispatcher("index.html");
                 view.forward(request, response);
-            } catch (UserException e) {
-                e.printStackTrace();
-                try (PrintWriter out = response.getWriter()) {
-                    htmlHelper(false, out);
-                } catch (IOException exception) {
-                    exception.printStackTrace();
+            } catch (UserException | ServletException | IOException e) {
+                request.setAttribute("register", false);
+                RequestDispatcher view = request.getRequestDispatcher("register.jsp");
+                try {
+                    view.forward(request, response);
+                } catch (ServletException servletException) {
+                    servletException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
-            } catch (ServletException | IOException e) {
-                e.printStackTrace();
             }
         } else {
-            try (PrintWriter out = response.getWriter()) {
-                htmlHelper(true, out);
-            } catch (IOException exception) {
-                exception.printStackTrace();
+            request.setAttribute("register", false);
+            RequestDispatcher view = request.getRequestDispatcher("register.jsp");
+            try {
+                view.forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
