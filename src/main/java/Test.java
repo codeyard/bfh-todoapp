@@ -4,6 +4,7 @@ import model.UserException;
 import model.UserManager;
 import model.helper.XmlHelper;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class Test {
@@ -12,21 +13,17 @@ public class Test {
         UserManager userManager = UserManager.getInstance();
 
         try {
-            User user = userManager.authenticate("sepp", "trütsch");
+            User user = userManager.authenticate("sepp", "truetsch");
             System.out.println("User " + user.getUserName() + " successfully authenticated.");
             System.out.println(user);
             System.out.println();
 
-            Todo todo1 = new Todo("Weltherrschaft", "Work", LocalDate.of(2020, 12, 27));
+            Todo todo1 = new Todo("asc", "Work", LocalDate.of(2020, 12, 27));
             user.addTodo(todo1);
-            Todo todo2 = new Todo("Silvesternacht", "Work", LocalDate.of(2020, 12, 31), true);
+            Todo todo2 = new Todo("asc", "Work", LocalDate.of(2020, 12, 31), true);
             user.addTodo(todo2);
-            Todo todo3 = new Todo("Vergangenheit", "Private", LocalDate.of(2020, 12, 04));
+            Todo todo3 = new Todo("ss", "Private", LocalDate.of(2020, 12, 04));
             user.addTodo(todo3);
-            Todo todo4 = new Todo("Servlets für Todo Application schreiben");
-            user.addTodo(todo4);
-            Todo todo5 = new Todo("Ein Todo ohne DueDate");
-            user.addTodo(todo5);
 
             for (Todo todo : user.getTodos()) {
                 //System.out.println("Todo " + todo.getTitle() + " is due " + todo.getDueDate());
@@ -48,7 +45,7 @@ public class Test {
 
             //model.User newUser = userManager.register("sepp", "schacherseppli");
 
-            XmlHelper.writeXmlData(userManager);
+            //XmlHelper.writeXmlData(userManager);
 
 
         } catch (UserException ex) {

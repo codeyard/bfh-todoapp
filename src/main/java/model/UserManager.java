@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import model.helper.XmlHelper;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,15 +22,19 @@ public class UserManager {
     private static UserManager instance;
 
     private UserManager() {
-        loadUsers();
     }
 
     //todo: check if UserManager needs to be thread safe
     public static UserManager getInstance(){
-        if(UserManager.instance == null){
+        try {
+            if (UserManager.instance == null) {
+                UserManager.instance = loadUsers();
+            }
+            return UserManager.instance;
+        } catch (Exception e) {
             UserManager.instance = new UserManager();
+            return UserManager.instance;
         }
-        return UserManager.instance;
     }
 
     /**
@@ -95,12 +100,15 @@ public class UserManager {
     /**
      * Loads a predefined set of users.
      */
-    private void loadUsers() {
-        users.add(new User("hans", "ueli"));
+    private static UserManager loadUsers() {
+        users.add(new User("admin", "1234"));
+        return XmlHelper.readXmlData();
+        /**
         users.add(new User("sepp", "trütsch"));
         users.add(new User("fritz", "müller"));
         users.add(new User("alain", "sutter"));
         users.add(new User("frieda", "friedefreude"));
         users.add(new User("braunhild", "schoggi"));
+         */
     }
 }

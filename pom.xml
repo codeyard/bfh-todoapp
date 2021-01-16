@@ -46,7 +46,7 @@
 
     <packaging>war</packaging>
     <build>
-        <finalName>$(artifactId)</finalName>
+        <finalName>${artifactId}</finalName>
     </build>
 
 </project>

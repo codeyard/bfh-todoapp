@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Todo implements Comparable {
-    private static int todoCounter = 0;
+    private static int todoCounter;
     private Integer todoID;
     private Integer userID;
     private String title;

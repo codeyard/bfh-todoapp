@@ -5,6 +5,7 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -13,11 +14,12 @@ import java.util.stream.Collectors;
 
 @JacksonXmlRootElement(localName = "user")
 public class User {
-    private static int userCounter = 0;
+    private static int userCounter;
     private Integer userID;
     private String userName;
     private String password;
     private List<Todo> todos = new ArrayList<>();
+    public User() { }
 
     /**
      * Constructs a user.
@@ -59,6 +61,8 @@ public class User {
      * Gets the list of Todos.
      * @return a list of Todos.
      */
+    @JacksonXmlElementWrapper(localName = "todos")
+    @JacksonXmlProperty(localName = "todo")
     public List<Todo> getTodos() {
         return todos;
     }

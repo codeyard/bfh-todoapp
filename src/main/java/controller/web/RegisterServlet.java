@@ -3,8 +3,10 @@ package controller.web;
 import model.User;
 import model.UserException;
 import model.UserManager;
+import model.helper.XmlHelper;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,10 +44,12 @@ public class RegisterServlet extends HttpServlet {
         String name = request.getParameter("userName");
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
+        ServletContext ctx = getServletContext();
         if (firstPassword != null && !firstPassword.isEmpty() && secondPassword != null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)) {
             UserManager userManager = UserManager.getInstance();
             try {
                 userManager.register(name, firstPassword);
+                XmlHelper.writeXmlData(userManager, ctx);
                 RequestDispatcher view = request.getRequestDispatcher("index.html");
                 view.forward(request, response);
             } catch (UserException e) {
