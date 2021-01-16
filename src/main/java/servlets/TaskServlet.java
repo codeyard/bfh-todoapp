@@ -77,19 +77,18 @@ public class TaskServlet extends HttpServlet {
             Boolean isImportant = request.getParameter("isImportant") != null;
             Boolean isCompleted = request.getParameter("isCompleted") != null;
 
-
-
             if (isNew) {
                 Task task = new Task(title, category, dueDate, isImportant);
                 user.addTask(task);
+
             } else {
+                // TODO: FIRST DELETE TASK, THEN ADD NEW ONE FOR SORTING?
                 Task task = user.getTask(taskID);
                 task.setTitle(title);
                 task.setCategory(category);
                 task.setDueDate(dueDate);
                 task.setImportant(isImportant);
                 task.setCompleted(isCompleted);
-
                 user.updateTask(task);
             }
 

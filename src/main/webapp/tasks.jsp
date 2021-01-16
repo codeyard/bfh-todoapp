@@ -46,6 +46,7 @@
                         <form id="categorySelection" method="Post">
                             <label for="category">Filter by category:</label>
                             <select name="category" id="category">
+                                    <option value=""></option>
                                 <c:forEach var = "category" items="${user.getDistinctCategories()}">
                                     <option value="${category}">${category}</option>
                                 </c:forEach>
