@@ -4,32 +4,38 @@
 
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
+@JacksonXmlRootElement(localName = "user")
 public class User {
-    private String userID;
+    private static int userCounter = 0;
+    private Integer userID;
     private String userName;
     private String password;
-    private Set<Todo> todos = new TreeSet<>();
+    private List<Todo> todos = new ArrayList<>();
 
     /**
      * Constructs a user.
-     * A UUID is generated and used as the User ID.
+     * A ID is incremented and used as the User ID.
      * @param userName the userName
      * @param password the password
      */
     public User(String userName, String password) {
-        this.userID = UUID.randomUUID().toString();
+        this.userID = userCounter++;
         this.userName = userName;
         this.password = password;
     }
 
-    public String getUserID() {
+    public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(Integer userID) {
         this.userID = userID;
     }
 
@@ -50,28 +56,30 @@ public class User {
     }
 
     /**
-     * Gets the set of Todos.
-     * @return a set of Todos.
+     * Gets the list of Todos.
+     * @return a list of Todos.
      */
-    public Set<Todo> getTodos() {
+    public List<Todo> getTodos() {
         return todos;
     }
 
-    public void setTodos(Set<Todo> todos) {
+    public void setTodos(List<Todo> todos) {
         this.todos = todos;
     }
 
     /**
-     * Adds a Todo to the set of Todos.
+     * Adds a Todo to the list of Todos.
      * @param todo the Todo object to add
      */
     public void addTodo(Todo todo) {
+        todo.setUserID(userID);
         todos.add(todo);
+        Collections.sort(todos);
     }
 
     /**
      * Updates a Todo
-     * @param todo the Todo object to update in the set
+     * @param todo the Todo object to update in the list
      */
     public void updateTodo(Todo todo) {
         Iterator<Todo> iterator = todos.iterator();
@@ -86,11 +94,12 @@ public class User {
                 break;
             }
         }
+        Collections.sort(todos);
     }
 
     /**
-     * Deletes a Todo from the set
-     * @param todo the Todo object to remove from the set.
+     * Deletes a Todo from the list
+     * @param todo the Todo object to remove from the list.
      */
     public void deleteTodo(Todo todo) {
         Iterator<Todo> iterator = todos.iterator();
@@ -101,14 +110,15 @@ public class User {
                 break;
             }
         }
+        Collections.sort(todos);
     }
 
     /**
-     * Gets a todo from the set
+     * Gets a todo from the list
      * @param todoID the ID of the todo.
      * @return a Todo object
      */
-    public Todo getTodo(String todoID) {
+    public Todo getTodo(Integer todoID) {
         Todo todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst().get();
         if (todo != null) {
             return todo;
@@ -117,18 +127,19 @@ public class User {
 
     }
 
+    @JsonIgnore
     public Set<String> getDistinctCategories() {
         return todos.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
     }
 
     /**
-     * Filters the set of Todos by a category.
+     * Filters the list of Todos by a category.
      * @param category the category to filter by
-     * @return a filtered set of Todos which contains all todos whose category match the specified category
+     * @return a filtered list of Todos which contains all todos whose category match the specified category
      */
-    public Set<Todo> filterByCategory(String category) {
+    public List<Todo> filterByCategory(String category) {
         if (category != null && !category.isEmpty()) {
-            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toSet());
+            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toList());
         } else {
             return todos;
         }

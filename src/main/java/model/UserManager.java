@@ -4,11 +4,16 @@
 
 package model;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+@JacksonXmlRootElement(localName = "root")
 public class UserManager {
 
     private static Set<User> users = new HashSet<>();
@@ -79,6 +84,12 @@ public class UserManager {
             }
         }
         return false;
+    }
+
+    @JacksonXmlElementWrapper(localName = "users")
+    @JacksonXmlProperty(localName = "user")
+    public Set<User> getUsers() {
+        return users;
     }
 
     /**

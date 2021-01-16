@@ -2,6 +2,7 @@ import model.Todo;
 import model.User;
 import model.UserException;
 import model.UserManager;
+import model.helper.XmlHelper;
 
 import java.time.LocalDate;
 
@@ -30,6 +31,7 @@ public class Test {
             for (Todo todo : user.getTodos()) {
                 //System.out.println("Todo " + todo.getTitle() + " is due " + todo.getDueDate());
                 System.out.println(todo);
+                System.out.println(todo.getTodoID());
             }
             System.out.println();
 
@@ -45,6 +47,8 @@ public class Test {
                             + t.getDueDate()));
 
             //model.User newUser = userManager.register("sepp", "schacherseppli");
+
+            XmlHelper.writeXmlData(userManager);
 
         } catch (UserException ex) {
             ex.printStackTrace();

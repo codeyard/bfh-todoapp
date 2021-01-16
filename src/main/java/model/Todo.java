@@ -4,14 +4,16 @@
 
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
 
 public class Todo implements Comparable {
-    private String todoID;
-    private String userID;
+    private static int todoCounter = 0;
+    private Integer todoID;
+    private Integer userID;
     private String title;
     private String category;
     private LocalDate dueDate;
@@ -20,25 +22,22 @@ public class Todo implements Comparable {
 
     /**
      * Constructs a todo.
-     * A UUID is generated and used as the User ID.
      */
-    public Todo() {
-        this.todoID = UUID.randomUUID().toString();
-    }
+    public Todo() { }
 
     /**
      * Constructs a todo.
-     * A UUID is generated and used as the User ID.
+     * A ID is incremented and used as the Todo ID.
      * @param title the title of the todo
      */
     public Todo(String title) {
-        this();
+        this.todoID = todoCounter++;
         this.title = title;
     }
 
     /**
      * Constructs a todo.
-     * A UUID is generated and used as the User ID.
+     * A ID is incremented and used as the Todo ID.
      * @param title the title of the todo
      * @param category an optional category
      * @param dueDate an optional due date
@@ -51,7 +50,7 @@ public class Todo implements Comparable {
 
     /**
      * Constructs a todo.
-     * A UUID is generated and used as the User ID.
+     * A ID is incremented and used as the Todo ID.
      * @param title the title of the todo
      * @param category an optional category
      * @param dueDate an optional due date
@@ -62,15 +61,15 @@ public class Todo implements Comparable {
         this.isImportant = isImportant;
     }
 
-    public String getTodoID() {
+    public Integer getTodoID() {
         return todoID;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
@@ -118,6 +117,7 @@ public class Todo implements Comparable {
      * Indicates whether the todo is overdue
      * @return true if the todo is overdue, false otherwise
      */
+    @JsonIgnore
     public boolean isOverdue() {
         return dueDate != null && (dueDate.compareTo(LocalDate.now()) < 0) && !isCompleted;
     }
