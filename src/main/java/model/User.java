@@ -44,6 +44,14 @@ public class User {
         this.userID = userID;
     }
 
+    /**
+     * Sets the userCounter to the defined value
+     * @param counter
+     */
+    public static void setUserCounter(Integer counter){
+        userCounter = counter;
+    }
+
     public String getUserName() {
         return userName;
     }

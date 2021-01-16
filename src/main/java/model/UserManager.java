@@ -30,6 +30,20 @@ public class UserManager {
         try {
             if (UserManager.instance == null) {
                 UserManager.instance = loadUsers(servletContext);
+                Integer highestUserID = 0;
+                Integer highestTodoID = 0;
+                for(User user : UserManager.instance.getUsers()){
+                    if(highestUserID < user.getUserID()){
+                        highestUserID = user.getUserID();
+                    }
+                    for(Todo todo: user.getTodos()){
+                        if(highestTodoID < todo.getTodoID()){
+                            highestTodoID = todo.getTodoID();
+                        }
+                    }
+                }
+                User.setUserCounter(++highestUserID);
+                Todo.setTodoCounter(++highestTodoID);
             }
             return UserManager.instance;
         } catch (Exception e) {

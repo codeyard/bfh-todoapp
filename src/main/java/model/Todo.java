@@ -65,6 +65,10 @@ public class Todo implements Comparable {
         this.isImportant = isImportant;
     }
 
+    public static void setTodoCounter(Integer counter){
+        todoCounter = counter;
+    }
+
     public Integer getTodoID() {
         return todoID;
     }
