@@ -1,6 +1,6 @@
-package servlets;
+package controller.web;
 
-import model.Task;
+import model.Todo;
 import model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@WebServlet("/task")
-public class TaskServlet extends HttpServlet {
+@WebServlet("/todo")
+public class TodoServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -28,17 +28,17 @@ public class TaskServlet extends HttpServlet {
         } else {
 
             try {
-                String taskID = request.getParameter("taskID");
-                Task task = new Task();
+                String todoID = request.getParameter("todoID");
+                Todo todo = new Todo();
                 Boolean isNew = true;
-                if (taskID != null && !taskID.isEmpty()) {
-                    task = user.getTask(taskID);
+                if (todoID != null && !todoID.isEmpty()) {
+                    todo = user.getTodo(todoID);
                     isNew = false;
                 }
-                request.setAttribute("task", task);
+                request.setAttribute("todo", todo);
                 request.setAttribute("isNew", isNew);
 
-                RequestDispatcher view = request.getRequestDispatcher("task.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("todo.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
@@ -50,7 +50,7 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String taskID = request.getParameter("taskID");
+        String todoID = request.getParameter("todoID");
         String title = request.getParameter("title");
         String category = request.getParameter("category");
         String deleteButton =request.getParameter("Delete");
@@ -59,8 +59,8 @@ public class TaskServlet extends HttpServlet {
 
         if(deleteButton != null && deleteButton.equals( "Delete")) {
             try {
-                user.deleteTask(user.getTask(taskID));
-                response.sendRedirect("tasks");
+                user.deleteTodo(user.getTodo(todoID));
+                response.sendRedirect("todos");
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -77,22 +77,23 @@ public class TaskServlet extends HttpServlet {
             Boolean isImportant = request.getParameter("isImportant") != null;
             Boolean isCompleted = request.getParameter("isCompleted") != null;
 
-            if (isNew) {
-                Task task = new Task(title, category, dueDate, isImportant);
-                user.addTask(task);
 
+
+            if (isNew) {
+                Todo todo = new Todo(title, category, dueDate, isImportant);
+                user.addTodo(todo);
             } else {
-                // TODO: FIRST DELETE TASK, THEN ADD NEW ONE FOR SORTING?
-                Task task = user.getTask(taskID);
-                task.setTitle(title);
-                task.setCategory(category);
-                task.setDueDate(dueDate);
-                task.setImportant(isImportant);
-                task.setCompleted(isCompleted);
-                user.updateTask(task);
+                Todo todo = user.getTodo(todoID);
+                todo.setTitle(title);
+                todo.setCategory(category);
+                todo.setDueDate(dueDate);
+                todo.setImportant(isImportant);
+                todo.setCompleted(isCompleted);
+
+                user.updateTodo(todo);
             }
 
-            response.sendRedirect("tasks");
+            response.sendRedirect("todos");
         } catch (IOException e) {
             e.printStackTrace();
         }

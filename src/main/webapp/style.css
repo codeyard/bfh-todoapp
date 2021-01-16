@@ -96,7 +96,8 @@
 input, label {
     display:block;
 }
-task {
+
+.todo {
     float:left;
     margin-right:20px;
 }
@@ -115,13 +116,13 @@ tr {
     padding-bottom: 1em;
 }
 
-#createTask {
+#createTodo {
     background: #fff;
     color: #0062cc;
 
 }
 
-#createTask:hover {
+#createTodo:hover {
     text-decoration: none;
 }
 

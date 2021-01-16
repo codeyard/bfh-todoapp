@@ -1,4 +1,4 @@
-package servlets;
+package controller.web;
 
 import model.User;
 import model.UserException;
@@ -26,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
 
         if (user != null ) {
             response.reset();
-            response.sendRedirect("tasks");
+            response.sendRedirect("todos");
         } else {
             try {
                 RequestDispatcher view = request.getRequestDispatcher("register.html");

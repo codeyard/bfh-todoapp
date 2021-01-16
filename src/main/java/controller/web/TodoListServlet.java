@@ -1,4 +1,4 @@
-package servlets;
+package controller.web;
 
 import model.User;
 
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/tasks")
-public class TaskListServlet extends HttpServlet {
+@WebServlet("/todos")
+public class TodoListServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -24,8 +24,8 @@ public class TaskListServlet extends HttpServlet {
             response.sendRedirect("login");
         } else {
             try {
-                request.setAttribute("tasks", user.getTasks());
-                RequestDispatcher view = request.getRequestDispatcher("tasks.jsp");
+                request.setAttribute("todos", user.getTodos());
+                RequestDispatcher view = request.getRequestDispatcher("todos.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
@@ -38,11 +38,11 @@ public class TaskListServlet extends HttpServlet {
         String category = request.getParameter("category");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("tasks", user.filterByCategory(category));
+        request.setAttribute("todos", user.filterByCategory(category));
         response.setContentType("text/html");
 
         try {
-            RequestDispatcher view = request.getRequestDispatcher("tasks.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("todos.jsp");
             view.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();

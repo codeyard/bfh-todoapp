@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 
-    <title>Login successful</title>
+    <title>Todo list</title>
 
 </head>
 <body>
@@ -29,20 +29,20 @@
                 <div class="instructions">
                      <h1>Hi ${user.getUserName()}</h1>
 
-                    <c:if test="${user.getTasks().size() == 0}">
-                        <h2>Let's Start by adding a Task!</h2>
+                    <c:if test="${user.getTodos().size() == 0}">
+                        <h2>Let's Start by adding a Todo!</h2>
                     </c:if>
                 </div>
-             <a href="task" class="btnRegister" id="createTask">Add new Task</a>
+             <a href="todo" class="btnRegister" id="createTodo">Add new Todo</a>
             </div>
             <div class="col-md-9 register-right">
                 <div class="tab-content" id="myTabContent">
-                <h3 class="register-heading">Your Tasks:</h3>
+                <h3 class="register-heading">Your Todos:</h3>
 
 
                     <div class="row register-form">
 
-                    <c:if test="${user.getTasks().size() != 0}">
+                    <c:if test="${user.getTodos().size() != 0}">
                         <form id="categorySelection" method="Post">
                             <label for="category">Filter by category:</label>
                             <select name="category" id="category">
@@ -65,16 +65,16 @@
                                 </tr>
                             </thead>
 
-<%--                        <c:set var = "tasks"  value="${user.getTasks()}" /> --%>
+<%--                        <c:set var = "todos"  value="${user.getTodos()}" /> --%>
 
 
-                        <c:forEach var = "task" items="${tasks}" >
+                        <c:forEach var = "todo" items="${todos}" >
                             <c:choose>
-                                <c:when test="${task.isCompleted() == true}"><tr class="done"></c:when>
+                                <c:when test="${todo.isCompleted() == true}"><tr class="done"></c:when>
                                 <c:otherwise><tr></c:otherwise>
                             </c:choose>
                             <c:choose>
-                                <c:when test="${task.isImportant() == true}">
+                                <c:when test="${todo.isImportant() == true}">
                                     <td><i class="fas fa-exclamation" style="color: red"></i></td>
                                 </c:when>
                                 <c:otherwise>
@@ -82,11 +82,11 @@
                                 </c:otherwise>
                             </c:choose>
 
-                                <td><c:out value = "${task.getTitle()}"/></td>
-                                <td><c:out value = "${task.getCategory()}"/></td>
-                                <td><c:out value = "${task.getDueDate()}"/></td>
+                                <td><c:out value = "${todo.getTitle()}"/></td>
+                                <td><c:out value = "${todo.getCategory()}"/></td>
+                                <td><c:out value = "${todo.getDueDate()}"/></td>
 
-                                <td><a href="task?taskID=${task.getTaskID()}">Edit</a></td>
+                                <td><a href="todo?todoID=${todo.getTodoID()}">Edit</a></td>
                             </tr>
                         </c:forEach>
 

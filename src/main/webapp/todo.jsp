@@ -16,56 +16,56 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <title>Edit or create Task</title>
+    <title>Edit or create Todo</title>
 </head>
 <body>
     <div class="container register">
         <div class="row">
             <div class="col-md-3 register-left">
-                <h3>Current Task:</h3>
+                <h3>Current Todo:</h3>
                 <c:choose>
-                    <c:when test="${task.getTitle() == null}"><h3>New Task</h3></c:when>
-                    <c:otherwise><h3>${task.getTitle()}</h3></c:otherwise>
+                    <c:when test="${todo.getTitle() == null}"><h3>New Todo</h3></c:when>
+                    <c:otherwise><h3>${todo.getTitle()}</h3></c:otherwise>
                 </c:choose>
             </div>
 
             <div class="col-md-9 register-right">
                 <div class="tab-content" id="myTabContent">
                     <h3 class="register-heading">Edit Information</h3>
-                <form action="task" method="post">
+                <form action="todo" method="post">
                 <div class="row register-form">
                     <div class="col-md-6">
                     <div class="form-group">
-                            <input type="hidden" name="taskID" value="${task.getTaskID()}">
+                            <input type="hidden" name="todoID" value="${todo.getTodoID()}">
                             <input type="hidden" name="isNew" value="${isNew}">
 
-                            <div class="task">
+                            <div class="todo">
                                 <label for="title">Title:</label>
-                                <input id="title" name="title" type="text" placeholder="title" value="${task.getTitle()}">
+                                <input id="title" name="title" type="text" placeholder="title" value="${todo.getTitle()}">
                             </div>
 
-                            <div class="task">
+                            <div class="todo">
                                 <label for="category">Category:</label>
-                                <input id="category" name="category" type="text" placeholder="category" value="${task.getCategory()}">
+                                <input id="category" name="category" type="text" placeholder="category" value="${todo.getCategory()}">
                             </div>
 
-                            <div class="task">
+                            <div class="todo">
                                 <label for="dueDate">Due Date:</label>
-                                <input id="dueDate" name="dueDate" type="date" placeholder="dueDate" value="${task.getDueDate()}">
+                                <input id="dueDate" name="dueDate" type="date" placeholder="dueDate" value="${todo.getDueDate()}">
                             </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <div class="task">
-                            <label for="isImportant">Is your Task Important?</label>
-                            <input id="isImportant" name="isImportant" type="checkbox" value="true" <c:if test="${task.isImportant()==true}">checked</c:if>>
+                        <div class="todo">
+                            <label for="isImportant">Is your Todo Important?</label>
+                            <input id="isImportant" name="isImportant" type="checkbox" value="true" <c:if test="${todo.isImportant()==true}">checked</c:if>>
                         </div>
 
                         <c:if test="${isNew==false}">
-                            <div class="task">
-                                <label for="isCompleted">Is your Task Completed?</label>
-                                <input id="isCompleted" name="isCompleted" type="checkbox" value="true" <c:if test="${task.isCompleted()==true}">checked</c:if>>
+                            <div class="todo">
+                                <label for="isCompleted">Is your Todo Completed?</label>
+                                <input id="isCompleted" name="isCompleted" type="checkbox" value="true" <c:if test="${todo.isCompleted()==true}">checked</c:if>>
                             </div>
                         </c:if>
                     </div>
