@@ -53,6 +53,7 @@ public class TodoServlet extends HttpServlet {
         String todoID = request.getParameter("todoID");
         String title = request.getParameter("title");
         String category = request.getParameter("category");
+        String newCategory = request.getParameter("newCategory");
         String deleteButton =request.getParameter("Delete");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -77,7 +78,9 @@ public class TodoServlet extends HttpServlet {
             Boolean isImportant = request.getParameter("isImportant") != null;
             Boolean isCompleted = request.getParameter("isCompleted") != null;
 
-
+            if (newCategory != null && !newCategory.isEmpty()) {
+                category = newCategory;
+            }
 
             if (isNew) {
                 Todo todo = new Todo(title, category, dueDate, isImportant);

@@ -1,0 +1,7 @@
+tr.done > *:not(:last-child) {
+    text-decoration: line-through;
+}
+
+.footer {
+    padding: 3rem 1.5rem;
+}
