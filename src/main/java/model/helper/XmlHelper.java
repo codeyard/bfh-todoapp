@@ -7,22 +7,32 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import model.UserManager;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.logging.Logger;
 
 public class XmlHelper {
-    private static final String xmlOutputFileName = "Data.xml";
+    private static final String fileName = "Data.xml";
     private static final Logger LOGGER = Logger.getLogger(XmlHelper.class.getName());
+
+    public static UserManager readXmlData() {
+        ObjectMapper mapper = new XmlMapper();
+        mapper.registerModule(new JavaTimeModule());
+        LOGGER.info(" - - - - Read from file " + fileName + " - - - - ");
+        try (InputStream in = new FileInputStream(fileName)) {
+            return mapper.readValue(in, UserManager.class);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
 
     public static void writeXmlData(UserManager userManager){
         ObjectMapper mapper = new XmlMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        LOGGER.info(" - - - - Write to file " + xmlOutputFileName + " - - - - ");
-        try (OutputStream out = new FileOutputStream(xmlOutputFileName)) {
+        LOGGER.info(" - - - - Write to file " + fileName + " - - - - ");
+        try (OutputStream out = new FileOutputStream(fileName)) {
             mapper.writerWithDefaultPrettyPrinter().writeValue(out, userManager);
         } catch (IOException ex) {
             throw new RuntimeException(ex);

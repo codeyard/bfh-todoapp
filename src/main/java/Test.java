@@ -50,6 +50,7 @@ public class Test {
 
             XmlHelper.writeXmlData(userManager);
 
+
         } catch (UserException ex) {
             ex.printStackTrace();
         }
