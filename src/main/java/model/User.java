@@ -19,11 +19,14 @@ public class User {
     private String userName;
     private String password;
     private List<Todo> todos = new ArrayList<>();
-    public User() { }
+
+    public User() {
+    }
 
     /**
      * Constructs a user.
      * A ID is incremented and used as the User ID.
+     *
      * @param userName the userName
      * @param password the password
      */
@@ -59,6 +62,7 @@ public class User {
 
     /**
      * Gets the list of Todos.
+     *
      * @return a list of Todos.
      */
     @JacksonXmlElementWrapper(localName = "todos")
@@ -73,6 +77,7 @@ public class User {
 
     /**
      * Adds a Todo to the list of Todos.
+     *
      * @param todo the Todo object to add
      */
     public void addTodo(Todo todo) {
@@ -83,6 +88,7 @@ public class User {
 
     /**
      * Updates a Todo
+     *
      * @param todo the Todo object to update in the list
      */
     public void updateTodo(Todo todo) {
@@ -103,6 +109,7 @@ public class User {
 
     /**
      * Deletes a Todo from the list
+     *
      * @param todo the Todo object to remove from the list.
      */
     public void deleteTodo(Todo todo) {
@@ -119,6 +126,7 @@ public class User {
 
     /**
      * Gets a todo from the list
+     *
      * @param todoID the ID of the todo.
      * @return a Todo object
      */
@@ -138,6 +146,7 @@ public class User {
 
     /**
      * Filters the list of Todos by a category.
+     *
      * @param category the category to filter by
      * @return a filtered list of Todos which contains all todos whose category match the specified category
      */
@@ -151,6 +160,7 @@ public class User {
 
     /**
      * Returns a string representation of the User object.
+     *
      * @return a string representation of the User object
      */
     @Override
@@ -164,6 +174,7 @@ public class User {
 
     /**
      * Indicates whether some other object is "equal to" this one.
+     *
      * @param o the reference object with which to compare
      * @return true if this object is the same as the o argument, false otherwise
      */
@@ -177,6 +188,7 @@ public class User {
 
     /**
      * Returns a hash code value for the object
+     *
      * @return a hash code value for this object
      */
     @Override

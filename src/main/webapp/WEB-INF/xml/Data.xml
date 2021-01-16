@@ -1,0 +1,20 @@
+<root>
+  <users>
+    <user>
+      <userID>0</userID>
+      <userName>admin</userName>
+      <password>1234</password>
+      <todos>
+        <todo>
+          <todoID>0</todoID>
+          <userID>0</userID>
+          <title>Lorem ipsum dolor sit amet</title>
+          <category>Work</category>
+          <dueDate>2021-02-26</dueDate>
+          <completed>false</completed>
+          <important>false</important>
+        </todo>
+      </todos>
+    </user>
+  </users>
+</root>

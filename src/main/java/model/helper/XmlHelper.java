@@ -17,13 +17,12 @@ public class XmlHelper {
     private static ClassLoader classLoader = XmlHelper.class.getClassLoader();
 
 
-
-    public static UserManager readXmlData(ServletContext ctx) {
+    public static UserManager readXmlData(ServletContext servletContext) {
 
         ObjectMapper mapper = new XmlMapper();
         mapper.registerModule(new JavaTimeModule());
         LOGGER.info(" - - - - Read from file " + fileName + " - - - - ");
-        try (InputStream in = new FileInputStream(ctx.getRealPath(fileName))) {
+        try (InputStream in = new FileInputStream(servletContext.getRealPath(fileName))) {
             return mapper.readValue(in, UserManager.class);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -32,13 +31,13 @@ public class XmlHelper {
     }
 
 
-    public static void writeXmlData(UserManager userManager, ServletContext ctx)  {
+    public static void writeXmlData(UserManager userManager, ServletContext servletContext) {
         ObjectMapper mapper = new XmlMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         LOGGER.info(" - - - - Write to file " + fileName + " - - - - ");
-        try (OutputStream out = new FileOutputStream(ctx.getRealPath(fileName))) {
+        try (OutputStream out = new FileOutputStream(servletContext.getRealPath(fileName))) {
             mapper.writerWithDefaultPrettyPrinter().writeValue(out, userManager);
         } catch (IOException ex) {
             throw new RuntimeException(ex);

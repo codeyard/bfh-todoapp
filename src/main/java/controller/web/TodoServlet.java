@@ -2,8 +2,11 @@ package controller.web;
 
 import model.Todo;
 import model.User;
+import model.UserManager;
+import model.helper.XmlHelper;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +25,7 @@ public class TodoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user == null ) {
+        if (user == null) {
             response.reset();
             response.sendRedirect("login");
         } else {
@@ -34,7 +37,7 @@ public class TodoServlet extends HttpServlet {
                 if (todoID != null && !todoID.isEmpty()) {
                     todo = user.getTodo(Integer.parseInt(todoID));
                     isNew = false;
-                }else{
+                } else {
                     todo = new Todo();
                 }
                 request.setAttribute("todo", todo);
@@ -56,16 +59,16 @@ public class TodoServlet extends HttpServlet {
         String title = request.getParameter("title");
         String category = request.getParameter("category");
         String newCategory = request.getParameter("newCategory");
-        String deleteButton =request.getParameter("Delete");
+        String deleteButton = request.getParameter("Delete");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
         Integer todoID = null;
-        if(id != null && !id.isEmpty()){
+        if (id != null && !id.isEmpty()) {
             todoID = Integer.parseInt(id);
         }
 
-        if(todoID != null && deleteButton != null && deleteButton.equals( "Delete")) {
+        if (todoID != null && deleteButton != null && deleteButton.equals("Delete")) {
             try {
                 user.deleteTodo(user.getTodo(todoID));
                 response.sendRedirect("todos");
@@ -103,6 +106,9 @@ public class TodoServlet extends HttpServlet {
                 user.updateTodo(todo);
             }
 
+            ServletContext servletContext = getServletContext();
+            UserManager userManager = UserManager.getInstance(servletContext);
+            XmlHelper.writeXmlData(userManager, servletContext);
             response.sendRedirect("todos");
         } catch (IOException e) {
             e.printStackTrace();

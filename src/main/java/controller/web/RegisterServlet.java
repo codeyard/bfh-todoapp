@@ -21,12 +21,12 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+        throws IOException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user != null ) {
+        if (user != null) {
             response.reset();
             response.sendRedirect("todos");
         } else {
@@ -44,12 +44,12 @@ public class RegisterServlet extends HttpServlet {
         String name = request.getParameter("userName");
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
-        ServletContext ctx = getServletContext();
+        ServletContext servletContext = getServletContext();
         if (firstPassword != null && !firstPassword.isEmpty() && secondPassword != null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)) {
-            UserManager userManager = UserManager.getInstance();
+            UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 userManager.register(name, firstPassword);
-                XmlHelper.writeXmlData(userManager, ctx);
+                XmlHelper.writeXmlData(userManager, servletContext);
                 RequestDispatcher view = request.getRequestDispatcher("index.html");
                 view.forward(request, response);
             } catch (UserException e) {

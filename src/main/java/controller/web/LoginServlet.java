@@ -3,16 +3,15 @@ package controller.web;
 import model.User;
 import model.UserException;
 import model.UserManager;
-import model.helper.XmlHelper;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -21,14 +20,14 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+        throws IOException {
 
 
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user != null ) {
+        if (user != null) {
             response.reset();
             response.sendRedirect("todos");
         } else {
@@ -43,17 +42,18 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+        throws IOException {
 
 
         String name = request.getParameter("userName");
         String password = request.getParameter("password");
-        UserManager userManager = UserManager.getInstance();
+        ServletContext servletContext = getServletContext();
+        UserManager userManager = UserManager.getInstance(servletContext);
         try {
             User user = userManager.authenticate(name, password);
-            if(user != null){
+            if (user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user",user);
+                session.setAttribute("user", user);
                 response.sendRedirect("todos");
             }
         } catch (UserException e) {

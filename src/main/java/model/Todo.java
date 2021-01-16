@@ -23,11 +23,13 @@ public class Todo implements Comparable {
     /**
      * Constructs a todo.
      */
-    public Todo() { }
+    public Todo() {
+    }
 
     /**
      * Constructs a todo.
      * A ID is incremented and used as the Todo ID.
+     *
      * @param title the title of the todo
      */
     public Todo(String title) {
@@ -38,9 +40,10 @@ public class Todo implements Comparable {
     /**
      * Constructs a todo.
      * A ID is incremented and used as the Todo ID.
-     * @param title the title of the todo
+     *
+     * @param title    the title of the todo
      * @param category an optional category
-     * @param dueDate an optional due date
+     * @param dueDate  an optional due date
      */
     public Todo(String title, String category, LocalDate dueDate) {
         this(title);
@@ -51,9 +54,10 @@ public class Todo implements Comparable {
     /**
      * Constructs a todo.
      * A ID is incremented and used as the Todo ID.
-     * @param title the title of the todo
-     * @param category an optional category
-     * @param dueDate an optional due date
+     *
+     * @param title       the title of the todo
+     * @param category    an optional category
+     * @param dueDate     an optional due date
      * @param isImportant an optional boolean flag indicating whether the todo is marked as important
      */
     public Todo(String title, String category, LocalDate dueDate, boolean isImportant) {
@@ -115,6 +119,7 @@ public class Todo implements Comparable {
 
     /**
      * Indicates whether the todo is overdue
+     *
      * @return true if the todo is overdue, false otherwise
      */
     @JsonIgnore
@@ -125,7 +130,7 @@ public class Todo implements Comparable {
     /**
      * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive
      * integer as this object is less than, equal to, or greater than the specified object.
-     *
+     * <p>
      * The todos are sorted first by due date, then by title and finally by the id of the Todo objects.
      *
      * @param other the object to be compared
@@ -141,14 +146,11 @@ public class Todo implements Comparable {
             LocalDate otherDate = ((Todo) other).getDueDate();
             if (dueDate == null && otherDate == null) {
                 return compareTitleOrTodoID((Todo) other);
-            }
-            else if (dueDate == null && otherDate != null) {
+            } else if (dueDate == null && otherDate != null) {
                 return 1;
-            }
-            else if (dueDate != null && otherDate == null) {
+            } else if (dueDate != null && otherDate == null) {
                 return -1;
-            }
-            else if (dueDate.compareTo(otherDate) == 0) {
+            } else if (dueDate.compareTo(otherDate) == 0) {
                 return compareTitleOrTodoID((Todo) other);
             }
             return dueDate.compareTo(otherDate);
@@ -161,6 +163,7 @@ public class Todo implements Comparable {
     /**
      * Compares this object with the specified object for order. The order is specified by the title or the id of the
      * Todo objects.
+     *
      * @param other the object to be compared
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or
      * greater than the specified object
@@ -175,6 +178,7 @@ public class Todo implements Comparable {
 
     /**
      * Returns a string representation of the Todo object.
+     *
      * @return a string representation of the Todo object
      */
     @Override
@@ -193,6 +197,7 @@ public class Todo implements Comparable {
 
     /**
      * Indicates whether some other object is "equal to" this one.
+     *
      * @param o the reference object with which to compare
      * @return true if this object is the same as the o argument, false otherwise
      */
@@ -206,6 +211,7 @@ public class Todo implements Comparable {
 
     /**
      * Returns a hash code value for the object
+     *
      * @return a hash code value for this object
      */
     @Override

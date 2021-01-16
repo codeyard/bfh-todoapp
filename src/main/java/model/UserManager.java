@@ -10,6 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import model.helper.XmlHelper;
 
+import javax.servlet.ServletContext;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -25,10 +26,10 @@ public class UserManager {
     }
 
     //todo: check if UserManager needs to be thread safe
-    public static UserManager getInstance(){
+    public static UserManager getInstance(ServletContext servletContext) {
         try {
             if (UserManager.instance == null) {
-                UserManager.instance = loadUsers();
+                UserManager.instance = loadUsers(servletContext);
             }
             return UserManager.instance;
         } catch (Exception e) {
@@ -39,6 +40,7 @@ public class UserManager {
 
     /**
      * Registers a new user.
+     *
      * @param userName the userName
      * @param password the password
      * @return a User object if registering was successful
@@ -56,6 +58,7 @@ public class UserManager {
 
     /**
      * Authenticates a user.
+     *
      * @param userName the userName
      * @param password the password
      * @return a User object if authentication was successful
@@ -78,6 +81,7 @@ public class UserManager {
 
     /**
      * Indicates whether a userName is already registered.
+     *
      * @param userName the userName to check
      * @return true if userName is already registered, false otherwise
      */
@@ -100,15 +104,8 @@ public class UserManager {
     /**
      * Loads a predefined set of users.
      */
-    private static UserManager loadUsers() {
-        users.add(new User("admin", "1234"));
-        return XmlHelper.readXmlData();
-        /**
-        users.add(new User("sepp", "trütsch"));
-        users.add(new User("fritz", "müller"));
-        users.add(new User("alain", "sutter"));
-        users.add(new User("frieda", "friedefreude"));
-        users.add(new User("braunhild", "schoggi"));
-         */
+    private static UserManager loadUsers(ServletContext servletContext) {
+        //users.add(new User("admin", "1234"));
+        return XmlHelper.readXmlData(servletContext);
     }
 }
