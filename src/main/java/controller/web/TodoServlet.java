@@ -29,11 +29,13 @@ public class TodoServlet extends HttpServlet {
 
             try {
                 String todoID = request.getParameter("todoID");
-                Todo todo = new Todo();
+                Todo todo;
                 Boolean isNew = true;
                 if (todoID != null && !todoID.isEmpty()) {
-                    todo = user.getTodo(todoID);
+                    todo = user.getTodo(Integer.parseInt(todoID));
                     isNew = false;
+                }else{
+                    todo = new Todo();
                 }
                 request.setAttribute("todo", todo);
                 request.setAttribute("isNew", isNew);
@@ -50,7 +52,7 @@ public class TodoServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String todoID = request.getParameter("todoID");
+        String id = request.getParameter("todoID");
         String title = request.getParameter("title");
         String category = request.getParameter("category");
         String newCategory = request.getParameter("newCategory");
@@ -58,7 +60,12 @@ public class TodoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if(deleteButton != null && deleteButton.equals( "Delete")) {
+        Integer todoID = null;
+        if(id != null && !id.isEmpty()){
+            todoID = Integer.parseInt(id);
+        }
+
+        if(todoID != null && deleteButton != null && deleteButton.equals( "Delete")) {
             try {
                 user.deleteTodo(user.getTodo(todoID));
                 response.sendRedirect("todos");
@@ -82,7 +89,7 @@ public class TodoServlet extends HttpServlet {
                 category = newCategory;
             }
 
-            if (isNew) {
+            if (isNew && todoID == null) {
                 Todo todo = new Todo(title, category, dueDate, isImportant);
                 user.addTodo(todo);
             } else {

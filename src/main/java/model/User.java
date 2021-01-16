@@ -8,28 +8,29 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class User {
-    private String userID;
+    private static int userCounter = 0;
+    private Integer userID;
     private String userName;
     private String password;
     private List<Todo> todos = new ArrayList<>();
 
     /**
      * Constructs a user.
-     * A UUID is generated and used as the User ID.
+     * A ID is incremented and used as the User ID.
      * @param userName the userName
      * @param password the password
      */
     public User(String userName, String password) {
-        this.userID = UUID.randomUUID().toString();
+        this.userID = userCounter++;
         this.userName = userName;
         this.password = password;
     }
 
-    public String getUserID() {
+    public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(Integer userID) {
         this.userID = userID;
     }
 
@@ -111,7 +112,7 @@ public class User {
      * @param todoID the ID of the todo.
      * @return a Todo object
      */
-    public Todo getTodo(String todoID) {
+    public Todo getTodo(Integer todoID) {
         Todo todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst().get();
         if (todo != null) {
             return todo;

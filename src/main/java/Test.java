@@ -30,6 +30,7 @@ public class Test {
             for (Todo todo : user.getTodos()) {
                 //System.out.println("Todo " + todo.getTitle() + " is due " + todo.getDueDate());
                 System.out.println(todo);
+                System.out.println(todo.getTodoID());
             }
             System.out.println();
 
