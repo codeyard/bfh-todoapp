@@ -52,7 +52,7 @@
         <nav class="level is-mobile pt-5 pr-5">
             <div class="level-left"></div>
             <div class="level-right">
-                <p class="level-item">Hans Ueli</p>
+                <p class="level-item">${user.getUserName()}</p>
                 <p class="level-item"><a class="button">Logout</a></p>
             </div>
         </nav>
