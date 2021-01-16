@@ -1,3 +1,12 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: raphaelgerber
+  Date: 16.01.21
+  Time: 22:57
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,10 +60,17 @@
 
             <h1 class="title">Register</h1>
             <form action="register" method="post">
+                <c:if test="${errorMessage != null && !errorMessage.isEmpty()}">
+                    <article class="message is-danger">
+                        <div class="message-body">
+                                ${errorMessage}
+                        </div>
+                    </article>
+                </c:if>
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input name="userName" type="text" class="input" placeholder="Username" tabindex="1" required autofocus>
+                        <input name="userName" type="text" class="input" placeholder="Username" tabindex="1" required autofocus<c:if test="${userName != null && !userName.isEmpty()}"> value="${userName}"</c:if>>
                         <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
                         <span class="icon is-small is-right"><i class="fas fa-asterisk"></i></span>
                     </div>

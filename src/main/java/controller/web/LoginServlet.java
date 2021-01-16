@@ -22,7 +22,6 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
 
-
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -32,7 +31,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("todos");
         } else {
             try {
-                RequestDispatcher view = request.getRequestDispatcher("index.html");
+                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
@@ -43,7 +42,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-
 
         String name = request.getParameter("userName");
         String password = request.getParameter("password");
@@ -58,18 +56,14 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (UserException e) {
             try (PrintWriter out = response.getWriter()) {
-                htmlHelper(e.getMessage(), out);
-            } catch (IOException exception) {
+                request.setAttribute("errorMessage", e.getMessage());
+                request.setAttribute("userName", name);
+                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+                view.forward(request, response);
+            } catch (IOException | ServletException exception) {
                 exception.printStackTrace();
             }
             e.printStackTrace();
         }
-    }
-
-    private void htmlHelper(String message, PrintWriter out) {
-        out.println("<html><body>");
-        out.println(" <h1>" + message + "</h1>");
-        out.println(" <a href='login'>Back</a>");
-        out.println("</body></html>");
     }
 }

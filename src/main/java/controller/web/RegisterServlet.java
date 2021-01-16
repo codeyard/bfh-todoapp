@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
             response.sendRedirect("todos");
         } else {
             try {
-                RequestDispatcher view = request.getRequestDispatcher("register.html");
+                RequestDispatcher view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
@@ -44,19 +44,22 @@ public class RegisterServlet extends HttpServlet {
         String name = request.getParameter("userName");
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
+        request.setAttribute("userName", name);
         ServletContext servletContext = getServletContext();
         if (firstPassword != null && !firstPassword.isEmpty() && secondPassword != null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)) {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 userManager.register(name, firstPassword);
                 XmlHelper.writeXmlData(userManager, servletContext);
-                RequestDispatcher view = request.getRequestDispatcher("index.html");
+                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             } catch (UserException e) {
                 e.printStackTrace();
                 try (PrintWriter out = response.getWriter()) {
-                    htmlHelper(false, out);
-                } catch (IOException exception) {
+                    request.setAttribute("errorMessage", "The desired username is already taken!");
+                    RequestDispatcher view = request.getRequestDispatcher("register.jsp");
+                    view.forward(request, response);
+                } catch (IOException | ServletException exception) {
                     exception.printStackTrace();
                 }
             } catch (ServletException | IOException e) {
@@ -64,21 +67,12 @@ public class RegisterServlet extends HttpServlet {
             }
         } else {
             try (PrintWriter out = response.getWriter()) {
-                htmlHelper(true, out);
-            } catch (IOException exception) {
+                request.setAttribute("errorMessage", "The Passwords do not match or are invalid!");
+                RequestDispatcher view = request.getRequestDispatcher("register.jsp");
+                view.forward(request, response);
+            } catch (IOException | ServletException exception) {
                 exception.printStackTrace();
             }
         }
-    }
-
-    private void htmlHelper(boolean isPasswordInvalid, PrintWriter out) {
-        out.println("<html><body>");
-        if (isPasswordInvalid) {
-            out.println(" <h1>Invalid password or not the same password</h1>");
-        } else {
-            out.println(" <h1>Username already exists</h1>");
-        }
-        out.println(" <a href='login'>Back</a>");
-        out.println("</body></html>");
     }
 }
