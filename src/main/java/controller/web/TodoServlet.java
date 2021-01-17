@@ -68,17 +68,17 @@ public class TodoServlet extends HttpServlet {
             todoID = Integer.parseInt(id);
         }
 
-        if (todoID != null && deleteButton != null && deleteButton.equals("Delete")) {
-            try {
-                user.deleteTodo(user.getTodo(todoID));
-                response.sendRedirect("todos");
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         try {
+            if (todoID != null && deleteButton != null && deleteButton.equals("Delete")) {
+                try {
+                    user.deleteTodo(user.getTodo(todoID));
+                    response.sendRedirect("todos");
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             Boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
             String dueDateStr = request.getParameter("dueDate");
             LocalDate dueDate = null;
