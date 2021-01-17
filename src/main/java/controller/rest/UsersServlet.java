@@ -26,9 +26,9 @@ public class UsersServlet extends HttpServlet {
                 String body = request.getReader()
                     .lines()
                     .reduce("", (String::concat));
-                Map<?, ?> map = JsonHelper.readJsonData(body);
-                String name = (String) map.get("name");
-                String password = (String) map.get("password");
+                Map<String, String> map = JsonHelper.readJsonData(body);
+                String name = map.get("name");
+                String password = map.get("password");
                 ServletContext servletContext = getServletContext();
                 UserManager userManager = UserManager.getInstance(servletContext);
                 try {
