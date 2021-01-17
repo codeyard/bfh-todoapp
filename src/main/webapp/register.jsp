@@ -63,15 +63,14 @@
                     <li class="is-active"><a href="register">Register</a></li>
                 </ul>
             </div>
-            <c:if test="${registerFailed == true}">
-                <div class="notification is-warning">
-                    <strong>The entered username is already registered or the passwords do not match. Please try again!</strong>
-                </div>
-            </c:if>
-
 
             <h1 class="title">Register</h1>
             <form action="register" method="post">
+                <c:if test="${registerFailed == true}">
+                    <div class="notification is-warning">
+                        <strong>The entered username is already registered or the passwords do not match. Please try again!</strong>
+                    </div>
+                </c:if>
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">

@@ -60,12 +60,10 @@
 
             <h1 class="title">Login</h1>
             <form action="login" method="post">
-                <c:if test="${errorMessage != null && !errorMessage.isEmpty()}">
-                    <article class="message is-danger">
-                        <div class="message-body">
-                                ${errorMessage}
-                        </div>
-                    </article>
+                <c:if test="${loginFailed == true}">
+                    <div class="notification is-warning">
+                        <strong>Login unsuccessful. The entered username or password are invalid. Please try again!</strong>
+                    </div>
                 </c:if>
                 <div class="field">
                     <label class="label">Username</label>

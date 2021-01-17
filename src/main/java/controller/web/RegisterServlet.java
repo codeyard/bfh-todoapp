@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -77,16 +76,5 @@ public class RegisterServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void htmlHelper(boolean isPasswordInvalid, PrintWriter out) {
-        out.println("<html><body>");
-        if (isPasswordInvalid) {
-            out.println(" <h1>Invalid password or not the same password</h1>");
-        } else {
-            out.println(" <h1>Username already exists</h1>");
-        }
-        out.println(" <a href='login'>Back</a>");
-        out.println("</body></html>");
     }
 }
