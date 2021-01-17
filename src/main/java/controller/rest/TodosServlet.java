@@ -30,6 +30,10 @@ public class TodosServlet extends HttpServlet {
                     todos.add(todo);
                 }
             }
+            String json = JsonHelper.writeTodoJsonData(todos);
+            System.out.println(json);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
