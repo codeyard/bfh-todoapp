@@ -79,6 +79,20 @@ public class User {
         return todos;
     }
 
+    /**
+     * Filters the list of Todos by a category.
+     *
+     * @param category the category to filter by
+     * @return a filtered list of Todos which contains all todos whose category match the specified category
+     */
+    public List<Todo> getTodos(String category) {
+        if (category != null && !category.isEmpty()) {
+            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toList());
+        } else {
+            return todos;
+        }
+    }
+
     public void setTodos(List<Todo> todos) {
         this.todos = todos;
     }
@@ -150,20 +164,6 @@ public class User {
     @JsonIgnore
     public Set<String> getDistinctCategories() {
         return todos.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
-    }
-
-    /**
-     * Filters the list of Todos by a category.
-     *
-     * @param category the category to filter by
-     * @return a filtered list of Todos which contains all todos whose category match the specified category
-     */
-    public List<Todo> filterByCategory(String category) {
-        if (category != null && !category.isEmpty()) {
-            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toList());
-        } else {
-            return todos;
-        }
     }
 
     /**

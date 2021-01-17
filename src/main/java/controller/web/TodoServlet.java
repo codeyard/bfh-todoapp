@@ -63,6 +63,8 @@ public class TodoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
+        ServletContext servletContext = getServletContext();
+        UserManager userManager = UserManager.getInstance(servletContext);
         Integer todoID = null;
         if (id != null && !id.isEmpty()) {
             todoID = Integer.parseInt(id);
@@ -73,6 +75,7 @@ public class TodoServlet extends HttpServlet {
                 try {
                     user.deleteTodo(user.getTodo(todoID));
                     response.sendRedirect("todos");
+                    XmlHelper.writeXmlData(userManager, servletContext);
                     return;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -106,8 +109,6 @@ public class TodoServlet extends HttpServlet {
                 user.updateTodo(todo);
             }
 
-            ServletContext servletContext = getServletContext();
-            UserManager userManager = UserManager.getInstance(servletContext);
             XmlHelper.writeXmlData(userManager, servletContext);
             response.sendRedirect("todos");
         } catch (IOException e) {

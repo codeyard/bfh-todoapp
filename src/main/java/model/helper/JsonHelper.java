@@ -34,7 +34,11 @@ public class JsonHelper {
                 objectNode.put("id",todo.getTodoID());
                 objectNode.put("title", todo.getTitle());
                 objectNode.put("category", todo.getCategory());
-                objectNode.put("dueDate", todo.getDueDate().toString());
+                String date = "";
+                if(todo.getDueDate() != null){
+                    date = todo.getDueDate().toString();
+                }
+                objectNode.put("dueDate", date);
                 objectNode.put("important", todo.isImportant());
                 objectNode.put("completed", todo.isCompleted());
                 node.add(objectNode);

@@ -38,7 +38,7 @@ public class TodoListServlet extends HttpServlet {
         String category = request.getParameter("category");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("todos", user.filterByCategory(category));
+        request.setAttribute("todos", user.getTodos(category));
         request.setAttribute("categoryFilter", category);
         response.setContentType("text/html");
 
