@@ -144,6 +144,31 @@ public class TodosServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletContext servletContext = getServletContext();
+        UserManager userManager = UserManager.getInstance(servletContext);
+        String pathInfo = req.getPathInfo();
+        Integer todoID;
+        if (pathInfo != null && !pathInfo.isEmpty()) {
+            // todos/{id}
+            try {
+                todoID = Integer.parseInt(pathInfo.split("/")[1]);
+                Todo todo = null;
+                System.out.println("Path: " + todoID);
+                for (User user : userManager.getUsers()) {
+                    // TODO: check if user is authorized and only return his todo
+                    if (user.getTodo(todoID) != null) {
+                        todo = user.getTodo(todoID);
+                        user.deleteTodo(todo);
+                        XmlHelper.writeXmlData(userManager, servletContext);
+                        writeResponse(resp, "", 204);
+                        return;
+                    }
+                }
+                writeResponse(resp, "", 404); // todo not found
+            } catch (Exception e) {
+                writeResponse(resp, "", 404); // todo not found
+            }
 
+        }
     }
 }
