@@ -31,6 +31,8 @@ public class UserManager {
         try {
             if (UserManager.instance == null) {
                 UserManager.instance = loadUsers(servletContext);
+                //TODO: check where we should use setCounters(), right now the counters are not set correctly if
+                //you only use the REST API and do not interact with the GUI
                 setCounters();
             }
             return UserManager.instance;

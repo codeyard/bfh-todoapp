@@ -105,6 +105,9 @@ public class User {
      */
     public void addTodo(Todo todo) {
         todo.setUserID(userID);
+        if (todos == null) {
+            todos = new ArrayList<>();
+        }
         todos.add(todo);
         Collections.sort(todos);
     }

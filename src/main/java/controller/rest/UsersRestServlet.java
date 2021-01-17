@@ -19,31 +19,35 @@ public class UsersRestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String contentType = request.getContentType();
-        if (!contentType.equalsIgnoreCase("application/json")) {
-            response.setStatus(415); // unsupported content type
+        if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
+            response.setStatus(JsonHelper.STATUS_415); // unsupported content type
         } else {
             try {
                 String body = request.getReader()
                     .lines()
                     .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
-                String name = (String) map.get("name");
-                String password = (String) map.get("password");
-                ServletContext servletContext = getServletContext();
-                UserManager userManager = UserManager.getInstance(servletContext);
-                try {
-                    if (name != null && !name.isEmpty() && password != null && !password.isEmpty()) {
-                        userManager.register(name, password);
-                        XmlHelper.writeXmlData(userManager, servletContext);
-                        response.setStatus(201); // user registered
-                    } else {
-                        response.setStatus(400); // invalid user data
+                if (map != null && !map.isEmpty()) {
+                    String name = (String) map.get("name");
+                    String password = (String) map.get("password");
+                    ServletContext servletContext = getServletContext();
+                    UserManager userManager = UserManager.getInstance(servletContext);
+                    try {
+                        if (name != null && !name.isEmpty() && password != null && !password.isEmpty()) {
+                            userManager.register(name, password);
+                            XmlHelper.writeXmlData(userManager, servletContext);
+                            response.setStatus(JsonHelper.STATUS_201); // user registered
+                        } else {
+                            response.setStatus(JsonHelper.STATUS_400); // invalid user data
+                        }
+                    } catch (UserException e) {
+                        response.setStatus(JsonHelper.STATUS_409); // a user with the same name already exists
                     }
-                } catch (UserException e) {
-                    response.setStatus(409); // a user with the same name already exists
+                } else {
+                    response.setStatus(JsonHelper.STATUS_400); // invalid user data
                 }
             } catch (Exception e) {
-                response.setStatus(400); // invalid user data
+                response.setStatus(JsonHelper.STATUS_400); // invalid user data
             }
         }
     }
