@@ -45,7 +45,10 @@ public class RegisterServlet extends HttpServlet {
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
         ServletContext servletContext = getServletContext();
-        if (firstPassword != null && !firstPassword.isEmpty() && secondPassword != null && !secondPassword.isEmpty() && firstPassword.equals(secondPassword)) {
+        if (name != null && !name.isEmpty()
+            && firstPassword != null && !firstPassword.isEmpty()
+            && secondPassword != null && !secondPassword.isEmpty()
+            && firstPassword.equals(secondPassword)) {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 userManager.register(name, firstPassword);
@@ -64,7 +67,7 @@ public class RegisterServlet extends HttpServlet {
                 }
             }
         } else {
-            request.setAttribute("register", false);
+            request.setAttribute("registerFailed", true);
             RequestDispatcher view = request.getRequestDispatcher("register.jsp");
             try {
                 view.forward(request, response);
