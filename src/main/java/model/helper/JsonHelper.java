@@ -49,4 +49,15 @@ public class JsonHelper {
             return null;
         }
     }
+
+    public static String writeCategoryJsonData(List<String> categoryList){
+        ObjectMapper mapper = new ObjectMapper();
+        LOGGER.info(" - - - - Write Category JSON data - - - - ");
+        try{
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(categoryList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

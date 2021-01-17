@@ -163,7 +163,7 @@ public class User {
 
     @JsonIgnore
     public Set<String> getDistinctCategories() {
-        return todos.stream().map(t -> t.getCategory()).collect(Collectors.toSet());
+        return todos.stream().map(t -> t.getCategory()).filter(x -> !x.isEmpty()).collect(Collectors.toSet());
     }
 
     /**
