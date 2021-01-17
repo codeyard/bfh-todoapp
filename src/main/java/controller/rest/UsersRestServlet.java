@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @WebServlet("/api/users")
-public class UsersServlet extends HttpServlet {
+public class UsersRestServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {

@@ -80,7 +80,7 @@ public class Todo implements Comparable {
         this.isCompleted = isCompleted;
     }
 
-    public static void setTodoCounter(Integer counter){
+    public static void setTodoCounter(Integer counter) {
         todoCounter = counter;
     }
 

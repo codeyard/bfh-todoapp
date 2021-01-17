@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet("/api/todos/*")
-public class TodosServlet extends HttpServlet {
+public class TodosRestServlet extends HttpServlet {
     private final static String CONTENT_TYPE = "application/json";
     private final static String ENCODING = "UTF-8";
 
@@ -27,27 +27,27 @@ public class TodosServlet extends HttpServlet {
         if (!contentType.equalsIgnoreCase(CONTENT_TYPE)) {
             response.setStatus(406); // unsupported accept type
             //TODO: 401 user not authorized to implement
-        }else{
+        } else {
             String category = request.getParameter("category");
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
             String pathInfo = request.getPathInfo();
             Integer todoID;
-            if(pathInfo != null && !pathInfo.isEmpty()){
+            if (pathInfo != null && !pathInfo.isEmpty()) {
                 // todos/{id}
-                try{
+                try {
                     todoID = Integer.parseInt(pathInfo.split("/")[1]);
                     Todo todo = null;
                     System.out.println("Path: " + todoID);
                     for (User user : userManager.getUsers()) {
                         // TODO: check if user is authorized and only return his todo
-                        if(user.getTodo(todoID) != null){
+                        if (user.getTodo(todoID) != null) {
                             todo = user.getTodo(todoID);
                             System.out.println(todo.getTodoID());
                             break;
                         }
                     }
-                    if(todo == null){
+                    if (todo == null) {
                         System.out.println("Todo null");
                         response.setStatus(404); // todo not found
                         return;
@@ -55,12 +55,12 @@ public class TodosServlet extends HttpServlet {
                     String json = JsonHelper.writeTodoJsonData(todo);
                     writeResponse(response, json, 200);
                     return;
-                }catch (Exception exception){
+                } catch (Exception exception) {
                     System.out.println("exception");
                     response.setStatus(404); // todo not found
                     return;
                 }
-            }else{
+            } else {
                 // todos without path parameter
                 try {
                     List<Todo> todos = new ArrayList<>();
@@ -95,16 +95,16 @@ public class TodosServlet extends HttpServlet {
             response.setStatus(406); // unsupported accept type
             //TODO: 401 user not authorized to implement
             //TODO: 415 what's the difference between 406 and 415?
-        }else{
+        } else {
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
-            try{
+            try {
                 String body = request.getReader()
-                        .lines()
-                        .reduce("", (String::concat));
+                    .lines()
+                    .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
                 String title = (String) map.get("title");
-                if(title != null && !title.isEmpty()){
+                if (title != null && !title.isEmpty()) {
                     String category = (String) map.get("category");
                     String dueDate = (String) map.get("dueDate");
                     boolean isImportant = (boolean) map.get("important");
@@ -116,8 +116,8 @@ public class TodosServlet extends HttpServlet {
                     //TODO: replace this, as we don't have the right user yet
                     //TODO: 401
                     User user = userManager.getUsers().stream()
-                            .findFirst()
-                            .get();
+                        .findFirst()
+                        .get();
                     Todo todo = new Todo(title, category, date, isImportant, isCompleted);
                     String todoId = todo.getTodoID().toString();
                     user.addTodo(todo);
@@ -126,11 +126,11 @@ public class TodosServlet extends HttpServlet {
                     XmlHelper.writeXmlData(userManager, servletContext);
                     writeResponse(response, todoId, 201);
                     return;
-                }else{
+                } else {
                     response.setStatus(400); // invalid todo data
                     return;
                 }
-            }catch (Exception exception){
+            } catch (Exception exception) {
                 response.setStatus(400); // invalid todo data
                 return;
             }

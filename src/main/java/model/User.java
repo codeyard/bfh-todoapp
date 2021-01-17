@@ -46,9 +46,10 @@ public class User {
 
     /**
      * Sets the userCounter to the defined value
+     *
      * @param counter
      */
-    public static void setUserCounter(Integer counter){
+    public static void setUserCounter(Integer counter) {
         userCounter = counter;
     }
 

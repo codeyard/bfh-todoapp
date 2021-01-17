@@ -24,18 +24,18 @@ public class JsonHelper {
         }
     }
 
-    public static String writeTodoJsonData(List<Todo> todoList){
+    public static String writeTodoJsonData(List<Todo> todoList) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Todo JSON data - - - - ");
-        try{
+        try {
             ArrayNode node = mapper.createArrayNode();
-            for(Todo todo : todoList){
+            for (Todo todo : todoList) {
                 ObjectNode objectNode = mapper.createObjectNode();
-                objectNode.put("id",todo.getTodoID());
+                objectNode.put("id", todo.getTodoID());
                 objectNode.put("title", todo.getTitle());
                 objectNode.put("category", todo.getCategory());
                 String date = "";
-                if(todo.getDueDate() != null){
+                if (todo.getDueDate() != null) {
                     date = todo.getDueDate().toString();
                 }
                 objectNode.put("dueDate", date);
@@ -50,10 +50,10 @@ public class JsonHelper {
         }
     }
 
-    public static String writeCategoryJsonData(List<String> categoryList){
+    public static String writeCategoryJsonData(List<String> categoryList) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Category JSON data - - - - ");
-        try{
+        try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(categoryList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -61,16 +61,16 @@ public class JsonHelper {
         }
     }
 
-    public static String writeTodoJsonData(Todo todo){
+    public static String writeTodoJsonData(Todo todo) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Todo JSON data - - - - ");
-        try{
+        try {
             ObjectNode objectNode = mapper.createObjectNode();
-            objectNode.put("id",todo.getTodoID());
+            objectNode.put("id", todo.getTodoID());
             objectNode.put("title", todo.getTitle());
             objectNode.put("category", todo.getCategory());
             String date = "";
-            if(todo.getDueDate() != null){
+            if (todo.getDueDate() != null) {
                 date = todo.getDueDate().toString();
             }
             objectNode.put("dueDate", date);

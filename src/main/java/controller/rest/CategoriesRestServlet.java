@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/api/categories")
-public class CategoriesServlet extends HttpServlet {
+public class CategoriesRestServlet extends HttpServlet {
     private final static String CONTENT_TYPE = "application/json";
     private final static String ENCODING = "UTF-8";
 

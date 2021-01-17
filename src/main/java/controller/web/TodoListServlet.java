@@ -30,11 +30,11 @@ public class TodoListServlet extends HttpServlet {
             } catch (ServletException e) {
                 e.printStackTrace();
             }
-         }
+        }
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response){
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String category = request.getParameter("category");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");

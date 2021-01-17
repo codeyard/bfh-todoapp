@@ -44,12 +44,12 @@ public class UserManager {
         Integer highestUserID = 0;
         Integer highestTodoID = 0;
 
-        for(User user : UserManager.instance.getUsers()){
-            if(highestUserID < user.getUserID()){
+        for (User user : UserManager.instance.getUsers()) {
+            if (highestUserID < user.getUserID()) {
                 highestUserID = user.getUserID();
             }
-            for(Todo todo: user.getTodos()){
-                if(highestTodoID < todo.getTodoID()){
+            for (Todo todo : user.getTodos()) {
+                if (highestTodoID < todo.getTodoID()) {
                     highestTodoID = todo.getTodoID();
                 }
             }
