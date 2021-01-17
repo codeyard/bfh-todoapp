@@ -18,10 +18,9 @@ public class XmlHelper {
 
 
     public static UserManager readXmlData(ServletContext servletContext) {
-
         ObjectMapper mapper = new XmlMapper();
         mapper.registerModule(new JavaTimeModule());
-        LOGGER.info(" - - - - Read from file " + fileName + " - - - - ");
+        LOGGER.info(" - - - - Read XML data from file " + fileName + " - - - - ");
         try (InputStream in = new FileInputStream(servletContext.getRealPath(fileName))) {
             return mapper.readValue(in, UserManager.class);
         } catch (IOException ex) {
@@ -36,7 +35,7 @@ public class XmlHelper {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        LOGGER.info(" - - - - Write to file " + fileName + " - - - - ");
+        LOGGER.info(" - - - - Write data to XML file " + fileName + " - - - - ");
         try (OutputStream out = new FileOutputStream(servletContext.getRealPath(fileName))) {
             mapper.writerWithDefaultPrettyPrinter().writeValue(out, userManager);
         } catch (IOException ex) {

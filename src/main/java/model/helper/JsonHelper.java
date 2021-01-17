@@ -12,16 +12,11 @@ public class JsonHelper {
 
     public static Map<String, String> readJsonData(String requestBody) {
         ObjectMapper mapper = new ObjectMapper();
+        LOGGER.info(" - - - - Read JSON data - - - - ");
         try {
-            Map<String, String> map = mapper.readValue(requestBody, Map.class);
-            return map;
+            return mapper.readValue(requestBody, Map.class);
         } catch (JsonProcessingException e) {
             return null;
         }
-
-
-
     }
-
-
 }

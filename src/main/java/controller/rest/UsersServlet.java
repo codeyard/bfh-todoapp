@@ -1,6 +1,5 @@
 package controller.rest;
 
-import model.User;
 import model.UserException;
 import model.UserManager;
 import model.helper.JsonHelper;
@@ -20,7 +19,7 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String contentType = request.getContentType();
-        if (!contentType.equals("application/json")) {
+        if (!contentType.equalsIgnoreCase("application/json")) {
             response.setStatus(415); // unsupported content type
         } else {
             try {
@@ -34,7 +33,7 @@ public class UsersServlet extends HttpServlet {
                 UserManager userManager = UserManager.getInstance(servletContext);
                 try {
                     if (name != null && !name.isEmpty() && password != null && !password.isEmpty()) {
-                        User user = userManager.register(name, password);
+                        userManager.register(name, password);
                         XmlHelper.writeXmlData(userManager, servletContext);
                         response.setStatus(201); // user registered
                     } else {
