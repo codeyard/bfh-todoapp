@@ -63,7 +63,7 @@
                     <li class="is-active"><a href="register">Register</a></li>
                 </ul>
             </div>
-            <c:if test="${register == false}">
+            <c:if test="${registerFailed == true}">
             <div class="notification is-warning">
                 <strong>The entered username is already registered or the passwords do not match. Please try again!</strong>
             </div>

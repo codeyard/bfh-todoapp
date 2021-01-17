@@ -53,7 +53,7 @@ public class RegisterServlet extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             } catch (UserException | ServletException | IOException e) {
-                request.setAttribute("register", false);
+                request.setAttribute("registerFailed", true);
                 RequestDispatcher view = request.getRequestDispatcher("register.jsp");
                 try {
                     view.forward(request, response);
