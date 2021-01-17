@@ -50,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
             try {
                 userManager.register(name, firstPassword);
                 XmlHelper.writeXmlData(userManager, servletContext);
-                RequestDispatcher view = request.getRequestDispatcher("index.html");
+                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             } catch (UserException | ServletException | IOException e) {
                 request.setAttribute("register", false);

@@ -13,6 +13,7 @@ import model.helper.XmlHelper;
 import javax.servlet.ServletContext;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @JacksonXmlRootElement(localName = "root")
@@ -30,26 +31,32 @@ public class UserManager {
         try {
             if (UserManager.instance == null) {
                 UserManager.instance = loadUsers(servletContext);
-                Integer highestUserID = 0;
-                Integer highestTodoID = 0;
-                for(User user : UserManager.instance.getUsers()){
-                    if(highestUserID < user.getUserID()){
-                        highestUserID = user.getUserID();
-                    }
-                    for(Todo todo: user.getTodos()){
-                        if(highestTodoID < todo.getTodoID()){
-                            highestTodoID = todo.getTodoID();
-                        }
-                    }
-                }
-                User.setUserCounter(++highestUserID);
-                Todo.setTodoCounter(++highestTodoID);
+                setCounters();
             }
             return UserManager.instance;
         } catch (Exception e) {
             UserManager.instance = new UserManager();
             return UserManager.instance;
         }
+    }
+
+    private static void setCounters() {
+        Integer highestUserID = 0;
+        Integer highestTodoID = 0;
+
+        for(User user : UserManager.instance.getUsers()){
+            if(highestUserID < user.getUserID()){
+                highestUserID = user.getUserID();
+            }
+            for(Todo todo: user.getTodos()){
+                if(highestTodoID < todo.getTodoID()){
+                    highestTodoID = todo.getTodoID();
+                }
+            }
+        }
+
+        User.setUserCounter(++highestUserID);
+        Todo.setTodoCounter(++highestTodoID);
     }
 
     /**
