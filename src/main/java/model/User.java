@@ -153,9 +153,9 @@ public class User {
      * @return a Todo object
      */
     public Todo getTodo(Integer todoID) {
-        Todo todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst().get();
-        if (todo != null) {
-            return todo;
+        Optional<Todo> todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst();
+        if (!todo.isEmpty()) {
+            return todo.get();
         }
         return null;
 

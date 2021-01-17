@@ -65,6 +65,21 @@ public class Todo implements Comparable {
         this.isImportant = isImportant;
     }
 
+    /**
+     * Constructs a todo.
+     * A ID is incremented and used as the Todo ID.
+     *
+     * @param title       the title of the todo
+     * @param category    an optional category
+     * @param dueDate     an optional due date
+     * @param isImportant an optional boolean flag indicating whether the todo is marked as important
+     * @param isCompleted an optional boolean flag indicating wheter the todo is completed
+     */
+    public Todo(String title, String category, LocalDate dueDate, boolean isImportant, boolean isCompleted) {
+        this(title, category, dueDate, isImportant);
+        this.isCompleted = isCompleted;
+    }
+
     public static void setTodoCounter(Integer counter){
         todoCounter = counter;
     }

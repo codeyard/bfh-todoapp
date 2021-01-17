@@ -14,7 +14,7 @@ public class JsonHelper {
 
     private static final Logger LOGGER = Logger.getLogger(JsonHelper.class.getName());
 
-    public static Map<String, String> readJsonData(String requestBody) {
+    public static Map<String, ?> readJsonData(String requestBody) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Read JSON data - - - - ");
         try {
@@ -55,6 +55,28 @@ public class JsonHelper {
         LOGGER.info(" - - - - Write Category JSON data - - - - ");
         try{
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(categoryList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String writeTodoJsonData(Todo todo){
+        ObjectMapper mapper = new ObjectMapper();
+        LOGGER.info(" - - - - Write Todo JSON data - - - - ");
+        try{
+            ObjectNode objectNode = mapper.createObjectNode();
+            objectNode.put("id",todo.getTodoID());
+            objectNode.put("title", todo.getTitle());
+            objectNode.put("category", todo.getCategory());
+            String date = "";
+            if(todo.getDueDate() != null){
+                date = todo.getDueDate().toString();
+            }
+            objectNode.put("dueDate", date);
+            objectNode.put("important", todo.isImportant());
+            objectNode.put("completed", todo.isCompleted());
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(objectNode);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;
