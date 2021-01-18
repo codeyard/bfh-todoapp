@@ -72,9 +72,11 @@ public class TodoServlet extends HttpServlet {
         ServletContext servletContext = getServletContext();
         UserManager userManager = UserManager.getInstance(servletContext);
         Integer todoID = null;
+
         if (id != null && !id.isEmpty()) {
             todoID = Integer.parseInt(id);
         }
+        // DeleteTodo if delete button was clicked
         if (isDeleteButtonPressed(deleteButton, todoID)) {
             try {
                 user.deleteTodo(user.getTodo(todoID));
@@ -85,12 +87,13 @@ public class TodoServlet extends HttpServlet {
                 view.forward(request, response);
             }
         } else {
-
+            // Create or update newTodo
             boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
             String dueDateStr = request.getParameter("dueDate");
             LocalDate dueDate = null;
             boolean isImportant = request.getParameter("isImportant") != null;
             boolean isCompleted = request.getParameter("isCompleted") != null;
+
             try {
                 dueDate = parseUserDate(dueDateStr);
             } catch (DateTimeParseException e) {
@@ -104,24 +107,34 @@ public class TodoServlet extends HttpServlet {
             if (newCategory != null && !newCategory.isEmpty()) {
                 category = newCategory;
             }
-
+            // Create newTodo
             if (isNew && todoID == null) {
-                Todo todo = new Todo(title, category, dueDate, isImportant);
-                user.addTodo(todo);
-            } else {
-                Todo todo = user.getTodo(todoID);
-                todo.setTitle(title);
-                todo.setCategory(category);
-                todo.setDueDate(dueDate);
-                todo.setImportant(isImportant);
-                todo.setCompleted(isCompleted);
-
-                user.updateTodo(todo);
+                addNewTodo(title, category, user, dueDate, isImportant);
+            }
+            // Update existingTodo
+            else {
+                updateExistingTodo(title, category, user, todoID, dueDate, isImportant, isCompleted);
             }
 
             XmlHelper.writeXmlData(userManager, servletContext);
             response.sendRedirect("todos");
         }
+    }
+
+    private void addNewTodo(String title, String category, User user, LocalDate dueDate, boolean isImportant) {
+        Todo todo = new Todo(title, category, dueDate, isImportant);
+        user.addTodo(todo);
+    }
+
+    private void updateExistingTodo(String title, String category, User user, Integer todoID, LocalDate dueDate, boolean isImportant, boolean isCompleted) {
+        Todo todo = user.getTodo(todoID);
+        todo.setTitle(title);
+        todo.setCategory(category);
+        todo.setDueDate(dueDate);
+        todo.setImportant(isImportant);
+        todo.setCompleted(isCompleted);
+
+        user.updateTodo(todo);
     }
 
     private LocalDate parseUserDate(String dueDateStr) throws DateTimeParseException {
@@ -136,8 +149,4 @@ public class TodoServlet extends HttpServlet {
         return todoID != null && deleteButton != null && deleteButton.equals("Delete");
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-
-    }
 }
