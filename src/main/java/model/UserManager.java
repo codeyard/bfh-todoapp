@@ -1,3 +1,7 @@
+/**
+ * The User Manager is responsible for the registration and authentication of a user.
+ */
+
 package model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -12,7 +16,7 @@ import java.util.Set;
 @JacksonXmlRootElement(localName = "root")
 public class UserManager {
 
-    private static final Set<User> users = new HashSet<>();
+    private static Set<User> users = new HashSet<>();
 
     private static UserManager instance;
 

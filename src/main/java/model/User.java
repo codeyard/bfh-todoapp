@@ -1,3 +1,7 @@
+/**
+ * The User class implements a user with his set of Todos.
+ */
+
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,7 +25,7 @@ public class User {
 
     /**
      * Constructs a user.
-     * A ID is incremented and used as the User ID.
+     * The userCounter is incremented and used as the User ID.
      *
      * @param userName the userName
      * @param password the password
@@ -38,8 +42,11 @@ public class User {
 
     /**
      * Sets the userCounter to the defined value
+     * When loading the Data.xml, the highest assigned userID is determined and stored in the
+     * static userCounter variable. When adding new users, the userCounter is increased. This way
+     * we can ensure that each user has an unique ID.
      *
-     * @param counter the counter that counts the number of users
+     * @param counter the counter that holds the highest assigned userID
      */
     public static void setUserCounter(Integer counter) {
         userCounter = counter;
@@ -153,10 +160,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userID='" + userID + '\'' +
-                ", userName='" + userName + '\'' +
-                ", todos=" + todos +
-                '}';
+            "userID='" + userID + '\'' +
+            ", userName='" + userName + '\'' +
+            ", todos=" + todos +
+            '}';
     }
 
     /**

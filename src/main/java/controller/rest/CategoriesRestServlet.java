@@ -31,11 +31,10 @@ public class CategoriesRestServlet extends HttpServlet {
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
-                //TODO: to discuss, we now add double entrances if multiple users have the same categories
-                // is this wanted? -> In my opinion, this does not make sense, lets return a SET!
+                //TODO: only return categories of authorized user
                 Set<String> categorySet = userManager.getUsers().stream()
-                        .flatMap(users -> users.getDistinctCategories().stream())
-                        .collect(Collectors.toSet());
+                    .flatMap(users -> users.getDistinctCategories().stream())
+                    .collect(Collectors.toSet());
 
                 List<String> categories = new ArrayList<>(categorySet);
                 String json = JsonHelper.writeCategoryJsonData(categories);

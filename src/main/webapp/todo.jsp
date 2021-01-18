@@ -123,7 +123,7 @@
                 </c:choose>
                 <c:if test="${dateError==true}">
                 <div class="notification is-warning">
-                    <strong>Make sure the data is correct</strong>
+                    <strong>The due date entered is unfortunately invalid!</strong>
                 </div>
                 </c:if>
 

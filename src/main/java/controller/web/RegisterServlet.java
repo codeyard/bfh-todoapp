@@ -19,8 +19,7 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -78,9 +77,9 @@ public class RegisterServlet extends HttpServlet {
 
     private boolean isValidUserData(String name, String firstPassword, String secondPassword) {
         return name != null && !name.isEmpty()
-                && firstPassword != null && !firstPassword.isEmpty()
-                && secondPassword != null && !secondPassword.isEmpty()
-                && firstPassword.equals(secondPassword);
+            && firstPassword != null && !firstPassword.isEmpty()
+            && secondPassword != null && !secondPassword.isEmpty()
+            && firstPassword.equals(secondPassword);
     }
 
 

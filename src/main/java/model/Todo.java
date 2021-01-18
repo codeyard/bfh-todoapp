@@ -1,3 +1,7 @@
+/**
+ * The Todo class implements a Todo
+ */
+
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,7 +28,7 @@ public class Todo implements Comparable {
 
     /**
      * Constructs a todo.
-     * A ID is incremented and used as the Todo ID.
+     * The todoCounter is incremented and used as the Todo ID.
      *
      * @param title the title that describes the todo
      */
@@ -35,7 +39,7 @@ public class Todo implements Comparable {
 
     /**
      * Constructs a todo.
-     * A ID is incremented and used as the Todo ID.
+     * The todoCounter is incremented and used as the Todo ID.
      *
      * @param title    the title of the todo
      * @param category an optional category
@@ -49,7 +53,7 @@ public class Todo implements Comparable {
 
     /**
      * Constructs a todo.
-     * A ID is incremented and used as the Todo ID.
+     * The todoCounter is incremented and used as the Todo ID.
      *
      * @param title       the title of the todo
      * @param category    an optional category
@@ -63,7 +67,7 @@ public class Todo implements Comparable {
 
     /**
      * Constructs a todo.
-     * A ID is incremented and used as the Todo ID.
+     * The todoCounter is incremented and used as the Todo ID.
      *
      * @param title       the title of the todo
      * @param category    an optional category
@@ -76,6 +80,14 @@ public class Todo implements Comparable {
         this.isCompleted = isCompleted;
     }
 
+    /**
+     * Sets the todoCounter to the defined value
+     * When loading the Data.xml, the highest assigned todoID is determined and stored in the static todoCounter
+     * variable. When adding new todos, the todoCounter is increased. This way we can ensure that each todo
+     * has an unique ID.
+     *
+     * @param counter the counter that holds the highest assigned todoID
+     */
     public static void setTodoCounter(Integer counter) {
         todoCounter = counter;
     }
@@ -141,6 +153,7 @@ public class Todo implements Comparable {
     /**
      * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive
      * integer as this object is less than, equal to, or greater than the specified object.
+     * <p>
      * The todos are sorted first by due date, then by title and finally by the id of the Todo objects.
      *
      * @param other the object to be compared
@@ -194,15 +207,15 @@ public class Todo implements Comparable {
     @Override
     public String toString() {
         return "Todo{" +
-                "todoId='" + todoID + '\'' +
-                ", userID='" + userID + '\'' +
-                ", title='" + title + '\'' +
-                ", category='" + category + '\'' +
-                ", dueDate=" + dueDate +
-                ", isImportant=" + isImportant +
-                ", isCompleted=" + isCompleted +
-                ", isOverdue=" + isOverdue() +
-                '}';
+            "todoId='" + todoID + '\'' +
+            ", userID='" + userID + '\'' +
+            ", title='" + title + '\'' +
+            ", category='" + category + '\'' +
+            ", dueDate=" + dueDate +
+            ", isImportant=" + isImportant +
+            ", isCompleted=" + isCompleted +
+            ", isOverdue=" + isOverdue() +
+            '}';
     }
 
     /**

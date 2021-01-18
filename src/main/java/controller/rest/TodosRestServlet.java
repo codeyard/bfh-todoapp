@@ -83,8 +83,8 @@ public class TodosRestServlet extends HttpServlet {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 String body = request.getReader()
-                        .lines()
-                        .reduce("", (String::concat));
+                    .lines()
+                    .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
                 if (map != null && !map.isEmpty()) {
                     String title = (String) map.get("title");
@@ -98,8 +98,8 @@ public class TodosRestServlet extends HttpServlet {
                         //TODO: replace this, as we don't have the right user yet
                         //TODO: 401
                         User user = userManager.getUsers().stream()
-                                .findFirst()
-                                .get();
+                            .findFirst()
+                            .get();
                         Todo todo = new Todo(title, category, date, isImportant, isCompleted);
                         String todoId = todo.getTodoID().toString();
                         user.addTodo(todo);
@@ -148,8 +148,8 @@ public class TodosRestServlet extends HttpServlet {
                     }
                     if (todo != null) {
                         String body = request.getReader()
-                                .lines()
-                                .reduce("", (String::concat));
+                            .lines()
+                            .reduce("", (String::concat));
                         Map<String, ?> map = JsonHelper.readJsonData(body);
                         if (map != null && !map.isEmpty()) {
                             Integer todoIDBody = (Integer) map.get("id");
