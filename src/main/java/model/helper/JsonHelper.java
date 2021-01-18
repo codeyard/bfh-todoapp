@@ -13,15 +13,6 @@ import java.util.logging.Logger;
 public class JsonHelper {
     public static final String CONTENT_TYPE = "application/json";
     public static final String ENCODING = "UTF-8";
-    public static final int STATUS_200 = 200;
-    public static final int STATUS_201 = 201;
-    public static final int STATUS_204 = 204;
-    public static final int STATUS_400 = 400;
-    public static final int STATUS_401 = 401;
-    public static final int STATUS_404 = 404;
-    public static final int STATUS_406 = 406;
-    public static final int STATUS_409 = 409;
-    public static final int STATUS_415 = 415;
 
 
     private static final Logger LOGGER = Logger.getLogger(JsonHelper.class.getName());

@@ -144,10 +144,8 @@ public class TodosRestServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contentType = request.getContentType();
-        String acceptType = request.getHeader("Accept");
-            //TODO: Wrong in docs? 415 is unsupported media type and not content type
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); // unsupported content type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported content type
             LOGGER.warning(" - - - - Wrong Content Type from Request: " + contentType + " - - - - ");
             //TODO: 401 user not authorized to implement
         } else {
@@ -203,27 +201,34 @@ public class TodosRestServlet extends HttpServlet {
                                             }
                                             user.updateTodo(tempTodo);
                                             XmlHelper.writeXmlData(userManager, servletContext);
-                                            writeResponse(response, "todoId", JsonHelper.STATUS_204);
+                                            writeResponse(response, "todoId", HttpServletResponse.SC_NO_CONTENT);
+                                            LOGGER.info(" - - - - todo updated: " + tempTodo.getTodoID() + " - - - - ");
                                             break;
                                         }
                                     }
                                 } else {
-                                    writeResponse(response, "", JsonHelper.STATUS_400); // invalid todo data
+                                    writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                                    LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+
                                 }
                             } else {
-                                writeResponse(response, "", JsonHelper.STATUS_400); // invalid todo data
+                                writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                                LOGGER.warning(" - - - - Invalid Todo data - - - - ");
                             }
                         } else {
-                            writeResponse(response, "", JsonHelper.STATUS_400); // invalid todo data
-                        }
+                            writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                            LOGGER.warning(" - - - - Invalid Todo data - - - - ");                        }
                     } else {
-                        response.setStatus(JsonHelper.STATUS_404); // todo not found
-                    }
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND); // todo not found
+                        LOGGER.warning(" - - - - Todo not found - - - - ");                        }
+
                 } catch (Exception exception){
-                    writeResponse(response, "", JsonHelper.STATUS_400); // invalid todo data
+                    writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                    LOGGER.warning(" - - - - Invalid Todo data - - - - ");
                 }
             } else {
-                writeResponse(response, "", JsonHelper.STATUS_400); // invalid todo data
+                writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                LOGGER.warning(" - - - - Invalid Todo data - - - - ");
             }
         }
     }
