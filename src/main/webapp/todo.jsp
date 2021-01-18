@@ -53,7 +53,7 @@
             <div class="level-left"></div>
             <div class="level-right">
                 <p class="level-item">${user.getUserName()}</p>
-                <p class="level-item"><a class="button">Logout</a></p>
+                <p class="level-item"><a href="logout" class="button">Logout</a></p>
             </div>
         </nav>
     </div>

@@ -32,7 +32,7 @@ public class UserManager {
             if (UserManager.instance == null) {
                 UserManager.instance = loadUsers(servletContext);
                 //TODO: check where we should use setCounters(), right now the counters are not set correctly if
-                //you only use the REST API and do not interact with the GUI
+                //you only use the REST API and do not interact with the GUI -> EDIT: FOR ME IT WORKS CORRECTLY!! (IGOR)
                 setCounters();
             }
             return UserManager.instance;
