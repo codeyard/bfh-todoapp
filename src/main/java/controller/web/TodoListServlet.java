@@ -41,17 +41,21 @@ public class TodoListServlet extends HttpServlet {
         String category = request.getParameter("category");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("todos", user.getTodos(category));
-        request.setAttribute("categoryFilter", category);
-        response.setContentType("text/html");
         RequestDispatcher view;
-        try {
-            view = request.getRequestDispatcher("todos.jsp");
-            view.forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-            view = request.getRequestDispatcher("errors.jsp");
-            view.forward(request, response);
+        if (user == null) {
+            response.reset();
+            response.sendRedirect("login");
+        } else {
+            request.setAttribute("todos", user.getTodos(category));
+            request.setAttribute("categoryFilter", category);
+            try {
+                view = request.getRequestDispatcher("todos.jsp");
+                view.forward(request, response);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
+            }
         }
     }
 }

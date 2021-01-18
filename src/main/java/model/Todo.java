@@ -73,7 +73,7 @@ public class Todo implements Comparable {
      * @param category    an optional category
      * @param dueDate     an optional due date
      * @param isImportant an optional boolean flag indicating whether the todo is marked as important
-     * @param isCompleted an optional boolean flag indicating wheter the todo is completed
+     * @param isCompleted an optional boolean flag indicating whether the todo is completed
      */
     public Todo(String title, String category, LocalDate dueDate, boolean isImportant, boolean isCompleted) {
         this(title, category, dueDate, isImportant);

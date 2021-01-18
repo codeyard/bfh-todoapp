@@ -68,56 +68,62 @@ public class TodoServlet extends HttpServlet {
         String deleteButton = request.getParameter("Delete");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        RequestDispatcher view;
-        ServletContext servletContext = getServletContext();
-        UserManager userManager = UserManager.getInstance(servletContext);
         Integer todoID = null;
 
-        if (id != null && !id.isEmpty()) {
-            todoID = Integer.parseInt(id);
-        }
-        // DeleteTodo if delete button was clicked
-        if (isDeleteButtonPressed(deleteButton, todoID)) {
-            try {
-                user.deleteTodo(user.getTodo(todoID));
+        if (user == null) {
+            response.reset();
+            response.sendRedirect("login");
+        } else {
+            RequestDispatcher view;
+            ServletContext servletContext = getServletContext();
+            UserManager userManager = UserManager.getInstance(servletContext);
+
+            if (id != null && !id.isEmpty()) {
+                todoID = Integer.parseInt(id);
+            }
+            // DeleteTodo if delete button was clicked
+            if (isDeleteButtonPressed(deleteButton, todoID)) {
+                try {
+                    user.deleteTodo(user.getTodo(todoID));
+                    XmlHelper.writeXmlData(userManager, servletContext);
+                    response.sendRedirect("todos");
+                } catch (IOException ioException) {
+                    view = request.getRequestDispatcher("errors.jsp");
+                    view.forward(request, response);
+                }
+            } else {
+                // Create or update newTodo
+                boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
+                String dueDateStr = request.getParameter("dueDate");
+                LocalDate dueDate = null;
+                boolean isImportant = request.getParameter("isImportant") != null;
+                boolean isCompleted = request.getParameter("isCompleted") != null;
+
+                try {
+                    dueDate = parseUserDate(dueDateStr);
+                } catch (DateTimeParseException e) {
+                    e.printStackTrace();
+                    session.setAttribute("dateError", true);
+                    response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID);
+                    return;
+                }
+
+
+                if (newCategory != null && !newCategory.isEmpty()) {
+                    category = newCategory;
+                }
+                // Create newTodo
+                if (isNew && todoID == null) {
+                    addNewTodo(title, category, user, dueDate, isImportant);
+                }
+                // Update existingTodo
+                else {
+                    updateExistingTodo(title, category, user, todoID, dueDate, isImportant, isCompleted);
+                }
+
                 XmlHelper.writeXmlData(userManager, servletContext);
                 response.sendRedirect("todos");
-            } catch (IOException ioException) {
-                view = request.getRequestDispatcher("errors.jsp");
-                view.forward(request, response);
             }
-        } else {
-            // Create or update newTodo
-            boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
-            String dueDateStr = request.getParameter("dueDate");
-            LocalDate dueDate = null;
-            boolean isImportant = request.getParameter("isImportant") != null;
-            boolean isCompleted = request.getParameter("isCompleted") != null;
-
-            try {
-                dueDate = parseUserDate(dueDateStr);
-            } catch (DateTimeParseException e) {
-                e.printStackTrace();
-                session.setAttribute("dateError", true);
-                response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID);
-                return;
-            }
-
-
-            if (newCategory != null && !newCategory.isEmpty()) {
-                category = newCategory;
-            }
-            // Create newTodo
-            if (isNew && todoID == null) {
-                addNewTodo(title, category, user, dueDate, isImportant);
-            }
-            // Update existingTodo
-            else {
-                updateExistingTodo(title, category, user, todoID, dueDate, isImportant, isCompleted);
-            }
-
-            XmlHelper.writeXmlData(userManager, servletContext);
-            response.sendRedirect("todos");
         }
     }
 
