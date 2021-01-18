@@ -140,7 +140,7 @@ public class TodoServlet extends HttpServlet {
     private LocalDate parseUserDate(String dueDateStr) throws DateTimeParseException {
         LocalDate dueDate = null;
         if (dueDateStr != null && !dueDateStr.isEmpty()) {
-             dueDate = LocalDate.parse(dueDateStr);
+            dueDate = LocalDate.parse(dueDateStr);
         }
         return dueDate;
     }

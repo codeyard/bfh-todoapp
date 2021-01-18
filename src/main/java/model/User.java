@@ -178,10 +178,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-            "userID='" + userID + '\'' +
-            ", userName='" + userName + '\'' +
-            ", todos=" + todos +
-            '}';
+                "userID='" + userID + '\'' +
+                ", userName='" + userName + '\'' +
+                ", todos=" + todos +
+                '}';
     }
 
     /**

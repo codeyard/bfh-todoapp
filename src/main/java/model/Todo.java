@@ -203,15 +203,15 @@ public class Todo implements Comparable {
     @Override
     public String toString() {
         return "Todo{" +
-            "todoId='" + todoID + '\'' +
-            ", userID='" + userID + '\'' +
-            ", title='" + title + '\'' +
-            ", category='" + category + '\'' +
-            ", dueDate=" + dueDate +
-            ", isImportant=" + isImportant +
-            ", isCompleted=" + isCompleted +
-            ", isOverdue=" + isOverdue() +
-            '}';
+                "todoId='" + todoID + '\'' +
+                ", userID='" + userID + '\'' +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", dueDate=" + dueDate +
+                ", isImportant=" + isImportant +
+                ", isCompleted=" + isCompleted +
+                ", isOverdue=" + isOverdue() +
+                '}';
     }
 
     /**

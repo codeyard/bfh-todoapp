@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
             response.sendRedirect("todos");
         } else {
             try {
-                 view = request.getRequestDispatcher("register.jsp");
+                view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
@@ -59,7 +59,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("registerFailed", true);
                 view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
-            } catch(ServletException e)  {
+            } catch (ServletException e) {
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
             }
@@ -68,11 +68,10 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("registerFailed", true);
                 view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
-            }
-             catch (ServletException e) {
+            } catch (ServletException e) {
                 e.printStackTrace();
-                 view = request.getRequestDispatcher("errors.jsp");
-                 view.forward(request, response);
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
             }
         }
     }

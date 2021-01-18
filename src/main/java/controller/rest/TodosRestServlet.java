@@ -6,9 +6,11 @@ import model.UserManager;
 import model.helper.JsonHelper;
 import model.helper.XmlHelper;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletContext;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -81,10 +83,10 @@ public class TodosRestServlet extends HttpServlet {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 String body = request.getReader()
-                    .lines()
-                    .reduce("", (String::concat));
+                        .lines()
+                        .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
-                if (map != null && !map.isEmpty()){
+                if (map != null && !map.isEmpty()) {
                     String title = (String) map.get("title");
                     if (title != null && !title.isEmpty()) {
                         String category = (map.get("category") != null) ? (String) map.get("category") : "";
@@ -132,7 +134,7 @@ public class TodosRestServlet extends HttpServlet {
             String pathInfo = request.getPathInfo();
             Integer todoIDPath;
             if (pathInfo != null && !pathInfo.isEmpty()) {
-                try{
+                try {
                     todoIDPath = Integer.parseInt(pathInfo.split("/")[1]);
                     Todo todo = null;
                     Integer userID = null;
@@ -151,29 +153,29 @@ public class TodosRestServlet extends HttpServlet {
                         Map<String, ?> map = JsonHelper.readJsonData(body);
                         if (map != null && !map.isEmpty()) {
                             Integer todoIDBody = (Integer) map.get("id");
-                            if(todoIDPath.compareTo(todoIDBody) == 0){
-                                if(map.get("title") != null && !((String)map.get("title")).isEmpty()){
+                            if (todoIDPath.compareTo(todoIDBody) == 0) {
+                                if (map.get("title") != null && !((String) map.get("title")).isEmpty()) {
                                     String title = (String) map.get("title");
                                     String category = (String) map.get("category");
                                     String dueDate = (String) map.get("dueDate");
 
-                                    LocalDate date = (dueDate != null && !dueDate.isEmpty()) ?LocalDate.parse(dueDate) :LocalDate.MIN;
+                                    LocalDate date = (dueDate != null && !dueDate.isEmpty()) ? LocalDate.parse(dueDate) : LocalDate.MIN;
                                     // TODO: check if this has still to be done like this after authentication of user
                                     for (User user : userManager.getUsers()) {
-                                        if(userID.compareTo(user.getUserID()) == 0){
+                                        if (userID.compareTo(user.getUserID()) == 0) {
                                             Todo tempTodo = user.getTodo(todoIDPath);
                                             tempTodo.setTitle(title);
-                                            if(category != null && !category.isEmpty()){
+                                            if (category != null && !category.isEmpty()) {
                                                 tempTodo.setCategory(category);
                                             }
-                                            if(!date.isEqual(LocalDate.MIN)){
+                                            if (!date.isEqual(LocalDate.MIN)) {
                                                 tempTodo.setDueDate(date);
                                             }
-                                            if(map.get("important") != null){
+                                            if (map.get("important") != null) {
                                                 boolean isImportant = map.get("important") != null && (boolean) map.get("important");
                                                 tempTodo.setImportant(isImportant);
                                             }
-                                            if(map.get("completed") != null){
+                                            if (map.get("completed") != null) {
                                                 boolean isCompleted = map.get("completed") != null && (boolean) map.get("completed");
                                                 tempTodo.setImportant(isCompleted);
                                             }
@@ -195,7 +197,7 @@ public class TodosRestServlet extends HttpServlet {
                     } else {
                         response.setStatus(JsonHelper.STATUS_404); // todo not found
                     }
-                } catch (Exception exception){
+                } catch (Exception exception) {
                     writeResponse(response, "", JsonHelper.STATUS_400); // invalid todo data
                 }
             } else {
@@ -228,7 +230,7 @@ public class TodosRestServlet extends HttpServlet {
             } catch (Exception e) {
                 writeResponse(resp, "", JsonHelper.STATUS_404); // todo not found
             }
-        } else{
+        } else {
             writeResponse(resp, "", JsonHelper.STATUS_404); // todo not found
         }
     }

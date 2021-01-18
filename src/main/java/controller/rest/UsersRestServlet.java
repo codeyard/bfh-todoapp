@@ -24,8 +24,8 @@ public class UsersRestServlet extends HttpServlet {
         } else {
             try {
                 String body = request.getReader()
-                    .lines()
-                    .reduce("", (String::concat));
+                        .lines()
+                        .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
                 if (map != null && !map.isEmpty()) {
                     String name = (String) map.get("name");

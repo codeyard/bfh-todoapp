@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+            throws IOException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         RequestDispatcher view;
@@ -28,8 +28,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             response.reset();
             response.sendRedirect("todos");
-        }
-        else {
+        } else {
             try {
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
@@ -41,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+            throws IOException {
         String name = request.getParameter("userName");
         String password = request.getParameter("password");
         ServletContext servletContext = getServletContext();
