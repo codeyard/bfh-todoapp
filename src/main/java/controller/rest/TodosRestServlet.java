@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 @WebServlet("/api/todos/*")
 public class TodosRestServlet extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(TodosRestServlet.class .getName());
+    private static final Logger LOGGER = Logger.getLogger(TodosRestServlet.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {

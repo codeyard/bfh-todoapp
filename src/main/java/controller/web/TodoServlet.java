@@ -16,9 +16,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Logger;
 
 @WebServlet("/todo")
 public class TodoServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(TodoServlet.class.getName());
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -29,6 +31,7 @@ public class TodoServlet extends HttpServlet {
         if (user == null) {
             response.reset();
             response.sendRedirect("login");
+            LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
             RequestDispatcher view;
             try {
@@ -45,14 +48,14 @@ public class TodoServlet extends HttpServlet {
                 request.setAttribute("todo", todo);
                 request.setAttribute("isNew", isNew);
                 request.setAttribute("dateError", dateError);
-
-
                 view = request.getRequestDispatcher("todo.jsp");
                 view.forward(request, response);
+                LOGGER.info(" - - - - User creating or updating todo  - - - - ");
             } catch (ServletException e) {
                 e.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }
@@ -73,6 +76,7 @@ public class TodoServlet extends HttpServlet {
         if (user == null) {
             response.reset();
             response.sendRedirect("login");
+            LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
             RequestDispatcher view;
             ServletContext servletContext = getServletContext();
@@ -87,9 +91,11 @@ public class TodoServlet extends HttpServlet {
                     user.deleteTodo(user.getTodo(todoID));
                     XmlHelper.writeXmlData(userManager, servletContext);
                     response.sendRedirect("todos");
+                    LOGGER.info(" - - - - User deleted todo  - - - - ");
                 } catch (IOException ioException) {
                     view = request.getRequestDispatcher("errors.jsp");
                     view.forward(request, response);
+                    LOGGER.severe(" - - - - Error occurred: " + ioException.getMessage() + " - - - - ");
                 }
             } else {
                 // Create or update newTodo
@@ -105,6 +111,7 @@ public class TodoServlet extends HttpServlet {
                     e.printStackTrace();
                     session.setAttribute("dateError", true);
                     response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID);
+                    LOGGER.warning(" - - - - Wrong user Date input  - - - - ");
                     return;
                 }
 
@@ -123,6 +130,7 @@ public class TodoServlet extends HttpServlet {
 
                 XmlHelper.writeXmlData(userManager, servletContext);
                 response.sendRedirect("todos");
+                LOGGER.info(" - - - - User successfully created or updated todo  - - - - ");
             }
         }
     }

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 @WebServlet("/api/users")
 public class UsersRestServlet extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(UsersRestServlet.class .getName());
+    private static final Logger LOGGER = Logger.getLogger(UsersRestServlet.class.getName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {

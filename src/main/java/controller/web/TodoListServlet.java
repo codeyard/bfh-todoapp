@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @WebServlet("/todos")
 public class TodoListServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(TodoListServlet.class.getName());
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -23,15 +25,18 @@ public class TodoListServlet extends HttpServlet {
         if (user == null) {
             response.reset();
             response.sendRedirect("login");
+            LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
             try {
                 request.setAttribute("todos", user.getTodos());
                 view = request.getRequestDispatcher("todos.jsp");
                 view.forward(request, response);
+                LOGGER.info(" - - - - Getting users todo list  - - - - ");
             } catch (ServletException e) {
                 e.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }
@@ -45,16 +50,19 @@ public class TodoListServlet extends HttpServlet {
         if (user == null) {
             response.reset();
             response.sendRedirect("login");
+            LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
             request.setAttribute("todos", user.getTodos(category));
             request.setAttribute("categoryFilter", category);
             try {
                 view = request.getRequestDispatcher("todos.jsp");
                 view.forward(request, response);
+                LOGGER.info(" - - - - Filtering user list  - - - - ");
             } catch (ServletException | IOException e) {
                 e.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }

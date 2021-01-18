@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(RegisterServlet.class.getName());
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -28,14 +30,17 @@ public class RegisterServlet extends HttpServlet {
         if (user != null) {
             response.reset();
             response.sendRedirect("todos");
+            LOGGER.info(" - - - - User logged in  - - - - ");
         } else {
             try {
                 view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
+                LOGGER.info(" - - - - Loading /register - - - - ");
             } catch (ServletException e) {
                 e.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }
@@ -54,23 +59,28 @@ public class RegisterServlet extends HttpServlet {
                 XmlHelper.writeXmlData(userManager, servletContext);
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
+                LOGGER.info(" - - - - User registered   - - - - ");
             } catch (UserException e) {
                 request.setAttribute("registerFailed", true);
                 view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
+                LOGGER.warning(" - - - - User registering failed because of user inputs   - - - - ");
             } catch (ServletException e) {
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         } else {
             try {
                 request.setAttribute("registerFailed", true);
                 view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
+                LOGGER.warning(" - - - - User registering failed because of wrong user inputs   - - - - ");
             } catch (ServletException e) {
                 e.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
                 view.forward(request, response);
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }

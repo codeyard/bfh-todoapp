@@ -1,5 +1,6 @@
 package controller.web;
 
+import controller.rest.UsersRestServlet;
 import model.User;
 import model.UserException;
 import model.UserManager;
@@ -13,9 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -27,12 +30,15 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             response.reset();
             response.sendRedirect("todos");
+            LOGGER.info(" - - - - User logged in  - - - - ");
         } else {
             try {
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
+                LOGGER.info(" - - - - Loading /login - - - - ");
             } catch (ServletException e) {
                 view = request.getRequestDispatcher("errors.jsp");
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }
@@ -49,6 +55,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 response.sendRedirect("todos");
+                LOGGER.info(" - - - - User logged in  - - - - ");
             }
         } catch (UserException e) {
             RequestDispatcher view;
@@ -57,9 +64,11 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("userName", name);
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
+                LOGGER.warning(" - - - - Login failed  - - - - ");
             } catch (IOException | ServletException exception) {
                 exception.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
+                LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }
