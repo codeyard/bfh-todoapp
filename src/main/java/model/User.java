@@ -1,7 +1,3 @@
-/**
- * The User class implements a user with his set of Todos.
- */
-
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,14 +36,10 @@ public class User {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-    }
-
     /**
      * Sets the userCounter to the defined value
      *
-     * @param counter
+     * @param counter the counter that counts the number of users
      */
     public static void setUserCounter(Integer counter) {
         userCounter = counter;
@@ -55,14 +47,6 @@ public class User {
 
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPassword() {
@@ -94,10 +78,6 @@ public class User {
         }
     }
 
-    public void setTodos(List<Todo> todos) {
-        this.todos = todos;
-    }
-
     /**
      * Adds a Todo to the list of Todos.
      *
@@ -118,9 +98,7 @@ public class User {
      * @param todo the Todo object to update in the list
      */
     public void updateTodo(Todo todo) {
-        Iterator<Todo> iterator = todos.iterator();
-        while (iterator.hasNext()) {
-            Todo tempTodo = iterator.next();
+        for (Todo tempTodo : todos) {
             if (tempTodo.getTodoID().equals(todo.getTodoID())) {
                 tempTodo.setCategory(todo.getCategory());
                 tempTodo.setCompleted(todo.isCompleted());
@@ -158,16 +136,13 @@ public class User {
      */
     public Todo getTodo(Integer todoID) {
         Optional<Todo> todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst();
-        if (!todo.isEmpty()) {
-            return todo.get();
-        }
-        return null;
+        return todo.orElse(null);
 
     }
 
     @JsonIgnore
     public Set<String> getDistinctCategories() {
-        return todos.stream().map(t -> t.getCategory()).filter(x -> !x.isEmpty()).collect(Collectors.toSet());
+        return todos.stream().map(Todo::getCategory).filter(x -> !x.isEmpty()).collect(Collectors.toSet());
     }
 
     /**

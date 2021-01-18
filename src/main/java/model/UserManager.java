@@ -1,7 +1,3 @@
-/**
- * The User Manager is responsible for the registration and authentication of a user.
- */
-
 package model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -11,13 +7,12 @@ import model.helper.XmlHelper;
 
 import javax.servlet.ServletContext;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @JacksonXmlRootElement(localName = "root")
 public class UserManager {
 
-    private static Set<User> users = new HashSet<>();
+    private static final Set<User> users = new HashSet<>();
 
     private static UserManager instance;
 
@@ -89,9 +84,7 @@ public class UserManager {
         if (!isRegistered(userName)) {
             throw new UserException("User does not exist!");
         } else {
-            Iterator<User> iterator = users.iterator();
-            while (iterator.hasNext()) {
-                User thisUser = iterator.next();
+            for (User thisUser : users) {
                 if (thisUser.getUserName().equalsIgnoreCase(userName) && thisUser.getPassword().equals(password)) {
                     return thisUser;
                 }
@@ -107,9 +100,8 @@ public class UserManager {
      * @return true if userName is already registered, false otherwise
      */
     private boolean isRegistered(String userName) {
-        Iterator<User> iterator = users.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getUserName().equalsIgnoreCase(userName)) {
+        for (User user : users) {
+            if (user.getUserName().equalsIgnoreCase(userName)) {
                 return true;
             }
         }

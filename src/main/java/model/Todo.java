@@ -1,7 +1,3 @@
-/**
- * The Todo class implements a Todo
- */
-
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +26,7 @@ public class Todo implements Comparable {
      * Constructs a todo.
      * A ID is incremented and used as the Todo ID.
      *
-     * @param title the title of the todo
+     * @param title the title that describes the todo
      */
     public Todo(String title) {
         this.todoID = todoCounter++;
@@ -86,10 +82,6 @@ public class Todo implements Comparable {
 
     public Integer getTodoID() {
         return todoID;
-    }
-
-    public int getUserID() {
-        return userID;
     }
 
     public void setUserID(int userID) {
@@ -149,7 +141,6 @@ public class Todo implements Comparable {
     /**
      * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive
      * integer as this object is less than, equal to, or greater than the specified object.
-     * <p>
      * The todos are sorted first by due date, then by title and finally by the id of the Todo objects.
      *
      * @param other the object to be compared
@@ -165,9 +156,9 @@ public class Todo implements Comparable {
             LocalDate otherDate = ((Todo) other).getDueDate();
             if (dueDate == null && otherDate == null) {
                 return compareTitleOrTodoID((Todo) other);
-            } else if (dueDate == null && otherDate != null) {
+            } else if (dueDate == null) {
                 return 1;
-            } else if (dueDate != null && otherDate == null) {
+            } else if (otherDate == null) {
                 return -1;
             } else if (dueDate.compareTo(otherDate) == 0) {
                 return compareTitleOrTodoID((Todo) other);
