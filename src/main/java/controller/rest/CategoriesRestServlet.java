@@ -1,7 +1,5 @@
 package controller.rest;
 
-import model.Todo;
-import model.User;
 import model.UserManager;
 import model.helper.JsonHelper;
 
@@ -14,9 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @WebServlet("/api/categories")
 public class CategoriesRestServlet extends HttpServlet {
