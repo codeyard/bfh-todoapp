@@ -46,8 +46,7 @@ public class TodoServlet extends HttpServlet {
                     todo = new Todo();
                     isDeletionMode = false;
                 }
-                String dateErrorString = request.getParameter("dateError");
-                boolean dateError = Boolean.parseBoolean(dateErrorString);
+                boolean dateError = Boolean.parseBoolean(request.getParameter("dateError"));
                 request.setAttribute("todo", todo);
                 request.setAttribute("isNew", isNew);
                 request.setAttribute("dateError", dateError);
@@ -119,9 +118,9 @@ public class TodoServlet extends HttpServlet {
                 } catch (DateTimeParseException e) {
                     e.printStackTrace();
                     if(todoID != null) {
-                        response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID + "&dateError=" + true);
+                        response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID + "&dateError=true");
                     } else {
-                        response.sendRedirect(request.getRequestURL().toString() + "?dateError=" + true);
+                        response.sendRedirect(request.getRequestURL().toString() + "?dateError=true");
 
                     }
                     LOGGER.warning(" - - - - Wrong user Date input  - - - - ");
