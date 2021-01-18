@@ -26,7 +26,7 @@ public class UserManager {
     private UserManager() {
     }
 
-    //todo: check if UserManager needs to be thread safe
+    //todo: check if UserManager needs to be thread safe -> WE DON'T HAVE ANY THREADS BY NOW
     public static UserManager getInstance(ServletContext servletContext) {
         try {
             if (UserManager.instance == null) {

@@ -20,20 +20,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-
         response.setContentType("text/html");
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        RequestDispatcher view;
 
+        User user = (User) session.getAttribute("user");
         if (user != null) {
             response.reset();
             response.sendRedirect("todos");
-        } else {
+        }
+        else {
             try {
-                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+                view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
-                e.printStackTrace();
+                view = request.getRequestDispatcher("errors.jsp");
             }
         }
     }
@@ -41,7 +42,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-
         String name = request.getParameter("userName");
         String password = request.getParameter("password");
         ServletContext servletContext = getServletContext();
@@ -54,15 +54,16 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("todos");
             }
         } catch (UserException e) {
+            RequestDispatcher view;
             try {
                 request.setAttribute("loginFailed", true);
                 request.setAttribute("userName", name);
-                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+                view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             } catch (IOException | ServletException exception) {
                 exception.printStackTrace();
+                view = request.getRequestDispatcher("errors.jsp");
             }
-            e.printStackTrace();
         }
     }
 }

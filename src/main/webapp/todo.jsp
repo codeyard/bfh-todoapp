@@ -121,6 +121,11 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
+                <c:if test="${dateError==true}">
+                <div class="notification is-warning">
+                    <strong>Make sure the data is correct</strong>
+                </div>
+                </c:if>
 
                 <div class="field mb-5">
                     <label class="label">Due Date</label>

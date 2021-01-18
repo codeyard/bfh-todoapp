@@ -15,38 +15,43 @@ import java.io.IOException;
 public class TodoListServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        RequestDispatcher view;
         if (user == null) {
             response.reset();
             response.sendRedirect("login");
         } else {
             try {
                 request.setAttribute("todos", user.getTodos());
-                RequestDispatcher view = request.getRequestDispatcher("todos.jsp");
+                view = request.getRequestDispatcher("todos.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
             }
         }
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String category = request.getParameter("category");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("todos", user.getTodos(category));
         request.setAttribute("categoryFilter", category);
         response.setContentType("text/html");
-
+        RequestDispatcher view;
         try {
-            RequestDispatcher view = request.getRequestDispatcher("todos.jsp");
+            view = request.getRequestDispatcher("todos.jsp");
             view.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
+            view = request.getRequestDispatcher("errors.jsp");
+            view.forward(request, response);
         }
     }
 }

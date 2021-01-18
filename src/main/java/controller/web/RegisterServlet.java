@@ -20,61 +20,69 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+            throws IOException, ServletException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        RequestDispatcher view;
 
         if (user != null) {
             response.reset();
             response.sendRedirect("todos");
         } else {
             try {
-                RequestDispatcher view = request.getRequestDispatcher("register.jsp");
+                 view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
             }
         }
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("userName");
         String firstPassword = request.getParameter("firstPassword");
         String secondPassword = request.getParameter("secondPassword");
         ServletContext servletContext = getServletContext();
-        if (name != null && !name.isEmpty()
-            && firstPassword != null && !firstPassword.isEmpty()
-            && secondPassword != null && !secondPassword.isEmpty()
-            && firstPassword.equals(secondPassword)) {
+        RequestDispatcher view;
+        if (isValidUserData(name, firstPassword, secondPassword)) {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 userManager.register(name, firstPassword);
                 XmlHelper.writeXmlData(userManager, servletContext);
-                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+                view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
-            } catch (UserException | ServletException | IOException e) {
+            } catch (UserException e) {
                 request.setAttribute("registerFailed", true);
-                RequestDispatcher view = request.getRequestDispatcher("register.jsp");
-                try {
-                    view.forward(request, response);
-                } catch (ServletException servletException) {
-                    servletException.printStackTrace();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                view = request.getRequestDispatcher("register.jsp");
+                view.forward(request, response);
+            } catch(ServletException e)  {
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
             }
         } else {
-            request.setAttribute("registerFailed", true);
-            RequestDispatcher view = request.getRequestDispatcher("register.jsp");
             try {
+                request.setAttribute("registerFailed", true);
+                view = request.getRequestDispatcher("register.jsp");
                 view.forward(request, response);
-            } catch (ServletException e) {
+            }
+             catch (ServletException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                 view = request.getRequestDispatcher("errors.jsp");
+                 view.forward(request, response);
             }
         }
     }
+
+    private boolean isValidUserData(String name, String firstPassword, String secondPassword) {
+        return name != null && !name.isEmpty()
+                && firstPassword != null && !firstPassword.isEmpty()
+                && secondPassword != null && !secondPassword.isEmpty()
+                && firstPassword.equals(secondPassword);
+    }
+
+
 }

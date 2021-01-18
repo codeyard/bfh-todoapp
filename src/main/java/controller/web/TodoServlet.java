@@ -15,12 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @WebServlet("/todo")
 public class TodoServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -29,7 +30,7 @@ public class TodoServlet extends HttpServlet {
             response.reset();
             response.sendRedirect("login");
         } else {
-
+            RequestDispatcher view;
             try {
                 String todoID = request.getParameter("todoID");
                 Todo todo;
@@ -40,21 +41,26 @@ public class TodoServlet extends HttpServlet {
                 } else {
                     todo = new Todo();
                 }
+                boolean dateError = session.getAttribute("dateError") != null;
                 request.setAttribute("todo", todo);
                 request.setAttribute("isNew", isNew);
+                request.setAttribute("dateError", dateError);
 
-                RequestDispatcher view = request.getRequestDispatcher("todo.jsp");
+
+                view = request.getRequestDispatcher("todo.jsp");
                 view.forward(request, response);
             } catch (ServletException e) {
                 e.printStackTrace();
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
             }
         }
     }
 
-    // TODO: Throw ServletException, IOException?
+    // TODO: Throw ServletException, IOException? -> Ich denke jetzt brauchen wir sie wegen der Error Seite!
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("todoID");
         String title = request.getParameter("title");
         String category = request.getParameter("category");
@@ -62,34 +68,38 @@ public class TodoServlet extends HttpServlet {
         String deleteButton = request.getParameter("Delete");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-
+        RequestDispatcher view;
         ServletContext servletContext = getServletContext();
         UserManager userManager = UserManager.getInstance(servletContext);
         Integer todoID = null;
         if (id != null && !id.isEmpty()) {
             todoID = Integer.parseInt(id);
         }
-
-        try {
-            if (todoID != null && deleteButton != null && deleteButton.equals("Delete")) {
-                try {
-                    user.deleteTodo(user.getTodo(todoID));
-                    response.sendRedirect("todos");
-                    XmlHelper.writeXmlData(userManager, servletContext);
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (isDeleteButtonPressed(deleteButton, todoID)) {
+            try {
+                user.deleteTodo(user.getTodo(todoID));
+                XmlHelper.writeXmlData(userManager, servletContext);
+                response.sendRedirect("todos");
+            } catch (IOException ioException) {
+                view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
             }
+        } else {
 
-            Boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
+            boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
             String dueDateStr = request.getParameter("dueDate");
             LocalDate dueDate = null;
-            if (dueDateStr != null && !dueDateStr.isEmpty()) {
-                dueDate = LocalDate.parse(dueDateStr);
+            boolean isImportant = request.getParameter("isImportant") != null;
+            boolean isCompleted = request.getParameter("isCompleted") != null;
+            try {
+                dueDate = parseUserDate(dueDateStr);
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+                session.setAttribute("dateError", true);
+                response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID);
+                return;
             }
-            Boolean isImportant = request.getParameter("isImportant") != null;
-            Boolean isCompleted = request.getParameter("isCompleted") != null;
+
 
             if (newCategory != null && !newCategory.isEmpty()) {
                 category = newCategory;
@@ -111,9 +121,19 @@ public class TodoServlet extends HttpServlet {
 
             XmlHelper.writeXmlData(userManager, servletContext);
             response.sendRedirect("todos");
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    private LocalDate parseUserDate(String dueDateStr) throws DateTimeParseException {
+        LocalDate dueDate = null;
+        if (dueDateStr != null && !dueDateStr.isEmpty()) {
+             dueDate = LocalDate.parse(dueDateStr);
+        }
+        return dueDate;
+    }
+
+    private boolean isDeleteButtonPressed(String deleteButton, Integer todoID) {
+        return todoID != null && deleteButton != null && deleteButton.equals("Delete");
     }
 
     @Override
