@@ -36,6 +36,7 @@ public class TodoServlet extends HttpServlet {
             RequestDispatcher view;
             try {
                 String todoID = request.getParameter("todoID");
+                boolean isDeletionMode = Boolean.parseBoolean(request.getParameter("delete"));
                 Todo todo;
                 boolean isNew = true;
                 if (todoID != null && !todoID.isEmpty()) {
@@ -43,12 +44,19 @@ public class TodoServlet extends HttpServlet {
                     isNew = false;
                 } else {
                     todo = new Todo();
+                    isDeletionMode = false;
                 }
                 boolean dateError = session.getAttribute("dateError") != null;
                 request.setAttribute("todo", todo);
                 request.setAttribute("isNew", isNew);
                 request.setAttribute("dateError", dateError);
-                view = request.getRequestDispatcher("todo.jsp");
+
+                if (isDeletionMode) {
+                    view = request.getRequestDispatcher("todoDeletion.jsp");
+                } else {
+                    view = request.getRequestDispatcher("todo.jsp");
+                }
+
                 view.forward(request, response);
                 LOGGER.info(" - - - - User creating or updating todo  - - - - ");
             } catch (ServletException e) {
@@ -137,11 +145,11 @@ public class TodoServlet extends HttpServlet {
 
     /**
      * Adds new todo to user
-     * @param title title of todo
-     * @param category category of todo
+     * @param title the title of the todo
+     * @param category an optional category
      * @param user the user where the todo will be added
-     * @param dueDate the due date of todo
-     * @param isImportant the importance of todo
+     * @param dueDate an optional due date
+     * @param isImportant an optional boolean flag indicating whether the todo is marked as important
      */
     private void addNewTodo(String title, String category, User user, LocalDate dueDate, boolean isImportant) {
         Todo todo = new Todo(title, category, dueDate, isImportant);
@@ -150,13 +158,13 @@ public class TodoServlet extends HttpServlet {
 
     /**
      * Updates existing todo
-     * @param title title of todo
-     * @param category cateogry of todo
-     * @param user user where the todo should be updates
+     * @param title the title of the todo
+     * @param category an optional category
+     * @param user user where the todo should be updated
      * @param todoID id of the todo
-     * @param dueDate due date of todo
-     * @param isImportant importance of todo
-     * @param isCompleted completion status of todo
+     * @param dueDate an optional due date
+     * @param isImportant an optional boolean flag indicating whether the todo is marked as important
+     * @param isCompleted an optional boolean flag indicating whether the todo is completed
      */
     private void updateExistingTodo(String title, String category, User user, Integer todoID, LocalDate dueDate, boolean isImportant, boolean isCompleted) {
         Todo todo = user.getTodo(todoID);

@@ -143,7 +143,7 @@
 
                 <td>
                     <a href="todo?todoID=${todo.getTodoID()}" title="Edit Todo" class="button"><span class="icon"><i class="fas fa-pen"></i></span></a>
-                    <a href="todo?todoID=${todo.getTodoID()}" title="Delete Todo" class="button"><span class="icon"><i class="fas fa-trash"></i></span></a>
+                    <a href="todo?todoID=${todo.getTodoID()}&delete=true" title="Delete Todo" class="button"><span class="icon"><i class="fas fa-trash"></i></span></a>
                 </td>
                 </tr>
             </c:forEach>

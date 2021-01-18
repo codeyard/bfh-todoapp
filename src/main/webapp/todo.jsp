@@ -83,12 +83,18 @@
                 <input type="hidden" name="todoID" value="${todo.getTodoID()}">
                 <input type="hidden" name="isNew" value="${isNew}">
 
+                <c:if test="${dateError==true}">
+                    <div class="notification is-warning">
+                        <strong>The due date entered is invalid!</strong>
+                    </div>
+                </c:if>
+
                 <div class="field">
                     <label class="label">Title</label>
                     <div class="control">
-                        <input name="title" type="text" class="input is-danger" placeholder="Title" value="${todo.getTitle()}" tabindex="1" required autofocus>
+                        <input name="title" type="text" class="input" placeholder="Title" value="${todo.getTitle()}" tabindex="1" required autofocus>
                     </div>
-                    <p class="help is-danger">This field is required</p>
+                    <p class="help">This field is required</p>
                 </div>
 
                 <c:choose>
@@ -121,18 +127,26 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-                <c:if test="${dateError==true}">
-                <div class="notification is-warning">
-                    <strong>The due date entered is unfortunately invalid!</strong>
-                </div>
-                </c:if>
 
-                <div class="field mb-5">
-                    <label class="label">Due Date</label>
-                    <div class="control">
-                        <input name="dueDate" type="date" class="input" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
-                    </div>
-                </div>
+                <c:choose>
+                    <c:when test="${dateError==true}">
+                        <div class="field mb-5">
+                            <label class="label">Due Date</label>
+                            <div class="control">
+                                <input name="dueDate" type="date" class="input is-danger" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
+                            </div>
+                            <p class="help is-danger">The due date entered is invalid!</p>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="field mb-5">
+                            <label class="label">Due Date</label>
+                            <div class="control">
+                                <input name="dueDate" type="date" class="input" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
 
                 <div class="field mb-5">
                     <div class="control">
