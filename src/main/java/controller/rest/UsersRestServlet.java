@@ -11,16 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.logging.Logger;
 
 
 @WebServlet("/api/users")
 public class UsersRestServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(UsersRestServlet.class .getName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String contentType = request.getContentType();
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(JsonHelper.STATUS_415); // unsupported content type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported content type
+            LOGGER.warning(" - - - - Wrong content Type from Request: " + contentType + " - - - - ");
+
         } else {
             try {
                 String body = request.getReader()
@@ -36,18 +40,23 @@ public class UsersRestServlet extends HttpServlet {
                         if (name != null && !name.isEmpty() && password != null && !password.isEmpty()) {
                             userManager.register(name, password);
                             XmlHelper.writeXmlData(userManager, servletContext);
-                            response.setStatus(JsonHelper.STATUS_201); // user registered
+                            response.setStatus(HttpServletResponse.SC_CREATED); // user registered
+                            LOGGER.info(" - - - -  Response given - - - - ");
                         } else {
-                            response.setStatus(JsonHelper.STATUS_400); // invalid user data
+                            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // invalid user data
+                            LOGGER.warning(" - - - - Resource not found: " + request.getPathInfo() + " - - - - ");
                         }
                     } catch (UserException e) {
-                        response.setStatus(JsonHelper.STATUS_409); // a user with the same name already exists
+                        response.setStatus(HttpServletResponse.SC_CONFLICT); // a user with the same name already exists
+                        LOGGER.warning(" - - - - user with same name exists  - - - - ");
                     }
                 } else {
-                    response.setStatus(JsonHelper.STATUS_400); // invalid user data
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // invalid user data
+                    LOGGER.warning(" - - - - Invalid user data  - - - - ");
                 }
             } catch (Exception e) {
-                response.setStatus(JsonHelper.STATUS_400); // invalid user data
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // invalid user data
+                LOGGER.warning(" - - - - Invalid user data  - - - - ");
             }
         }
     }

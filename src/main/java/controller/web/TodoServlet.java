@@ -127,11 +127,29 @@ public class TodoServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Adds new todo to user
+     * @param title title of todo
+     * @param category category of todo
+     * @param user the user where the todo will be added
+     * @param dueDate the due date of todo
+     * @param isImportant the importance of todo
+     */
     private void addNewTodo(String title, String category, User user, LocalDate dueDate, boolean isImportant) {
         Todo todo = new Todo(title, category, dueDate, isImportant);
         user.addTodo(todo);
     }
 
+    /**
+     * Updates existing todo
+     * @param title title of todo
+     * @param category cateogry of todo
+     * @param user user where the todo should be updates
+     * @param todoID id of the todo
+     * @param dueDate due date of todo
+     * @param isImportant importance of todo
+     * @param isCompleted completion status of todo
+     */
     private void updateExistingTodo(String title, String category, User user, Integer todoID, LocalDate dueDate, boolean isImportant, boolean isCompleted) {
         Todo todo = user.getTodo(todoID);
         todo.setTitle(title);
@@ -143,6 +161,13 @@ public class TodoServlet extends HttpServlet {
         user.updateTodo(todo);
     }
 
+    /**
+     * Parses date that was entered by user
+     * @param dueDateStr user input string
+     * @return parsed due date if successfull
+     * @throws DateTimeParseException
+     */
+
     private LocalDate parseUserDate(String dueDateStr) throws DateTimeParseException {
         LocalDate dueDate = null;
         if (dueDateStr != null && !dueDateStr.isEmpty()) {
@@ -151,6 +176,12 @@ public class TodoServlet extends HttpServlet {
         return dueDate;
     }
 
+    /**
+     * Checks if delete button is pressed
+     * @param deleteButton value of delete button
+     * @param todoID id of todo
+     * @return
+     */
     private boolean isDeleteButtonPressed(String deleteButton, Integer todoID) {
         return todoID != null && deleteButton != null && deleteButton.equals("Delete");
     }

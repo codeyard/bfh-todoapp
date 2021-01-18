@@ -16,15 +16,20 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @WebServlet("/api/todos/*")
 public class TodosRestServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(TodosRestServlet.class .getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String contentType = request.getContentType();
-        if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(JsonHelper.STATUS_406); // unsupported accept type
+        String acceptType = request.getHeader("Accept");
+
+        if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
+            LOGGER.warning(" - - - - Wrong content Type from Request: " + acceptType + " - - - - ");
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); // unsupported accept type
             //TODO: 401 user not authorized to implement
         } else {
             String category = request.getParameter("category");
@@ -46,12 +51,15 @@ public class TodosRestServlet extends HttpServlet {
                     }
                     if (todo != null) {
                         String json = JsonHelper.writeTodoJsonData(todo);
-                        writeResponse(response, json, JsonHelper.STATUS_200);
+                        writeResponse(response, json, HttpServletResponse.SC_OK);
+                        LOGGER.info(" - - - -  Response given - - - - ");
                     } else {
-                        response.setStatus(JsonHelper.STATUS_404); // todo not found
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND); // todo not found
+                        LOGGER.warning(" - - - - Resource not found: " + request.getPathInfo() + " - - - - ");
                     }
                 } catch (Exception exception) {
-                    response.setStatus(JsonHelper.STATUS_404); // todo not found
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND); // todo not found
+                    LOGGER.warning(" - - - - Resource not found: " + request.getPathInfo() + " - - - - ");
                 }
             } else {
                 // todos without path parameter
@@ -61,9 +69,10 @@ public class TodosRestServlet extends HttpServlet {
                         todos.addAll(user.getTodos(category));
                     }
                     String json = JsonHelper.writeTodoJsonData(todos);
-                    writeResponse(response, json, JsonHelper.STATUS_200);
+                    writeResponse(response, json, HttpServletResponse.SC_OK);
+                    LOGGER.info(" - - - -  Response given - - - - ");
                 } catch (Exception e) {
-                    //TODO: what Exception are we catching here -> what should the response be?400?
+                    //TODO: what Exception are we catching here -> what should the response be?400? -> I think so, but not in his api docs
                     e.printStackTrace();
                 }
             }
@@ -77,11 +86,13 @@ public class TodosRestServlet extends HttpServlet {
 
 
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(JsonHelper.STATUS_406); // unsupported accept type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported accept type
+            LOGGER.warning(" - - - - Wrong content Type from Request: " + contentType + " - - - - ");
+
             //TODO: 401 user not authorized to implement
-            //TODO: 415 what's the difference between 406 and 415?
         } else if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(JsonHelper.STATUS_415);
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            LOGGER.warning(" - - - - Wrong Accept Type from Request: " + acceptType + " - - - - ");
         }
         else {
             ServletContext servletContext = getServletContext();
@@ -111,17 +122,21 @@ public class TodosRestServlet extends HttpServlet {
                         //TODO: until here
 
                         XmlHelper.writeXmlData(userManager, servletContext);
-                        writeResponse(response, todoId, JsonHelper.STATUS_201);
+                        writeResponse(response, todoId, HttpServletResponse.SC_CREATED);
+                        LOGGER.warning(" - - - - Invalid Todo data  - - - - ");
                     } else {
-                        response.setStatus(JsonHelper.STATUS_400); // invalid todo data
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                        LOGGER.warning(" - - - - Bad request: " + request.getPathInfo() + " - - - - ");
                     }
                 } else {
-                    //TODO: check if this is correct? 415 when map is empty?
-                    response.setStatus(JsonHelper.STATUS_415); // invalid todo data
+                    //TODO: check if this is correct? 415 when map is empty? -> good question, it is no data so 415 is wrong -> 204?
+                    response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // invalid todo data
+                    //TODO : LOGGER MISSING
                 }
             } catch (Exception exception) {
                 System.out.println("Exception: " + exception.getMessage());
-                response.setStatus(JsonHelper.STATUS_400); // invalid todo data
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // invalid todo data
+                LOGGER.warning(" - - - - Invalid Todo data  - - - - ");
             }
         }
     }
@@ -130,12 +145,11 @@ public class TodosRestServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contentType = request.getContentType();
         String acceptType = request.getHeader("Accept");
+            //TODO: Wrong in docs? 415 is unsupported media type and not content type
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(JsonHelper.STATUS_415); // unsupported content type
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); // unsupported content type
+            LOGGER.warning(" - - - - Wrong Content Type from Request: " + contentType + " - - - - ");
             //TODO: 401 user not authorized to implement
-            //TODO: 415 what's the difference between 406 and 415?
-        } else if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(JsonHelper.STATUS_415);
         } else {
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
@@ -230,19 +244,30 @@ public class TodosRestServlet extends HttpServlet {
                         Todo todo = user.getTodo(todoID);
                         user.deleteTodo(todo);
                         XmlHelper.writeXmlData(userManager, servletContext);
-                        writeResponse(resp, "", JsonHelper.STATUS_204);
+                        writeResponse(resp, "", HttpServletResponse.SC_NO_CONTENT);
+                        LOGGER.info(" - - - - Todo removed id: " + todo.getTodoID() + "  - - - - ");
                         return;
                     }
                 }
-                writeResponse(resp, "", JsonHelper.STATUS_404); // todo not found
+                writeResponse(resp, "", HttpServletResponse.SC_NOT_FOUND); // todo not found
+                LOGGER.warning(" - - - - Todo not found: " + pathInfo + "  - - - - ");
             } catch (Exception e) {
-                writeResponse(resp, "", JsonHelper.STATUS_404); // todo not found
+                writeResponse(resp, "", HttpServletResponse.SC_NOT_FOUND); // todo not found
+                LOGGER.warning(" - - - - Todo not found: " + pathInfo + "  - - - - ");
             }
         } else{
-            writeResponse(resp, "", JsonHelper.STATUS_404); // todo not found
+            writeResponse(resp, "", HttpServletResponse.SC_NOT_FOUND); // todo not found
+            LOGGER.warning(" - - - - Todo not found: " + pathInfo + "  - - - - ");
         }
     }
 
+    /**
+     * Writes a json response
+     * @param response - the servlets HttpServletResponse object
+     * @param responseBody - the text to be written in the response (previoused parsed from jsom)
+     * @param status - Status code to be send
+     * @throws IOException
+     */
     private void writeResponse(HttpServletResponse response, String responseBody, Integer status) throws IOException {
         response.setStatus(status);
         response.setContentType(JsonHelper.CONTENT_TYPE);
