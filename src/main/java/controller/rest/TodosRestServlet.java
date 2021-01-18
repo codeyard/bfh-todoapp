@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -72,11 +73,17 @@ public class TodosRestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String contentType = request.getContentType();
+        String acceptType = request.getHeader("Accept");
+
+
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(JsonHelper.STATUS_406); // unsupported accept type
             //TODO: 401 user not authorized to implement
             //TODO: 415 what's the difference between 406 and 415?
-        } else {
+        } else if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
+            response.setStatus(JsonHelper.STATUS_415);
+        }
+        else {
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
@@ -122,10 +129,13 @@ public class TodosRestServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contentType = request.getContentType();
+        String acceptType = request.getHeader("Accept");
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(JsonHelper.STATUS_415); // unsupported content type
             //TODO: 401 user not authorized to implement
             //TODO: 415 what's the difference between 406 and 415?
+        } else if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
+            response.setStatus(JsonHelper.STATUS_415);
         } else {
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
