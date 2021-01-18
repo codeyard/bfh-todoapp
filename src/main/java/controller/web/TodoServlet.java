@@ -37,7 +37,7 @@ public class TodoServlet extends HttpServlet {
             try {
                 String todoID = request.getParameter("todoID");
                 Todo todo;
-                Boolean isNew = true;
+                boolean isNew = true;
                 if (todoID != null && !todoID.isEmpty()) {
                     todo = user.getTodo(Integer.parseInt(todoID));
                     isNew = false;
@@ -101,7 +101,7 @@ public class TodoServlet extends HttpServlet {
                 // Create or update newTodo
                 boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
                 String dueDateStr = request.getParameter("dueDate");
-                LocalDate dueDate = null;
+                LocalDate dueDate;
                 boolean isImportant = request.getParameter("isImportant") != null;
                 boolean isCompleted = request.getParameter("isCompleted") != null;
 
@@ -173,7 +173,7 @@ public class TodoServlet extends HttpServlet {
      * Parses date that was entered by user
      * @param dueDateStr user input string
      * @return parsed due date if successfull
-     * @throws DateTimeParseException
+     * @throws DateTimeParseException Exception is thrown if date couldn't be pared
      */
 
     private LocalDate parseUserDate(String dueDateStr) throws DateTimeParseException {
@@ -188,7 +188,7 @@ public class TodoServlet extends HttpServlet {
      * Checks if delete button is pressed
      * @param deleteButton value of delete button
      * @param todoID id of todo
-     * @return
+     * @return a boolean if todoButton was pressed
      */
     private boolean isDeleteButtonPressed(String deleteButton, Integer todoID) {
         return todoID != null && deleteButton != null && deleteButton.equals("Delete");

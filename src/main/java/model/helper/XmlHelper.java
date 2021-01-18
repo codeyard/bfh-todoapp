@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 public class XmlHelper {
     private static final String fileName = "WEB-INF/xml/Data.xml";
     private static final Logger LOGGER = Logger.getLogger(XmlHelper.class.getName());
-    private static ClassLoader classLoader = XmlHelper.class.getClassLoader();
 
 
     public static UserManager readXmlData(ServletContext servletContext) {

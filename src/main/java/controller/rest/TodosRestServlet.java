@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -24,7 +23,6 @@ public class TodosRestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        String contentType = request.getContentType();
         String acceptType = request.getHeader("Accept");
 
         if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
@@ -271,7 +269,7 @@ public class TodosRestServlet extends HttpServlet {
      * @param response - the servlets HttpServletResponse object
      * @param responseBody - the text to be written in the response (previoused parsed from jsom)
      * @param status - Status code to be send
-     * @throws IOException
+     * @throws IOException is thrown when the response couldn't be written
      */
     private void writeResponse(HttpServletResponse response, String responseBody, Integer status) throws IOException {
         response.setStatus(status);

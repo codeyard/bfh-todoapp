@@ -16,7 +16,7 @@ import java.util.Set;
 @JacksonXmlRootElement(localName = "root")
 public class UserManager {
 
-    private static Set<User> users = new HashSet<>();
+    private static final Set<User> users = new HashSet<>();
 
     private static UserManager instance;
 
@@ -63,14 +63,12 @@ public class UserManager {
      *
      * @param userName the userName
      * @param password the password
-     * @return a User object if registering was successful
      * @throws UserException if userName is already registered
      */
-    public User register(String userName, String password) throws UserException {
+    public void register(String userName, String password) throws UserException {
         if (!isRegistered(userName)) {
             User newUser = new User(userName, password);
             users.add(newUser);
-            return newUser;
         } else {
             throw new UserException("Username is not unique!");
         }

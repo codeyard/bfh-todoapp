@@ -1,6 +1,5 @@
 package controller.web;
 
-import controller.rest.UsersRestServlet;
 import model.User;
 import model.UserException;
 import model.UserManager;
@@ -21,7 +20,7 @@ public class LoginServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         RequestDispatcher view;
@@ -38,13 +37,14 @@ public class LoginServlet extends HttpServlet {
                 LOGGER.info(" - - - - Loading /login - - - - ");
             } catch (ServletException e) {
                 view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
                 LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String name = request.getParameter("userName");
         String password = request.getParameter("password");
         ServletContext servletContext = getServletContext();
@@ -68,6 +68,7 @@ public class LoginServlet extends HttpServlet {
             } catch (IOException | ServletException exception) {
                 exception.printStackTrace();
                 view = request.getRequestDispatcher("errors.jsp");
+                view.forward(request, response);
                 LOGGER.severe(" - - - - Error occurred: " + e.getMessage() + " - - - - ");
             }
         }

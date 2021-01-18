@@ -34,16 +34,7 @@ public class JsonHelper {
             ArrayNode node = mapper.createArrayNode();
             for (Todo todo : todoList) {
                 ObjectNode objectNode = mapper.createObjectNode();
-                objectNode.put("id", todo.getTodoID());
-                objectNode.put("title", todo.getTitle());
-                objectNode.put("category", todo.getCategory());
-                String date = "";
-                if (todo.getDueDate() != null) {
-                    date = todo.getDueDate().toString();
-                }
-                objectNode.put("dueDate", date);
-                objectNode.put("important", todo.isImportant());
-                objectNode.put("completed", todo.isCompleted());
+                addObjectNodes(todo, objectNode);
                 node.add(objectNode);
             }
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
@@ -52,6 +43,8 @@ public class JsonHelper {
             return null;
         }
     }
+
+
 
     public static String writeCategoryJsonData(List<String> categoryList) {
         ObjectMapper mapper = new ObjectMapper();
@@ -69,20 +62,24 @@ public class JsonHelper {
         LOGGER.info(" - - - - Write Todo JSON data - - - - ");
         try {
             ObjectNode objectNode = mapper.createObjectNode();
-            objectNode.put("id", todo.getTodoID());
-            objectNode.put("title", todo.getTitle());
-            objectNode.put("category", todo.getCategory());
-            String date = "";
-            if (todo.getDueDate() != null) {
-                date = todo.getDueDate().toString();
-            }
-            objectNode.put("dueDate", date);
-            objectNode.put("important", todo.isImportant());
-            objectNode.put("completed", todo.isCompleted());
+            addObjectNodes(todo, objectNode);
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(objectNode);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static void addObjectNodes(Todo todo, ObjectNode objectNode) {
+        objectNode.put("id", todo.getTodoID());
+        objectNode.put("title", todo.getTitle());
+        objectNode.put("category", todo.getCategory());
+        String date = "";
+        if (todo.getDueDate() != null) {
+            date = todo.getDueDate().toString();
+        }
+        objectNode.put("dueDate", date);
+        objectNode.put("important", todo.isImportant());
+        objectNode.put("completed", todo.isCompleted());
     }
 }
