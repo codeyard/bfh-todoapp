@@ -1,5 +1,6 @@
 package controller.rest;
 
+import model.Todo;
 import model.User;
 import model.UserManager;
 import model.helper.JsonHelper;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @WebServlet("/api/categories")
 public class CategoriesRestServlet extends HttpServlet {
@@ -26,12 +29,12 @@ public class CategoriesRestServlet extends HttpServlet {
             ServletContext servletContext = getServletContext();
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
-                Set<String> categorySet = new TreeSet<>();
-                for (User user : userManager.getUsers()) {
-                    //TODO: to discuss, we now add double entrances if multiple users have the same categories
-                    // is this wanted? -> In my opinion, this does not make sense, lets return a SET!
-                    categorySet.addAll(user.getDistinctCategories());
-                }
+                //TODO: to discuss, we now add double entrances if multiple users have the same categories
+                // is this wanted? -> In my opinion, this does not make sense, lets return a SET!
+                Set<String> categorySet = userManager.getUsers().stream()
+                        .flatMap(users -> users.getDistinctCategories().stream())
+                        .collect(Collectors.toSet());
+
                 List<String> categories = new ArrayList<>(categorySet);
                 String json = JsonHelper.writeCategoryJsonData(categories);
                 response.setStatus(JsonHelper.STATUS_200);
