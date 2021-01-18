@@ -119,7 +119,7 @@ public class TodoServlet extends HttpServlet {
                 } catch (DateTimeParseException e) {
                     e.printStackTrace();
                     if(todoID != null) {
-                        response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID + "?dateError=" + true);
+                        response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID + "&dateError=" + true);
                     } else {
                         response.sendRedirect(request.getRequestURL().toString() + "?dateError=" + true);
 
