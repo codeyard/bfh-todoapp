@@ -12,8 +12,8 @@ import java.util.Objects;
 
 public class Todo implements Comparable {
     private static int todoCounter;
-    private Integer todoID;
-    private Integer userID;
+    private int todoID;
+    private int userID;
     private String title;
     private String category;
     private LocalDate dueDate;
@@ -82,10 +82,6 @@ public class Todo implements Comparable {
 
     /**
      * Sets the todoCounter to the defined value
-     * When loading the Data.xml, the highest assigned todoID is determined and stored in the static todoCounter
-     * variable. When adding new todos, the todoCounter is increased. This way we can ensure that each todo
-     * has an unique ID.
-     *
      * @param counter the counter that holds the highest assigned todoID
      */
     public static void setTodoCounter(Integer counter) {
@@ -193,7 +189,7 @@ public class Todo implements Comparable {
      */
     private int compareTitleOrTodoID(Todo other) {
         if (title.compareTo(other.getTitle()) == 0) {
-            return todoID.compareTo(other.getTodoID());
+            return todoID - other.getTodoID();
         } else {
             return title.compareTo(other.getTitle());
         }

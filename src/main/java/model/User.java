@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @JacksonXmlRootElement(localName = "user")
 public class User {
     private static int userCounter;
-    private Integer userID;
+    private int userID;
     private String userName;
     private String password;
     private List<Todo> todos = new ArrayList<>();
@@ -36,16 +36,12 @@ public class User {
         this.password = password;
     }
 
-    public Integer getUserID() {
+    public int getUserID() {
         return userID;
     }
 
     /**
      * Sets the userCounter to the defined value
-     * When loading the Data.xml, the highest assigned userID is determined and stored in the
-     * static userCounter variable. When adding new users, the userCounter is increased. This way
-     * we can ensure that each user has an unique ID.
-     *
      * @param counter the counter that holds the highest assigned userID
      */
     public static void setUserCounter(Integer counter) {
@@ -141,7 +137,7 @@ public class User {
      * @param todoID the ID of the todo.
      * @return a Todo object
      */
-    public Todo getTodo(Integer todoID) {
+    public Todo getTodo(int todoID) {
         Optional<Todo> todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst();
         return todo.orElse(null);
 

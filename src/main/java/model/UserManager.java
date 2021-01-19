@@ -25,6 +25,12 @@ public class UserManager {
     }
 
     //todo: check if UserManager needs to be thread safe -> WE DON'T HAVE ANY THREADS BY NOW
+    /**
+     * Instantiates a UserManager as a singleton and sets the static counters
+     * of the Todo and User classes to the highest values
+     * @param servletContext the context of a ServletContext
+     * @return an instance of UserManager
+     */
     public static UserManager getInstance(ServletContext servletContext) {
         try {
             if (UserManager.instance == null) {
@@ -38,9 +44,15 @@ public class UserManager {
         }
     }
 
+    /**
+     * sets the static counters of the Todo and User classes to the highest values
+     * When loading the Data.xml, the highest assigned todoID and userID are determined and stored in the static counters
+     * When adding new todos, the todoCounter is increased. This way it can be ensured that each todo and user
+     * have unique ID's.
+     */
     private static void setCounters() {
-        Integer highestUserID = 0;
-        Integer highestTodoID = 0;
+        int highestUserID = 0;
+        int highestTodoID = 0;
 
         for (User user : UserManager.instance.getUsers()) {
             if (highestUserID < user.getUserID()) {
@@ -52,7 +64,6 @@ public class UserManager {
                 }
             }
         }
-
         User.setUserCounter(++highestUserID);
         Todo.setTodoCounter(++highestTodoID);
     }
@@ -65,7 +76,7 @@ public class UserManager {
      * @throws UserException if userName is already registered
      */
     public void register(String userName, String password) throws UserException {
-        if (!isRegistered(userName)) {
+        if (isNotRegistered(userName)) {
             User newUser = new User(userName, password);
             users.add(newUser);
         } else {
@@ -82,7 +93,7 @@ public class UserManager {
      * @throws UserException if the user does not exist or the passwords did not match
      */
     public User authenticate(String userName, String password) throws UserException {
-        if (!isRegistered(userName)) {
+        if (isNotRegistered(userName)) {
             throw new UserException("User does not exist!");
         } else {
             for (User thisUser : users) {
@@ -100,13 +111,13 @@ public class UserManager {
      * @param userName the userName to check
      * @return true if userName is already registered, false otherwise
      */
-    private boolean isRegistered(String userName) {
+    private boolean isNotRegistered(String userName) {
         for (User user : users) {
             if (user.getUserName().equalsIgnoreCase(userName)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     @JacksonXmlElementWrapper(localName = "users")
@@ -124,12 +135,14 @@ public class UserManager {
     }
 
     /**
-     *
+     * returns the User associated with userID
+     * @param userID id of user to return
+     * @return User object
      */
     public User getUser(int userID){
         Optional<User> user = users.stream()
-                .filter(u -> u.getUserID().equals(userID))
+                .filter(u -> u.getUserID() == userID)
                 .findFirst();
-        return !user.isEmpty() ? user.get() : null;
+        return user.orElse(null);
     }
 }
