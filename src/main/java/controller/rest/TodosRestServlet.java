@@ -240,7 +240,6 @@ public class TodosRestServlet extends HttpServlet {
             // todos/{id}
             try {
                 Integer todoID = Integer.parseInt(pathInfo.split("/")[1]);
-                System.out.println("Path: " + todoID);
                 for (User user : userManager.getUsers()) {
                     // TODO: check if user is authorized and only return his todo
                     if (user.getTodo(todoID) != null) {

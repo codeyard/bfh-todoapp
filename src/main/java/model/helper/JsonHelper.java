@@ -14,7 +14,6 @@ public class JsonHelper {
     public static final String CONTENT_TYPE = "application/json";
     public static final String ENCODING = "UTF-8";
 
-
     private static final Logger LOGGER = Logger.getLogger(JsonHelper.class.getName());
 
     public static Map<String, ?> readJsonData(String requestBody) {
