@@ -11,6 +11,7 @@ import model.helper.XmlHelper;
 
 import javax.servlet.ServletContext;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @JacksonXmlRootElement(localName = "root")
@@ -120,5 +121,15 @@ public class UserManager {
     private static UserManager loadUsers(ServletContext servletContext) {
         //users.add(new User("admin", "1234"));
         return XmlHelper.readXmlData(servletContext);
+    }
+
+    /**
+     *
+     */
+    public User getUser(int userID){
+        Optional<User> user = users.stream()
+                .filter(u -> u.getUserID().equals(userID))
+                .findFirst();
+        return !user.isEmpty() ? user.get() : null;
     }
 }

@@ -38,7 +38,7 @@ public class AuthenticationFilter extends HttpFilter {
                         byte[] decoded = Base64.getDecoder().decode(tokens[1]);
                         String[] credentials = new String(decoded).split(":");
                         int userID = validate(credentials, servletContext); // throws an exception if the credentials are invalid
-                        if(userID != -1){
+                        if(userID >= 0){
                             request.setAttribute("userID", userID);
                             chain.doFilter(request, response);
                         } else {
