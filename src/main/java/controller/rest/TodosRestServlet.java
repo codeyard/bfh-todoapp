@@ -75,8 +75,8 @@ public class TodosRestServlet extends HttpServlet {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 String body = request.getReader()
-                        .lines()
-                        .reduce("", (String::concat));
+                    .lines()
+                    .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
                 if (map != null && !map.isEmpty()) {
                     String title = (String) map.get("title");
@@ -131,8 +131,8 @@ public class TodosRestServlet extends HttpServlet {
                     }
                     if (todo != null) {
                         String body = request.getReader()
-                                .lines()
-                                .reduce("", (String::concat));
+                            .lines()
+                            .reduce("", (String::concat));
                         Map<String, ?> map = JsonHelper.readJsonData(body);
                         if (map != null && !map.isEmpty()) {
                             Integer todoIDBody = (Integer) map.get("id");
@@ -225,8 +225,8 @@ public class TodosRestServlet extends HttpServlet {
      * Writes a json response
      *
      * @param response     - the servlets HttpServletResponse object
-     * @param responseBody - the text to be written in the response (previoused parsed from jsom)
-     * @param status       - Status code to be send
+     * @param responseBody - the text to be written in the response (previously parsed from json)
+     * @param status       - Status code to be sent
      * @throws IOException is thrown when the response couldn't be written
      */
     private void writeResponse(HttpServletResponse response, String responseBody, Integer status) throws IOException {

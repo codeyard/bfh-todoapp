@@ -44,7 +44,6 @@ public class JsonHelper {
     }
 
 
-
     public static String writeCategoryJsonData(List<String> categoryList) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Category JSON data - - - - ");

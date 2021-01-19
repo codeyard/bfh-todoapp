@@ -26,7 +26,7 @@
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon-180x180.png">
-    <meta name="apple-mobile-web-app-title" content="codeyard">
+    <meta name="apple-mobile-web-app-title" content="TodoApp">
     <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#4c9ebf">
     <link rel="alternate icon" type="image/png" href="favicon/favicon.png">
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
@@ -49,7 +49,7 @@
         <div class="container has-text-centered">
             <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg"><g fill="#fff"><path d="m16 0c-8.83658065 0-16 7.16341935-16 16 0 8.8365806 7.16341935 16 16 16 8.8365806 0 16-7.1634194 16-16 0-8.83658065-7.1634194-16-16-16zm0 3.09677419c7.1310968 0 12.9032258 5.77103226 12.9032258 12.90322581 0 7.1310968-5.7710323 12.9032258-12.9032258 12.9032258-7.13109677 0-12.90322581-5.7710323-12.90322581-12.9032258 0-7.13109677 5.77103226-12.90322581 12.90322581-12.90322581"/><path d="m25.0454194 11.5010968-1.4539355-1.4656774c-.3010968-.30354843-.7912904-.30554843-1.0948387-.0043871l-9.1194839 9.0461935-3.8575484-3.8888387c-.30109677-.3035484-.79129032-.3055484-1.09483871-.0044516l-1.46574193 1.4539355c-.30354839.3010967-.30554839.7912903-.0043871 1.0949032l5.85683874 5.9042581c.3010967.3035483.7912903.3055483 1.0948387.0043871l11.1347742-11.0454194c.3034838-.3011613.3054193-.7913548.0043226-1.0949032z" stroke="#fff" stroke-width=".64"/></g></svg>
             <h1 class="title">Todo Application</h1>
-            <img src="img/landing.png" height="852" width="1581"/></div>
+            <img src="img/landing.png" height="852" width="1581" alt="A woman using our amazing Todo Application"/></div>
     </div>
 </section>
 
@@ -72,27 +72,27 @@
                     </div>
                 </c:if>
                 <div class="field">
-                    <label class="label">Username</label>
+                    <label for="userName" class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input name="userName" type="text" class="input" placeholder="Username" tabindex="1" required autofocus>
+                        <input name="userName" id="userName" type="text" class="input" placeholder="Username" tabindex="1" required autofocus>
                         <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
                         <span class="icon is-small is-right"><i class="fas fa-asterisk"></i></span>
                     </div>
                 </div>
 
                 <div class="field mb-5">
-                    <label class="label">Password</label>
+                    <label for="firstPassword" class="label">Password</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input name="firstPassword" type="password" class="input" placeholder="Password" tabindex="2" required>
+                        <input name="firstPassword" id="firstPassword" type="password" class="input" placeholder="Password" tabindex="2" required>
                         <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
                         <span class="icon is-small is-right"><i class="fas fa-asterisk"></i></span>
                     </div>
                 </div>
 
                 <div class="field mb-5">
-                    <label class="label">Confirm Password</label>
+                    <label for="secondPassword" class="label">Confirm Password</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input name="secondPassword" type="password" class="input" placeholder="Confirm Password" tabindex="3" required>
+                        <input name="secondPassword" id="secondPassword" type="password" class="input" placeholder="Confirm Password" tabindex="3" required>
                         <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
                         <span class="icon is-small is-right"><i class="fas fa-asterisk"></i></span>
                     </div>

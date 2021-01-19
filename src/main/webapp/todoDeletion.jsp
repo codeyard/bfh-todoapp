@@ -24,7 +24,7 @@
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon-180x180.png">
-    <meta name="apple-mobile-web-app-title" content="codeyard">
+    <meta name="apple-mobile-web-app-title" content="TodoApp">
     <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#4c9ebf">
     <link rel="alternate icon" type="image/png" href="favicon/favicon.png">
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
@@ -69,38 +69,38 @@
                 <input type="hidden" name="isNew" value="false">
 
                 <div class="field">
-                    <label class="label">Title</label>
+                    <label for="title" class="label">Title</label>
                     <div class="control">
-                        <input name="title" type="text" class="input" value="${todo.getTitle()}" disabled>
+                        <input name="title" id="title" type="text" class="input" value="${todo.getTitle()}" disabled>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Category</label>
+                    <label for="category" class="label">Category</label>
                     <div class="control">
-                        <input name="category" type="text" class="input" value="${todo.getCategory()}" disabled>
+                        <input name="category" id="category" type="text" class="input" value="${todo.getCategory()}" disabled>
                     </div>
                 </div>
 
                 <div class="field mb-5">
-                    <label class="label">Due Date</label>
+                    <label for="dueDate" class="label">Due Date</label>
                     <div class="control">
-                        <input name="dueDate" type="date" class="input" value="${todo.getDueDate()}" disabled>
+                        <input name="dueDate" id="dueDate" type="date" class="input" value="${todo.getDueDate()}" disabled>
                     </div>
                 </div>
 
                 <div class="field mb-5">
                     <div class="control">
-                        <label class="checkbox">
-                            <input name="isImportant" type="checkbox" <c:if test="${todo.isImportant()==true}">checked</c:if> disabled> Todo is important
+                        <label for="isImportant" class="checkbox">
+                            <input name="isImportant" id="isImportant" type="checkbox" <c:if test="${todo.isImportant()==true}">checked</c:if> disabled> Todo is important
                         </label>
                     </div>
                 </div>
 
                 <div class="field mb-5">
                     <div class="control">
-                        <label class="checkbox">
-                            <input name="isCompleted" type="checkbox" <c:if test="${todo.isCompleted()==true}">checked</c:if> disabled> Todo is completed
+                        <label for="isCompleted" class="checkbox">
+                            <input name="isCompleted" id="isCompleted" type="checkbox" <c:if test="${todo.isCompleted()==true}">checked</c:if> disabled> Todo is completed
                         </label>
                     </div>
                 </div>

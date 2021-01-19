@@ -33,7 +33,7 @@
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon-180x180.png">
-    <meta name="apple-mobile-web-app-title" content="codeyard">
+    <meta name="apple-mobile-web-app-title" content="TodoApp">
     <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#4c9ebf">
     <link rel="alternate icon" type="image/png" href="favicon/favicon.png">
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
@@ -90,9 +90,9 @@
                 </c:if>
 
                 <div class="field">
-                    <label class="label">Title</label>
+                    <label for="title" class="label">Title</label>
                     <div class="control">
-                        <input name="title" type="text" class="input" placeholder="Title" value="${todo.getTitle()}" tabindex="1" required autofocus>
+                        <input name="title" id="title" type="text" class="input" placeholder="Title" value="${todo.getTitle()}" tabindex="1" required autofocus>
                     </div>
                     <p class="help">This field is required</p>
                 </div>
@@ -100,10 +100,10 @@
                 <c:choose>
                     <c:when test="${user.getDistinctCategories().size() > 0}">
                         <div class="field">
-                            <label class="label">Category</label>
+                            <label for="categorySelect" class="label">Category</label>
                             <div class="control">
                                 <div class="select is-fullwidth">
-                                    <select name="category" tabindex="2">
+                                    <select name="category" id="categorySelect" tabindex="2">
                                         <option value="">Choose or enter a new one below</option>
                                         <c:forEach var="category" items="${user.getDistinctCategories()}">
                                             <option value="${category}" <c:if test="${category.equals(todo.getCategory())}">selected</c:if>>${category}</option>
@@ -120,9 +120,9 @@
                     </c:when>
                     <c:otherwise>
                         <div class="field">
-                            <label class="label">Category</label>
+                            <label for="category" class="label">Category</label>
                             <div class="control">
-                                <input name="category" type="text" class="input" placeholder="Category" tabindex="2">
+                                <input name="category" id="category" type="text" class="input" placeholder="Category" tabindex="2">
                             </div>
                         </div>
                     </c:otherwise>
@@ -131,18 +131,18 @@
                 <c:choose>
                     <c:when test="${dateError==true}">
                         <div class="field mb-5">
-                            <label class="label">Due Date</label>
+                            <label for="dueDateErr" class="label">Due Date</label>
                             <div class="control">
-                                <input name="dueDate" type="date" class="input is-danger" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
+                                <input name="dueDate" id="dueDateErr" type="date" class="input is-danger" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
                             </div>
                             <p class="help is-danger">The due date entered is invalid!</p>
                         </div>
                     </c:when>
                     <c:otherwise>
                         <div class="field mb-5">
-                            <label class="label">Due Date</label>
+                            <label for="dueDate" class="label">Due Date</label>
                             <div class="control">
-                                <input name="dueDate" type="date" class="input" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
+                                <input name="dueDate" id="dueDate" type="date" class="input" placeholder="Due Date" value="${todo.getDueDate()}" tabindex="4">
                             </div>
                         </div>
                     </c:otherwise>
@@ -150,8 +150,8 @@
 
                 <div class="field mb-5">
                     <div class="control">
-                        <label class="checkbox">
-                            <input name="isImportant" type="checkbox" <c:if test="${todo.isImportant()==true}">checked</c:if>> Todo is important
+                        <label for="isImportant" class="checkbox">
+                            <input name="isImportant" id="isImportant" type="checkbox" <c:if test="${todo.isImportant()==true}">checked</c:if>> Todo is important
                         </label>
                     </div>
                 </div>
@@ -159,8 +159,8 @@
                 <c:if test="${isNew==false}">
                     <div class="field mb-5">
                         <div class="control">
-                            <label class="checkbox">
-                                <input name="isCompleted" type="checkbox" <c:if test="${todo.isCompleted()==true}">checked</c:if>> Todo is completed
+                            <label for="isCompleted" class="checkbox">
+                                <input name="isCompleted" id="isCompleted" type="checkbox" <c:if test="${todo.isCompleted()==true}">checked</c:if>> Todo is completed
                             </label>
                         </div>
                     </div>

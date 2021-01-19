@@ -42,6 +42,7 @@ public class User {
 
     /**
      * Sets the userCounter to the defined value
+     *
      * @param counter the counter that holds the highest assigned userID
      */
     public static void setUserCounter(Integer counter) {

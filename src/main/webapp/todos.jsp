@@ -25,7 +25,7 @@
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon-180x180.png">
-    <meta name="apple-mobile-web-app-title" content="codeyard">
+    <meta name="apple-mobile-web-app-title" content="TodoApp">
     <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#4c9ebf">
     <link rel="alternate icon" type="image/png" href="favicon/favicon.png">
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
@@ -133,7 +133,7 @@
                         <td class="is-narrow"><div class="icon has-text-danger"><i class="fas fa-exclamation"></i></div></td>
                     </c:when>
                     <c:otherwise>
-                        <td class="is-narrow">&nbsp;</td>
+                        <td class="is-narrow"></td>
                     </c:otherwise>
                 </c:choose>
 

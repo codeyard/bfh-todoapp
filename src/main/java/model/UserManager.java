@@ -27,6 +27,7 @@ public class UserManager {
     /**
      * Instantiates a UserManager as a singleton and sets the static counters
      * of the Todo and User classes to the highest values
+     *
      * @param servletContext the context of a ServletContext
      * @return an instance of UserManager
      */
@@ -135,13 +136,14 @@ public class UserManager {
 
     /**
      * returns the User associated with userID
+     *
      * @param userID id of user to return
      * @return User object
      */
-    public User getUser(int userID){
+    public User getUser(int userID) {
         Optional<User> user = users.stream()
-                .filter(u -> u.getUserID() == userID)
-                .findFirst();
+            .filter(u -> u.getUserID() == userID)
+            .findFirst();
         return user.orElse(null);
     }
 }

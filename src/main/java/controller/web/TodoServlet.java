@@ -115,7 +115,7 @@ public class TodoServlet extends HttpServlet {
                     dueDate = parseUserDate(dueDateStr);
                 } catch (DateTimeParseException e) {
                     e.printStackTrace();
-                    if(todoID != null) {
+                    if (todoID != null) {
                         response.sendRedirect(request.getRequestURL().toString() + "?todoID=" + todoID + "&dateError=true");
                     } else {
                         response.sendRedirect(request.getRequestURL().toString() + "?dateError=true");
@@ -147,10 +147,11 @@ public class TodoServlet extends HttpServlet {
 
     /**
      * Adds new todo to user
-     * @param title the title of the todo
-     * @param category an optional category
-     * @param user the user where the todo will be added
-     * @param dueDate an optional due date
+     *
+     * @param title       the title of the todo
+     * @param category    an optional category
+     * @param user        the user where the todo will be added
+     * @param dueDate     an optional due date
      * @param isImportant an optional boolean flag indicating whether the todo is marked as important
      */
     private void addNewTodo(String title, String category, User user, LocalDate dueDate, boolean isImportant) {
@@ -160,11 +161,12 @@ public class TodoServlet extends HttpServlet {
 
     /**
      * Updates existing todo
-     * @param title the title of the todo
-     * @param category an optional category
-     * @param user user where the todo should be updated
-     * @param todoID id of the todo
-     * @param dueDate an optional due date
+     *
+     * @param title       the title of the todo
+     * @param category    an optional category
+     * @param user        user where the todo should be updated
+     * @param todoID      id of the todo
+     * @param dueDate     an optional due date
      * @param isImportant an optional boolean flag indicating whether the todo is marked as important
      * @param isCompleted an optional boolean flag indicating whether the todo is completed
      */
@@ -181,8 +183,9 @@ public class TodoServlet extends HttpServlet {
 
     /**
      * Parses date that was entered by user
+     *
      * @param dueDateStr user input string
-     * @return parsed due date if successfull
+     * @return parsed due date if successful
      * @throws DateTimeParseException Exception is thrown if date couldn't be pared
      */
 
@@ -196,8 +199,9 @@ public class TodoServlet extends HttpServlet {
 
     /**
      * Checks if delete button is pressed
+     *
      * @param deleteButton value of delete button
-     * @param todoID id of todo
+     * @param todoID       id of todo
      * @return a boolean if todoButton was pressed
      */
     private boolean isDeleteButtonPressed(String deleteButton, Integer todoID) {

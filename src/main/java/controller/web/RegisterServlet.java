@@ -87,8 +87,9 @@ public class RegisterServlet extends HttpServlet {
 
     /**
      * Verifies register data
-     * @param name  username
-     * @param firstPassword first Password entered by user
+     *
+     * @param name           username
+     * @param firstPassword  first Password entered by user
      * @param secondPassword second Password entered by user
      * @return a boolean after verifying register data data
      */

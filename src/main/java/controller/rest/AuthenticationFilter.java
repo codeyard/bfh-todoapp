@@ -22,12 +22,12 @@ public class AuthenticationFilter extends HttpFilter {
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ServletContext servletContext = getServletContext();
         String pathInfo = request.getServletPath();
-        if(pathInfo != null && !pathInfo.isEmpty()){
+        if (pathInfo != null && !pathInfo.isEmpty()) {
             String[] requestPattern = pathInfo.split("/");
-            if(requestPattern.length >= 3){
+            if (requestPattern.length >= 3) {
                 String methodName = requestPattern[2];
-                if("users".equals(methodName.toLowerCase())){
-                    chain.doFilter(request,response);
+                if ("users".equalsIgnoreCase(methodName)) {
+                    chain.doFilter(request, response);
                 } else {
                     try {
                         String header = request.getHeader("Authorization");
@@ -38,7 +38,7 @@ public class AuthenticationFilter extends HttpFilter {
                         byte[] decoded = Base64.getDecoder().decode(tokens[1]);
                         String[] credentials = new String(decoded).split(":");
                         int userID = validate(credentials, servletContext); // throws an exception if the credentials are invalid
-                        if(userID >= 0){
+                        if (userID >= 0) {
                             request.setAttribute("userID", userID);
                             chain.doFilter(request, response);
                         } else {
@@ -55,14 +55,15 @@ public class AuthenticationFilter extends HttpFilter {
             LOGGER.warning(" - - - - Resource not found : " + pathInfo + " - - - - ");
         }
     }
-    private int validate(String[] credentials, ServletContext servletContext){
+
+    private int validate(String[] credentials, ServletContext servletContext) {
         UserManager userManager = UserManager.getInstance(servletContext);
         User tempUser;
-        if(credentials.length >= 2){
-            try{
+        if (credentials.length >= 2) {
+            try {
                 tempUser = userManager.authenticate(credentials[0], credentials[1]);
                 return tempUser.getUserID();
-            } catch (UserException exception){
+            } catch (UserException exception) {
                 LOGGER.warning(" - - - - Unauthorized : " + exception.getMessage() + " - - - - ");
                 return -1;
             }

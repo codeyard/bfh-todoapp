@@ -82,6 +82,7 @@ public class Todo implements Comparable {
 
     /**
      * Sets the todoCounter to the defined value
+     *
      * @param counter the counter that holds the highest assigned todoID
      */
     public static void setTodoCounter(Integer counter) {
