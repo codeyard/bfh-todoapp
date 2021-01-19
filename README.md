@@ -31,7 +31,10 @@ Lorem ipsum dolor sit amet
 
 ## TODO: Implementierung
 
-evtl. zusätzlich implementierte Features
+### Zusätzlich implementierte Features
+
+- Hat ein Benutzer mehr als ein Todo erfasst, wird unterhalb der Liste eine kleine Statistik angezeigt, die auf einen Blick zeigt, 
+  wieviele Todos vorhanden und wieviele davon offen, wichtig oder gar überfällig sind.
 
 
 
