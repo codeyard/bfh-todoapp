@@ -24,7 +24,6 @@ public class UserManager {
     private UserManager() {
     }
 
-    //todo: check if UserManager needs to be thread safe -> WE DON'T HAVE ANY THREADS BY NOW
     /**
      * Instantiates a UserManager as a singleton and sets the static counters
      * of the Todo and User classes to the highest values

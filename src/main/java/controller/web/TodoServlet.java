@@ -68,8 +68,6 @@ public class TodoServlet extends HttpServlet {
         }
     }
 
-    // TODO: Throw ServletException, IOException? -> Ich denke jetzt brauchen wir sie wegen der Error Seite!
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("todoID");
