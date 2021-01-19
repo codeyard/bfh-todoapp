@@ -82,6 +82,32 @@ public class User {
         }
     }
 
+    public String getTodosStatistics() {
+        String stats = "";
+        long todosCount = todos.stream().count();
+        if (todosCount > 1) {
+            long openCount = todos.stream().filter(t -> !t.isCompleted()).count();
+            long importantCount = todos.stream().filter(t -> t.isImportant()).count();
+            long overdueCount = todos.stream().filter(t -> t.isOverdue()).count();
+
+            stats = "You have " + todosCount + " todos";
+            stats += (openCount > 0 || importantCount > 0 || overdueCount > 0) ? ": " : "";
+            if (openCount > 0) {
+                stats += (openCount > 1) ? openCount + " are still incomplete" : "one is still incomplete";
+            }
+            stats += (importantCount > 0 || overdueCount > 0) ? ", " : "";
+            if (importantCount > 0) {
+                stats += (importantCount > 1) ? importantCount + " are important" : "one is important";
+            }
+            stats += (overdueCount > 0) ? ", " : "";
+            if (overdueCount > 0) {
+                stats += (overdueCount > 1) ? overdueCount + " are overdue" : "one is overdue";
+            }
+            stats += ".";
+        }
+        return stats;
+    }
+
     /**
      * Adds a Todo to the list of Todos.
      *

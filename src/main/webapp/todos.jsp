@@ -150,6 +150,8 @@
 
             </tbody>
         </table>
+
+        <div class="block">${user.getTodosStatistics()}</div>
     </c:if>
 </section>
 
