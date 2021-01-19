@@ -51,8 +51,8 @@ public class UserManager {
      * have unique ID's.
      */
     private static void setCounters() {
-        int highestUserID = 0;
-        int highestTodoID = 0;
+        Integer highestUserID = 0;
+        Integer highestTodoID = 0;
 
         for (User user : UserManager.instance.getUsers()) {
             if (highestUserID < user.getUserID()) {

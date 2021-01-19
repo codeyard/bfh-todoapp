@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @JacksonXmlRootElement(localName = "user")
 public class User {
     private static int userCounter;
-    private int userID;
+    private Integer userID;
     private String userName;
     private String password;
     private List<Todo> todos = new ArrayList<>();
@@ -36,7 +36,7 @@ public class User {
         this.password = password;
     }
 
-    public int getUserID() {
+    public Integer getUserID() {
         return userID;
     }
 
@@ -137,7 +137,7 @@ public class User {
      * @param todoID the ID of the todo.
      * @return a Todo object
      */
-    public Todo getTodo(int todoID) {
+    public Todo getTodo(Integer todoID) {
         Optional<Todo> todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst();
         return todo.orElse(null);
 

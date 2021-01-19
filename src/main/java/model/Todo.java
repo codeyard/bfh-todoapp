@@ -12,8 +12,8 @@ import java.util.Objects;
 
 public class Todo implements Comparable {
     private static int todoCounter;
-    private int todoID;
-    private int userID;
+    private Integer todoID;
+    private Integer userID;
     private String title;
     private String category;
     private LocalDate dueDate;
@@ -189,7 +189,7 @@ public class Todo implements Comparable {
      */
     private int compareTitleOrTodoID(Todo other) {
         if (title.compareTo(other.getTitle()) == 0) {
-            return todoID - other.getTodoID();
+            return todoID.compareTo(other.getTodoID());
         } else {
             return title.compareTo(other.getTitle());
         }
