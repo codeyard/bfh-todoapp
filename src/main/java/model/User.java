@@ -82,6 +82,12 @@ public class User {
         }
     }
 
+    /**
+     * Generates a string with todo statistics if a user has more than one todo.
+     *
+     * @return a string with todo statistics
+     */
+    @JsonIgnore
     public String getTodosStatistics() {
         String stats = "";
         long todosCount = todos.stream().count();
