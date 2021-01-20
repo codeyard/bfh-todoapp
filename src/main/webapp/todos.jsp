@@ -118,6 +118,7 @@
                 <th class="has-text-left">Category</th>
                 <th class="has-text-left">Due Date</th>
                 <th class="has-text-left">Action</th>
+                <th class="has-text-left"></th>
             </tr>
             </thead>
             <tbody>
@@ -145,6 +146,16 @@
                     <a href="todo?todoID=${todo.getTodoID()}" title="Edit Todo" class="button"><span class="icon"><i class="fas fa-pen"></i></span></a>
                     <a href="todo?todoID=${todo.getTodoID()}&delete=true" title="Delete Todo" class="button"><span class="icon"><i class="fas fa-trash"></i></span></a>
                 </td>
+                <td>
+                    <c:if test="${todo.isCompleted() == true}">
+                    <div class="icon has-text-success">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    </c:if>
+                </td>
+
+
+
                 </tr>
             </c:forEach>
 
