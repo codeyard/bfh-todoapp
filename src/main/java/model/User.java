@@ -88,13 +88,14 @@ public class User {
      * @return a string with todo statistics
      */
     @JsonIgnore
-    public String getTodosStatistics() {
+    public String getTodosStatistics(String category) {
         String stats = "";
-        long todosCount = todos.stream().count();
+        List<Todo> src = getTodos(category);
+        long todosCount = src.stream().count();
         if (todosCount > 1) {
-            long openCount = todos.stream().filter(t -> !t.isCompleted()).count();
-            long importantCount = todos.stream().filter(t -> t.isImportant()).count();
-            long overdueCount = todos.stream().filter(t -> t.isOverdue()).count();
+            long openCount = src.stream().filter(t -> !t.isCompleted()).count();
+            long importantCount = src.stream().filter(t -> t.isImportant()).count();
+            long overdueCount = src.stream().filter(t -> t.isOverdue()).count();
 
             stats = "You have " + todosCount + " todos";
             stats += (openCount > 0 || importantCount > 0 || overdueCount > 0) ? ": " : "";

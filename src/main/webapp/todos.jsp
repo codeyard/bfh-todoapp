@@ -114,11 +114,11 @@
             <thead>
             <tr>
                 <th class="is-narrow">&nbsp;</th>
+                <th class="is-narrow">&nbsp;</th>
                 <th class="has-text-left">Title</th>
                 <th class="has-text-left">Category</th>
                 <th class="has-text-left">Due Date</th>
                 <th class="has-text-left">Action</th>
-                <th class="has-text-left"></th>
             </tr>
             </thead>
             <tbody>
@@ -128,6 +128,14 @@
                     <c:when test="${todo.isOverdue() == true}"><tr class="has-text-danger has-background-danger-light has-text-weight-bold"></c:when>
                     <c:when test="${todo.isCompleted() == true}"><tr class="done"></c:when>
                     <c:otherwise><tr></c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${todo.isCompleted() == true}">
+                        <td class="is-narrow"><div class="icon has-text-success"><i class="fas fa-check"></i></div></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td class="is-narrow"></td>
+                    </c:otherwise>
                 </c:choose>
                 <c:choose>
                     <c:when test="${todo.isImportant() == true}">
@@ -146,15 +154,6 @@
                     <a href="todo?todoID=${todo.getTodoID()}" title="Edit Todo" class="button"><span class="icon"><i class="fas fa-pen"></i></span></a>
                     <a href="todo?todoID=${todo.getTodoID()}&delete=true" title="Delete Todo" class="button"><span class="icon"><i class="fas fa-trash"></i></span></a>
                 </td>
-                <td>
-                    <c:if test="${todo.isCompleted() == true}">
-                    <div class="icon has-text-success">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    </c:if>
-                </td>
-
-
 
                 </tr>
             </c:forEach>
@@ -162,7 +161,7 @@
             </tbody>
         </table>
 
-        <div class="block">${user.getTodosStatistics()}</div>
+        <div class="block">${user.getTodosStatistics(categoryFilter)}</div>
     </c:if>
 </section>
 
