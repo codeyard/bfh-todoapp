@@ -2,6 +2,7 @@ package controller.web;
 
 import model.Todo;
 import model.User;
+import model.UserException;
 import model.UserManager;
 import model.helper.XmlHelper;
 
@@ -27,21 +28,30 @@ public class TodoServlet extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        String todoID = request.getParameter("todoID");
+
 
         if (user == null) {
             response.reset();
             response.sendRedirect("login");
             LOGGER.info(" - - - - User not logged in  - - - - ");
+
         } else {
             RequestDispatcher view;
             try {
-                String todoID = request.getParameter("todoID");
                 boolean isDeletionMode = Boolean.parseBoolean(request.getParameter("delete"));
                 Todo todo;
                 boolean isNew = true;
                 if (todoID != null && !todoID.isEmpty()) {
-                    todo = user.getTodo(Integer.parseInt(todoID));
-                    isNew = false;
+                    try {
+                        todo = user.getTodo(Integer.parseInt(todoID));
+                        if(todo == null) throw new UserException("todo not found");
+                        isNew = false;
+                    } catch (Exception e) {
+                        response.reset();
+                        response.sendRedirect("todo");
+                        return;
+                    }
                 } else {
                     todo = new Todo();
                     isDeletionMode = false;
