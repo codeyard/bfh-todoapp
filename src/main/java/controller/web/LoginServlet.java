@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("LOGIN SERVLET LOADED");
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         RequestDispatcher view;
