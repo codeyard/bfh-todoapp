@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
         System.out.println("LOGIN SERVLET LOADED");
         response.setContentType("text/html");
         HttpSession session = request.getSession();
@@ -46,6 +47,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("userName");
         String password = request.getParameter("password");
         ServletContext servletContext = getServletContext();

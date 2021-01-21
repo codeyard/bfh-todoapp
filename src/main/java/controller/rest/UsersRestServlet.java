@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -19,7 +20,8 @@ public class UsersRestServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(UsersRestServlet.class.getName());
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
         String contentType = request.getContentType();
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported content type

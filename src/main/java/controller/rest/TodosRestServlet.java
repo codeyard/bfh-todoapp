@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ public class TodosRestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String acceptType = request.getHeader("Accept");
+        request.setCharacterEncoding("UTF-8");
 
         if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
@@ -60,8 +62,9 @@ public class TodosRestServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String contentType = request.getContentType();
+        request.setCharacterEncoding("UTF-8");
         String acceptType = request.getHeader("Accept");
 
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
@@ -114,6 +117,7 @@ public class TodosRestServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contentType = request.getContentType();
+        request.setCharacterEncoding("UTF-8");
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported content type
             LOGGER.warning(" - - - - Wrong Content Type from Request: " + contentType + " - - - - ");
@@ -193,6 +197,7 @@ public class TodosRestServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         ServletContext servletContext = getServletContext();
         UserManager userManager = UserManager.getInstance(servletContext);
         String pathInfo = request.getPathInfo();

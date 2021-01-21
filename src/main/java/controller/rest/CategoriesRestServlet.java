@@ -21,6 +21,7 @@ public class CategoriesRestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         String acceptType = request.getHeader("Accept");
 
         if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
