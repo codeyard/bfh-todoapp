@@ -1,7 +1,3 @@
-/**
- * The User class implements a user with his set of Todos.
- */
-
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,6 +8,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The User class implements a user with his set of Todos.
+ */
 @JacksonXmlRootElement(localName = "user")
 public class User {
     private static int userCounter;
@@ -177,6 +176,11 @@ public class User {
 
     }
 
+    /**
+     * Returns a set with all distinct categories.
+     *
+     * @return a set with all distinct categories
+     */
     @JsonIgnore
     public Set<String> getDistinctCategories() {
         return todos.stream().map(Todo::getCategory).filter(x -> !x.isEmpty()).collect(Collectors.toSet());

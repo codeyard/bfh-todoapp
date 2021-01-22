@@ -1,7 +1,3 @@
-/**
- * The User Manager is responsible for the registration and authentication of a user.
- */
-
 package model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -14,6 +10,9 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * The User Manager is responsible for the registration and authentication of a user.
+ */
 @JacksonXmlRootElement(localName = "root")
 public class UserManager {
 
@@ -45,8 +44,8 @@ public class UserManager {
     }
 
     /**
-     * sets the static counters of the Todo and User classes to the highest values
-     * When loading the Data.xml, the highest assigned todoID and userID are determined and stored in the static counters
+     * Sets the static counters of the Todo and User classes to the highest values
+     * When loading the Data.xml, the highest assigned todoID and userID are determined and stored in the static counters.
      * When adding new todos, the todoCounter is increased. This way it can be ensured that each todo and user
      * have unique ID's.
      */
@@ -120,6 +119,10 @@ public class UserManager {
         return true;
     }
 
+    /**
+     * Returns all registered users.
+     * @return a set with all registered users
+     */
     @JacksonXmlElementWrapper(localName = "users")
     @JacksonXmlProperty(localName = "user")
     public Set<User> getUsers() {
@@ -135,10 +138,10 @@ public class UserManager {
     }
 
     /**
-     * returns the User associated with userID
+     * Returns the User associated with userID
      *
-     * @param userID id of user to return
-     * @return User object
+     * @param userID id of the user to return
+     * @return a User object
      */
     public User getUser(int userID) {
         Optional<User> user = users.stream()
