@@ -46,6 +46,7 @@ public class TodoListServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String category = request.getParameter("category");
+        String status = request.getParameter("status");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         RequestDispatcher view;
@@ -54,8 +55,11 @@ public class TodoListServlet extends HttpServlet {
             response.sendRedirect("login");
             LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
-            request.setAttribute("todos", user.getTodos(category));
+            request.setAttribute("todos", user.getTodos(category, status));
             request.setAttribute("categoryFilter", category);
+            request.setAttribute("statusFilter", status);
+            boolean listIsFiltered = ((category != null && !category.isEmpty()) || (status != null && !status.isEmpty())) ? true : false;
+            request.setAttribute("listIsFiltered", listIsFiltered);
             try {
                 view = request.getRequestDispatcher("todos.jsp");
                 view.forward(request, response);

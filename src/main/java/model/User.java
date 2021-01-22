@@ -10,6 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @JacksonXmlRootElement(localName = "user")
@@ -65,7 +66,7 @@ public class User {
     @JacksonXmlElementWrapper(localName = "todos")
     @JacksonXmlProperty(localName = "todo")
     public List<Todo> getTodos() {
-        return todos;
+        return getTodos(null, null);
     }
 
     /**
@@ -75,11 +76,32 @@ public class User {
      * @return a filtered list of Todos which contains all todos whose category match the specified category
      */
     public List<Todo> getTodos(String category) {
+        return getTodos(category, null);
+    }
+
+    public List<Todo> getTodos(String category, String status) {
+        Predicate<Todo> filter = (t -> true);
         if (category != null && !category.isEmpty()) {
-            return todos.stream().filter(t -> ((t.getCategory() != null && t.getCategory().equals(category)))).collect(Collectors.toList());
-        } else {
-            return todos;
+            filter = filter.and(t -> t.getCategory() != null && t.getCategory().equals(category));
         }
+        if (status != null && !status.isEmpty()) {
+            switch (status.toLowerCase()) {
+                case "complete":
+                    filter = filter.and(t -> t.isCompleted());
+                    break;
+                case "incomplete":
+                    filter = filter.and(t -> !t.isCompleted());
+                    break;
+                case "overdue":
+                    filter = filter.and(t -> t.isOverdue());
+                    break;
+                case "important":
+                    filter = filter.and(t -> t.isImportant());
+                    break;
+                default:
+            }
+        }
+        return todos.stream().filter(filter).collect(Collectors.toList());
     }
 
     /**
@@ -88,9 +110,9 @@ public class User {
      * @return a string with todo statistics
      */
     @JsonIgnore
-    public String getTodosStatistics(String category) {
+    public String getTodosStatistics(String category, String status) {
         String stats = "";
-        List<Todo> src = getTodos(category);
+        List<Todo> src = getTodos(category, status);
         long todosCount = src.stream().count();
         if (todosCount > 1) {
             long openCount = src.stream().filter(t -> !t.isCompleted()).count();
@@ -101,6 +123,8 @@ public class User {
             stats += (openCount > 0 || importantCount > 0 || overdueCount > 0) ? ": " : "";
             if (openCount > 0) {
                 stats += (openCount > 1) ? openCount + " are still incomplete" : "one is still incomplete";
+            } else {
+                stats += " all are complete";
             }
             stats += (importantCount > 0 || overdueCount > 0) ? ", " : "";
             if (importantCount > 0) {
@@ -111,6 +135,10 @@ public class User {
                 stats += (overdueCount > 1) ? overdueCount + " are overdue" : "one is overdue";
             }
             stats += ".";
+        } else if (todosCount == 0) {
+            if ((category != null && !category.isEmpty()) || (status != null && !status.isEmpty())) {
+                stats = "You have no todos matching the selected criteria.";
+            }
         }
         return stats;
     }
