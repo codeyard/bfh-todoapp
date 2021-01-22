@@ -68,7 +68,7 @@ public class TodosRestServlet extends HttpServlet {
         String acceptType = request.getHeader("Accept");
 
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported accept type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             LOGGER.warning(" - - - - Wrong content Type from Request: " + contentType + " - - - - ");
         } else if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
@@ -97,7 +97,7 @@ public class TodosRestServlet extends HttpServlet {
 
                         XmlHelper.writeXmlData(userManager, servletContext);
                         writeResponse(response, todoId, HttpServletResponse.SC_CREATED);
-                        LOGGER.warning(" - - - - Invalid Todo data  - - - - ");
+                        LOGGER.info(" - - - - Todo with ID: " + todoId + " created  - - - - ");
                     } else {
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                         LOGGER.warning(" - - - - Bad request: " + request.getPathInfo() + " - - - - ");
@@ -119,7 +119,7 @@ public class TodosRestServlet extends HttpServlet {
         String contentType = request.getContentType();
         request.setCharacterEncoding("UTF-8");
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported content type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             LOGGER.warning(" - - - - Wrong Content Type from Request: " + contentType + " - - - - ");
         } else {
             ServletContext servletContext = getServletContext();
@@ -128,11 +128,8 @@ public class TodosRestServlet extends HttpServlet {
             if (pathInfo != null && !pathInfo.isEmpty()) {
                 try {
                     int todoIDPath = Integer.parseInt(pathInfo.split("/")[1]);
-                    Todo todo = null;
                     User user = userManager.getUser((Integer) request.getAttribute("userID"));
-                    if (user.getTodo(todoIDPath) != null) {
-                        todo = user.getTodo(todoIDPath);
-                    }
+                    Todo todo = user.getTodo(todoIDPath);
                     if (todo != null) {
                         String body = request.getReader()
                             .lines()
@@ -168,19 +165,19 @@ public class TodosRestServlet extends HttpServlet {
                                     LOGGER.info(" - - - - todo updated: " + todo.getTodoID() + " - - - - ");
                                 } else {
                                     writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                                    LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                                    LOGGER.warning(" - - - - Invalid Todo data: no title set - - - - ");
                                 }
                             } else {
                                 writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                                LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                                LOGGER.warning(" - - - - Invalid Todo data: todo id's (body and path) do not match - - - - ");
                             }
                         } else {
                             writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                            LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                            LOGGER.warning(" - - - - Invalid Todo data: body was not readable or empty - - - - ");
                         }
                     } else {
                         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        LOGGER.warning(" - - - - Todo not found - - - - ");
+                        LOGGER.warning(" - - - - Invalid Todo data: Todo not found - - - - ");
                     }
 
                 } catch (Exception exception) {
@@ -189,7 +186,7 @@ public class TodosRestServlet extends HttpServlet {
                 }
             } else {
                 writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                LOGGER.warning(" - - - - Invalid Todo data: invalid path - - - - ");
             }
         }
 

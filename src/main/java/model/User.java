@@ -219,4 +219,23 @@ public class User {
     public int hashCode() {
         return Objects.hash(userID);
     }
+
+    /**
+     * Generates a list of Todos which are completed or not
+     * @param isCompleted a boolean which decides if a list with all completed or incompleted todos is returned
+     * @return a list of Todo which are either completed or not
+     */
+    @JsonIgnore
+    public List<Todo> getCompletetOrIncompletedTodos(boolean isCompleted){
+        return todos.stream().filter(t -> (t.isCompleted() == isCompleted)).collect(Collectors.toList());
+    }
+
+    /**
+     * Generates a list of all overdue Todos
+     * @return a list of Todos which are overdue
+     */
+    @JsonIgnore
+    public List<Todo> getAllOverdueTodos(){
+        return todos.stream().filter(t -> (t.isOverdue() == true)).collect(Collectors.toList());
+    }
 }
