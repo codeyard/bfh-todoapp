@@ -1,7 +1,3 @@
-/**
- * The User class implements a user with his set of Todos.
- */
-
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,6 +9,9 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * The User class implements a user with his set of Todos.
+ */
 @JacksonXmlRootElement(localName = "user")
 public class User {
     private static int userCounter;
@@ -205,6 +204,11 @@ public class User {
 
     }
 
+    /**
+     * Returns a set with all distinct categories.
+     *
+     * @return a set with all distinct categories
+     */
     @JsonIgnore
     public Set<String> getDistinctCategories() {
         return todos.stream().map(Todo::getCategory).filter(x -> !x.isEmpty()).collect(Collectors.toSet());
@@ -246,5 +250,24 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userID);
+    }
+
+    /**
+     * Generates a list of Todos which are completed or not
+     * @param isCompleted a boolean which decides if a list with all completed or incompleted todos is returned
+     * @return a list of Todo which are either completed or not
+     */
+    @JsonIgnore
+    public List<Todo> getCompletetOrIncompletedTodos(boolean isCompleted){
+        return todos.stream().filter(t -> (t.isCompleted() == isCompleted)).collect(Collectors.toList());
+    }
+
+    /**
+     * Generates a list of all overdue Todos
+     * @return a list of Todos which are overdue
+     */
+    @JsonIgnore
+    public List<Todo> getAllOverdueTodos(){
+        return todos.stream().filter(t -> (t.isOverdue() == true)).collect(Collectors.toList());
     }
 }

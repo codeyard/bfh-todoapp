@@ -62,66 +62,59 @@
 <section class="section">
     <h1 class="title">Todo List</h1>
 
-    <div class="columns">
-        <div class="column is-three-quarters">
-            <c:if test="${user.getTodos().size() == 0}">
-                <em class="subtitle is-4">Your Todo List is empty :-(</em>
-            </c:if>
+    <nav class="level is-mobile">
+        <div class="level-left">
+            <div class="level-item">
+                <c:if test="${user.getTodos().size() == 0}">
+                    <em class="subtitle is-4">Your Todo List is empty :-(</em>
+                </c:if>
 
-            <c:if test="${user.getTodos().size() > 0}">
-                <form action="todos" method="post">
-                    <div class="field is-grouped">
-                        <div class="control has-icons-left">
-                            <div class="select">
-                                <select name="category">
-                                    <option value="">Category:</option>
-                                    <c:forEach var="category" items="${user.getDistinctCategories()}">
-                                        <option value="${category}" <c:if test="${category.equals(categoryFilter)}">selected</c:if>>${category}</option>
-                                    </c:forEach>
-                                </select>
+                <c:if test="${user.getTodos().size() > 0}">
+                    <form action="todos" method="post">
+                        <div class="field is-horizontal">
+                            <div class="control has-icons-left">
+                                <div class="select">
+                                    <select name="category">
+                                        <option value="">Category</option>
+                                        <c:forEach var="category" items="${user.getDistinctCategories()}">
+                                            <option value="${category}" <c:if test="${category.equals(categoryFilter)}">selected</c:if>>${category}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-filter"></i>
+                                </div>
                             </div>
-                            <div class="icon is-small is-left">
-                                <i class="fas fa-filter"></i>
-                            </div>
-                        </div>
-
-                        <div class="control has-icons-left ml-3">
-                            <div class="select">
-                                <select name="status">
-                                    <option value="">Status:</option>
-                                    <option value="incomplete" <c:if test="${statusFilter.equals('incomplete')}">selected</c:if>>incomplete</option>
-                                    <option value="complete" <c:if test="${statusFilter.equals('complete')}">selected</c:if>>complete</option>
-                                    <option value="overdue" <c:if test="${statusFilter.equals('overdue')}">selected</c:if>>overdue</option>
-                                    <option value="important" <c:if test="${statusFilter.equals('important')}">selected</c:if>>important</option>
-                                </select>
-                            </div>
-                            <div class="icon is-small is-left">
-                                <i class="fas fa-filter"></i>
-                            </div>
-                        </div>
-
-                        <c:if test="${listIsFiltered}">
                             <div class="control ml-3">
-                                <a href="todos" title="Delete Filter" class="button is-light"><span class="icon"><i class="fas fa-trash"></i></span></a>
+                                <input type="submit" class="button is-light" value="Filter">
                             </div>
-                        </c:if>
-
-                        <div class="control ml-3">
-                            <input type="submit" class="button is-light" value="Filter">
+                            <c:if test="${(categoryFilter != null) && (!categoryFilter.isEmpty())}">
+                                <div class="control ml-3">
+                                    <a href="todos?category=" title="Delete Filter" class="button is-light"><span class="icon"><i class="fas fa-trash"></i></span></a>
+                                </div>
+                            </c:if>
                         </div>
-                    </div>
-                </form>
-            </c:if>
+                    </form>
+                    <c:if test="${(categoryFilter == null)}">
+                    <form action="todos" method="post">
+                        <div class="control ml-3">
+                            <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
+                        </div>
+                    </form>
+                    </c:if>
+                </c:if>
+            </div>
         </div>
 
-        <div class="column is-one-quarter has-text-right">
-            <a href="todo" class="button is-success has-text-weight-bold">
-                <span class="icon is-small"><i class="fas fa-plus"></i></span>
-                <span>New Todo</span>
-            </a>
+        <div class="level-right">
+            <p class="level-item">
+                <a href="todo" class="button is-success has-text-weight-bold">
+                    <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                    <span>New Todo</span>
+                </a>
+            </p>
         </div>
-    </div>
-
+    </nav>
 
     <c:if test="${user.getTodos().size() > 0}">
         <table class="table is-striped is-hoverable is-fullwidth">
@@ -175,7 +168,7 @@
             </tbody>
         </table>
 
-        <div class="block">${user.getTodosStatistics(categoryFilter, statusFilter)}</div>
+        <div class="block">${user.getTodosStatistics(categoryFilter)}</div>
     </c:if>
 </section>
 

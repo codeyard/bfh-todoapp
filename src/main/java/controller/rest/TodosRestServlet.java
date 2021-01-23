@@ -68,7 +68,7 @@ public class TodosRestServlet extends HttpServlet {
         String acceptType = request.getHeader("Accept");
 
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported accept type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             LOGGER.warning(" - - - - Wrong content Type from Request: " + contentType + " - - - - ");
         } else if (!acceptType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
@@ -84,20 +84,8 @@ public class TodosRestServlet extends HttpServlet {
                 if (map != null && !map.isEmpty()) {
                     String title = (String) map.get("title");
                     if (title != null && !title.isEmpty()) {
-                        String category = (map.get("category") != null) ? (String) map.get("category") : "";
-                        String dueDate = (String) map.get("dueDate");
-                        boolean isImportant = map.get("important") != null && (boolean) map.get("important");
-                        boolean isCompleted = map.get("completed") != null && (boolean) map.get("completed");
-                        LocalDate date = (dueDate != null && !dueDate.isEmpty()) ? LocalDate.parse(dueDate) : null;
-
-                        User user = userManager.getUser((Integer) request.getAttribute("userID"));
-                        Todo todo = new Todo(title, category, date, isImportant, isCompleted);
-                        String todoId = todo.getTodoID().toString();
-                        user.addTodo(todo);
-
-                        XmlHelper.writeXmlData(userManager, servletContext);
-                        writeResponse(response, todoId, HttpServletResponse.SC_CREATED);
-                        LOGGER.warning(" - - - - Invalid Todo data  - - - - ");
+                        addNewTodo(request, response, servletContext, userManager, map, title);
+                        // TODO combine else blocks with same responses to one else block
                     } else {
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                         LOGGER.warning(" - - - - Bad request: " + request.getPathInfo() + " - - - - ");
@@ -119,7 +107,7 @@ public class TodosRestServlet extends HttpServlet {
         String contentType = request.getContentType();
         request.setCharacterEncoding("UTF-8");
         if (!contentType.equalsIgnoreCase(JsonHelper.CONTENT_TYPE)) {
-            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE); // unsupported content type
+            response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             LOGGER.warning(" - - - - Wrong Content Type from Request: " + contentType + " - - - - ");
         } else {
             ServletContext servletContext = getServletContext();
@@ -128,11 +116,8 @@ public class TodosRestServlet extends HttpServlet {
             if (pathInfo != null && !pathInfo.isEmpty()) {
                 try {
                     int todoIDPath = Integer.parseInt(pathInfo.split("/")[1]);
-                    Todo todo = null;
                     User user = userManager.getUser((Integer) request.getAttribute("userID"));
-                    if (user.getTodo(todoIDPath) != null) {
-                        todo = user.getTodo(todoIDPath);
-                    }
+                    Todo todo = user.getTodo(todoIDPath);
                     if (todo != null) {
                         String body = request.getReader()
                             .lines()
@@ -142,45 +127,23 @@ public class TodosRestServlet extends HttpServlet {
                             Integer todoIDBody = (Integer) map.get("id");
                             if (todoIDBody == null || todoIDPath == todoIDBody) {
                                 if (map.get("title") != null && !((String) map.get("title")).isEmpty()) {
-                                    String title = (String) map.get("title");
-                                    String category = (String) map.get("category");
-                                    String dueDate = (String) map.get("dueDate");
-
-                                    LocalDate date = (dueDate != null && !dueDate.isEmpty()) ? LocalDate.parse(dueDate) : LocalDate.MIN;
-                                    todo.setTitle(title);
-                                    if (category != null && !category.isEmpty()) {
-                                        todo.setCategory(category);
-                                    }
-                                    if (!date.isEqual(LocalDate.MIN)) {
-                                        todo.setDueDate(date);
-                                    }
-                                    if (map.get("important") != null) {
-                                        boolean isImportant = (boolean) map.get("important");
-                                        todo.setImportant(isImportant);
-                                    }
-                                    if (map.get("completed") != null) {
-                                        boolean isCompleted = (boolean) map.get("completed");
-                                        todo.setCompleted(isCompleted);
-                                    }
-                                    user.updateTodo(todo);
-                                    XmlHelper.writeXmlData(userManager, servletContext);
-                                    writeResponse(response, "todoId", HttpServletResponse.SC_NO_CONTENT);
-                                    LOGGER.info(" - - - - todo updated: " + todo.getTodoID() + " - - - - ");
+                                    updateTodo(response, servletContext, userManager, user, todo, map);
+                                    // TODO: Combine else blocks with same response code in one else?
                                 } else {
                                     writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                                    LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                                    LOGGER.warning(" - - - - Invalid Todo data: no title set - - - - ");
                                 }
                             } else {
                                 writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                                LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                                LOGGER.warning(" - - - - Invalid Todo data: todo id's (body and path) do not match - - - - ");
                             }
                         } else {
                             writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                            LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                            LOGGER.warning(" - - - - Invalid Todo data: body was not readable or empty - - - - ");
                         }
                     } else {
                         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        LOGGER.warning(" - - - - Todo not found - - - - ");
+                        LOGGER.warning(" - - - - Invalid Todo data: Todo not found - - - - ");
                     }
 
                 } catch (Exception exception) {
@@ -189,11 +152,13 @@ public class TodosRestServlet extends HttpServlet {
                 }
             } else {
                 writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
-                LOGGER.warning(" - - - - Invalid Todo data - - - - ");
+                LOGGER.warning(" - - - - Invalid Todo data: invalid path - - - - ");
             }
         }
 
     }
+
+
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -241,5 +206,49 @@ public class TodosRestServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(responseBody);
         out.flush();
+    }
+
+    private void updateTodo(HttpServletResponse response, ServletContext servletContext, UserManager userManager, User user, Todo todo, Map<String, ?> map) throws IOException {
+        String title = (String) map.get("title");
+        String category = (String) map.get("category");
+        String dueDate = (String) map.get("dueDate");
+
+        LocalDate date = (dueDate != null && !dueDate.isEmpty()) ? LocalDate.parse(dueDate) : LocalDate.MIN;
+        todo.setTitle(title);
+        if (category != null && !category.isEmpty()) {
+            todo.setCategory(category);
+        }
+        if (!date.isEqual(LocalDate.MIN)) {
+            todo.setDueDate(date);
+        }
+        if (map.get("important") != null) {
+            boolean isImportant = (boolean) map.get("important");
+            todo.setImportant(isImportant);
+        }
+        if (map.get("completed") != null) {
+            boolean isCompleted = (boolean) map.get("completed");
+            todo.setCompleted(isCompleted);
+        }
+        user.updateTodo(todo);
+        XmlHelper.writeXmlData(userManager, servletContext);
+        writeResponse(response, "todoId", HttpServletResponse.SC_NO_CONTENT);
+        LOGGER.info(" - - - - todo updated: " + todo.getTodoID() + " - - - - ");
+    }
+
+    private void addNewTodo(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext, UserManager userManager, Map<String, ?> map, String title) throws IOException {
+        String category = (map.get("category") != null) ? (String) map.get("category") : "";
+        String dueDate = (String) map.get("dueDate");
+        boolean isImportant = map.get("important") != null && (boolean) map.get("important");
+        boolean isCompleted = map.get("completed") != null && (boolean) map.get("completed");
+        LocalDate date = (dueDate != null && !dueDate.isEmpty()) ? LocalDate.parse(dueDate) : null;
+
+        User user = userManager.getUser((Integer) request.getAttribute("userID"));
+        Todo todo = new Todo(title, category, date, isImportant, isCompleted);
+        String todoId = todo.getTodoID().toString();
+        user.addTodo(todo);
+
+        XmlHelper.writeXmlData(userManager, servletContext);
+        writeResponse(response, todoId, HttpServletResponse.SC_CREATED);
+        LOGGER.info(" - - - - Todo with ID: " + todoId + " created  - - - - ");
     }
 }

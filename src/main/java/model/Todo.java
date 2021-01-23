@@ -1,7 +1,3 @@
-/**
- * The Todo class implements a Todo
- */
-
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,6 +6,9 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * The Todo class implements a Todo
+ */
 public class Todo implements Comparable {
     private static int todoCounter;
     private Integer todoID;
