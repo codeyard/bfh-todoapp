@@ -134,17 +134,6 @@ public class UserManager {
     }
 
     /**
-     * Loads a predefined set of users.
-     */
-    private static UserManager loadData(ServletContext servletContext) {
-        return XmlHelper.readXmlData(servletContext);
-    }
-
-    public void writeData(ServletContext servletContext) {
-        XmlHelper.writeXmlData(this, servletContext);
-    }
-
-    /**
      * Returns the User associated with userID
      *
      * @param userID id of the user to return
@@ -155,5 +144,16 @@ public class UserManager {
             .filter(u -> u.getUserID() == userID)
             .findFirst();
         return user.orElse(null);
+    }
+
+    /**
+     * Loads a predefined set of users.
+     */
+    private static UserManager loadData(ServletContext servletContext) {
+        return XmlHelper.readXmlData(servletContext);
+    }
+
+    public void writeData(ServletContext servletContext) {
+        XmlHelper.writeXmlData(this, servletContext);
     }
 }
