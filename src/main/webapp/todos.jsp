@@ -95,6 +95,13 @@
                             </c:if>
                         </div>
                     </form>
+                    <c:if test="${(categoryFilter == null)}">
+                    <form action="todos" method="post">
+                        <div class="control ml-3">
+                            <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
+                        </div>
+                    </form>
+                    </c:if>
                 </c:if>
             </div>
         </div>
