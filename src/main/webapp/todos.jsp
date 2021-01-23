@@ -109,6 +109,14 @@
                         <div class="control ml-3">
                             <input type="submit" class="button is-light" value="Filter">
                         </div>
+
+                        <c:if test="${(categoryFilter == null && user.getCompletetOrIncompletedTodos(true).size() > 0)}">
+                            <form action="todos" method="post">
+                                <div class="control ml-3">
+                                    <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
+                                </div>
+                            </form>
+                        </c:if>
                     </div>
                 </form>
             </c:if>
