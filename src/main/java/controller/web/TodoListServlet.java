@@ -62,17 +62,19 @@ public class TodoListServlet extends HttpServlet {
             response.sendRedirect("login");
             LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
-            request.setAttribute("todos", user.getTodos(category, status));
-            request.setAttribute("categoryFilter", category);
-            request.setAttribute("statusFilter", status);
-            boolean listIsFiltered = ((category != null && !category.isEmpty()) || (status != null && !status.isEmpty())) ? true : false;
-            request.setAttribute("listIsFiltered", listIsFiltered);
             if("Delete completed Todos".equals(deleteTodos)) {
                 deleteCompletedTodos(user);
                 ServletContext servletContext = getServletContext();
                 UserManager userManager = UserManager.getInstance(servletContext);
                 XmlHelper.writeXmlData(userManager, servletContext);
             }
+
+            request.setAttribute("todos", user.getTodos(category, status));
+            request.setAttribute("categoryFilter", category);
+            request.setAttribute("statusFilter", status);
+            boolean listIsFiltered = ((category != null && !category.isEmpty()) || (status != null && !status.isEmpty())) ? true : false;
+            request.setAttribute("listIsFiltered", listIsFiltered);
+
             try {
                 view = request.getRequestDispatcher("todos.jsp");
                 view.forward(request, response);
