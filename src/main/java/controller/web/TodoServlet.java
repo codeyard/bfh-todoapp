@@ -4,7 +4,6 @@ import model.Todo;
 import model.User;
 import model.UserException;
 import model.UserManager;
-import model.helper.XmlHelper;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

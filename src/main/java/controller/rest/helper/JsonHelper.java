@@ -32,6 +32,7 @@ public class JsonHelper {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Read JSON data - - - - ");
         try {
+            //noinspection unchecked
             return mapper.readValue(requestBody, Map.class);
         } catch (JsonProcessingException e) {
             return null;

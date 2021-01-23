@@ -114,6 +114,7 @@ public class User {
      *
      * @return a string with todo statistics
      */
+    @SuppressWarnings("unused")
     @JsonIgnore
     public String getTodosStatistics(String category, String status) {
         String stats = "";
@@ -257,6 +258,7 @@ public class User {
      *
      * @return a boolean stating if a user has completed todos
      */
+    @SuppressWarnings("unused")
     @JsonIgnore
     public boolean hasCompletedTodos() {
         return todos.stream().anyMatch(Todo::isCompleted);

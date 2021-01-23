@@ -3,7 +3,6 @@ package controller.web;
 import model.Todo;
 import model.User;
 import model.UserManager;
-import model.helper.XmlHelper;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -97,7 +96,7 @@ public class TodoListServlet extends HttpServlet {
             request.setAttribute("todos", user.getTodos(category, status));
             request.setAttribute("categoryFilter", category);
             request.setAttribute("statusFilter", status);
-            boolean listIsFiltered = ((category != null && !category.isEmpty()) || (status != null && !status.isEmpty())) ? true : false;
+            boolean listIsFiltered = (category != null && !category.isEmpty()) || (status != null && !status.isEmpty());
             request.setAttribute("listIsFiltered", listIsFiltered);
 
             try {
