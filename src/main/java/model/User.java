@@ -78,6 +78,13 @@ public class User {
         return getTodos(category, null);
     }
 
+    /**
+     * Filters the list of Todos by a category and/or a status
+     * @param category the category to filter by
+     * @param status the status to filter by. Valid values are complete, incomplete, overdue and important.
+     * @return a filtered list of Todos which contains all todos whose category match the specified category and/or
+     * whose status match the specified status
+     */
     public List<Todo> getTodos(String category, String status) {
         Predicate<Todo> filter = (t -> true);
         if (category != null && !category.isEmpty()) {
@@ -86,16 +93,16 @@ public class User {
         if (status != null && !status.isEmpty()) {
             switch (status.toLowerCase()) {
                 case "complete":
-                    filter = filter.and(t -> t.isCompleted());
+                    filter = filter.and(Todo::isCompleted);
                     break;
                 case "incomplete":
                     filter = filter.and(t -> !t.isCompleted());
                     break;
                 case "overdue":
-                    filter = filter.and(t -> t.isOverdue());
+                    filter = filter.and(Todo::isOverdue);
                     break;
                 case "important":
-                    filter = filter.and(t -> t.isImportant());
+                    filter = filter.and(Todo::isImportant);
                     break;
                 default:
             }
@@ -112,11 +119,11 @@ public class User {
     public String getTodosStatistics(String category, String status) {
         String stats = "";
         List<Todo> src = getTodos(category, status);
-        long todosCount = src.stream().count();
+        long todosCount = src.size();
         if (todosCount > 1) {
             long openCount = src.stream().filter(t -> !t.isCompleted()).count();
-            long importantCount = src.stream().filter(t -> t.isImportant()).count();
-            long overdueCount = src.stream().filter(t -> t.isOverdue()).count();
+            long importantCount = src.stream().filter(Todo::isImportant).count();
+            long overdueCount = src.stream().filter(Todo::isOverdue).count();
 
             stats = "You have " + todosCount + " todos";
             stats += (openCount > 0 || importantCount > 0 || overdueCount > 0) ? ": " : "";
