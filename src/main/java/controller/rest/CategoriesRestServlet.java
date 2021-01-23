@@ -15,10 +15,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Returns all categories via REST API.
+ * Listens to "/api/categories" path.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/api/categories")
 public class CategoriesRestServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(CategoriesRestServlet.class.getName());
 
+    /**
+     * Get all categories.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException is thrown when the response couldn't be written
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");

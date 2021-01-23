@@ -16,10 +16,25 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Read and manipulate todo items via REST API.
+ * Listens to "/api/todos/*" path.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/api/todos/*")
 public class TodosRestServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TodosRestServlet.class.getName());
 
+    /**
+     * Returns a single todo item if an id is present otherwise returns a list with todo items.
+     * Filters the list by categories if the category query parameter is present.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException is thrown when the response couldn't be written
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String acceptType = request.getHeader("Accept");
@@ -61,6 +76,13 @@ public class TodosRestServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Adds a todo.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws UnsupportedEncodingException if character encoding is not UTF-8
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String contentType = request.getContentType();
@@ -81,15 +103,10 @@ public class TodosRestServlet extends HttpServlet {
                     .lines()
                     .reduce("", (String::concat));
                 Map<String, ?> map = JsonHelper.readJsonData(body);
-                if (map != null && !map.isEmpty()) {
+                if ((map != null && !map.isEmpty())
+                    && (map.containsKey("title") && !map.get("title").toString().isEmpty())) {
                     String title = (String) map.get("title");
-                    if (title != null && !title.isEmpty()) {
-                        addNewTodo(request, response, servletContext, userManager, map, title);
-                        // TODO combine else blocks with same responses to one else block
-                    } else {
-                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                        LOGGER.warning(" - - - - Bad request: " + request.getPathInfo() + " - - - - ");
-                    }
+                    addNewTodo(request, response, servletContext, userManager, map, title);
                 } else {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     LOGGER.warning(" - - - - Bad request: " + request.getPathInfo() + " - - - - ");
@@ -102,6 +119,14 @@ public class TodosRestServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Updates a todo.
+     * If there's an id in the request body, it must match the id from the path.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException is thrown when the response couldn't be written
+     */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contentType = request.getContentType();
@@ -125,10 +150,10 @@ public class TodosRestServlet extends HttpServlet {
                         Map<String, ?> map = JsonHelper.readJsonData(body);
                         if (map != null && !map.isEmpty()) {
                             Integer todoIDBody = (Integer) map.get("id");
+                            // if there's an id in the body, it must match the id from the path
                             if (todoIDBody == null || todoIDPath == todoIDBody) {
                                 if (map.get("title") != null && !((String) map.get("title")).isEmpty()) {
                                     updateTodo(response, servletContext, userManager, user, todo, map);
-                                    // TODO: Combine else blocks with same response code in one else?
                                 } else {
                                     writeResponse(response, "", HttpServletResponse.SC_BAD_REQUEST);
                                     LOGGER.warning(" - - - - Invalid Todo data: no title set - - - - ");
@@ -159,7 +184,13 @@ public class TodosRestServlet extends HttpServlet {
     }
 
 
-
+    /**
+     * Remove a todo.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException is thrown when the response couldn't be written
+     */
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");

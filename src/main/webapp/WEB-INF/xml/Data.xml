@@ -2,17 +2,17 @@
     <users>
         <user>
             <userID>0</userID>
-            <userName>admin</userName>
+            <userName>default</userName>
             <password>1234</password>
             <todos>
                 <todo>
                     <todoID>0</todoID>
                     <userID>0</userID>
-                    <title>Lorem ipsum dolor sit amet</title>
+                    <title>Abgabe Todo Application</title>
                     <category>Work</category>
-                    <dueDate>2021-02-26</dueDate>
-                    <completed>false</completed>
-                    <important>false</important>
+                    <dueDate>2021-01-26</dueDate>
+                    <completed>true</completed>
+                    <important>true</important>
                 </todo>
             </todos>
         </user>

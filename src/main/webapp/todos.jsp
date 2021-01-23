@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: chleu
-  Date: 28.12.2020
-  Time: 10:49
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -110,7 +103,7 @@
                             <input type="submit" class="button is-light" value="Filter">
                         </div>
 
-                        <c:if test="${(categoryFilter == null && user.getCompletetOrIncompletedTodos(true).size() > 0)}">
+                        <c:if test="${(categoryFilter == null && user.hasCompletedTodos())}">
                             <form action="todos" method="post">
                                 <div class="control ml-3">
                                     <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">

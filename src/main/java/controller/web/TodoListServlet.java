@@ -18,10 +18,26 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * A servlet for reading, filtering and deleting multiple todo items.
+ * Listens to "/todos" path.
+ * Redirects to the login page if no user is present/authorized.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/todos")
 public class TodoListServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TodoListServlet.class.getName());
 
+    /**
+     * Displays multiple todo items.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException      if unable to forward to view
+     * @throws ServletException if unable to forward to view
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
@@ -48,6 +64,15 @@ public class TodoListServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Filters multiple todos items when category or/and status parameter is present.
+     * Deletes all completed todo items when the corresponding button is pressed.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws ServletException if unable to forward to view
+     * @throws IOException      if unable to forward to view
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -62,7 +87,7 @@ public class TodoListServlet extends HttpServlet {
             response.sendRedirect("login");
             LOGGER.info(" - - - - User not logged in  - - - - ");
         } else {
-            if("Delete completed Todos".equals(deleteTodos)) {
+            if ("Delete completed Todos".equals(deleteTodos)) {
                 deleteCompletedTodos(user);
                 ServletContext servletContext = getServletContext();
                 UserManager userManager = UserManager.getInstance(servletContext);
@@ -90,8 +115,8 @@ public class TodoListServlet extends HttpServlet {
 
     private void deleteCompletedTodos(User user) {
         List<Todo> todos = user.getTodos().stream().filter(Todo::isCompleted).collect(Collectors.toList());
-        if(todos.size() > 0) {
-            for(Todo todo : todos) {
+        if (todos.size() > 0) {
+            for (Todo todo : todos) {
                 user.deleteTodo(todo);
             }
         }

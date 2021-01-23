@@ -10,12 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Helper methods for reading and writing JSON data.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 public class JsonHelper {
     public static final String CONTENT_TYPE = "application/json";
     public static final String ENCODING = "UTF-8";
 
     private static final Logger LOGGER = Logger.getLogger(JsonHelper.class.getName());
 
+    /**
+     * Reads JSON data
+     *
+     * @param requestBody the request body
+     * @return a Map object
+     */
     public static Map<String, ?> readJsonData(String requestBody) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Read JSON data - - - - ");
@@ -26,6 +38,12 @@ public class JsonHelper {
         }
     }
 
+    /**
+     * Receives a list of todo items, formats the list to JSON format and returns a string.
+     *
+     * @param todoList a list of todo items
+     * @return a JSON-formatted string with the todo list
+     */
     public static String writeTodoJsonData(List<Todo> todoList) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Todo JSON data - - - - ");
@@ -43,7 +61,12 @@ public class JsonHelper {
         }
     }
 
-
+    /**
+     * Receives a list of category items, formats the list to JSON format and returns a string.
+     *
+     * @param categoryList a list of category items
+     * @return a JSON-formatted string with the category list
+     */
     public static String writeCategoryJsonData(List<String> categoryList) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Category JSON data - - - - ");
@@ -55,6 +78,12 @@ public class JsonHelper {
         }
     }
 
+    /**
+     * Receives a single todo item, formats it to JSON format and returns a string.
+     *
+     * @param todo a single todo item
+     * @return a JSON-formatted string with the todo item
+     */
     public static String writeTodoJsonData(Todo todo) {
         ObjectMapper mapper = new ObjectMapper();
         LOGGER.info(" - - - - Write Todo JSON data - - - - ");

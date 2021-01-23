@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 
 /**
  * The User class implements a user with his set of Todos.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
  */
 @JacksonXmlRootElement(localName = "user")
 public class User {
@@ -40,11 +43,6 @@ public class User {
         return userID;
     }
 
-    /**
-     * Sets the userCounter to the defined value
-     *
-     * @param counter the counter that holds the highest assigned userID
-     */
     public static void setUserCounter(Integer counter) {
         userCounter = counter;
     }
@@ -79,9 +77,10 @@ public class User {
     }
 
     /**
-     * Filters the list of Todos by a category and/or a status
+     * Filters the list of Todos by a category and/or a status.
+     *
      * @param category the category to filter by
-     * @param status the status to filter by. Valid values are complete, incomplete, overdue and important.
+     * @param status   the status to filter by. Valid values are complete, incomplete, overdue and important.
      * @return a filtered list of Todos which contains all todos whose category match the specified category and/or
      * whose status match the specified status
      */
@@ -200,7 +199,7 @@ public class User {
     }
 
     /**
-     * Gets a todo from the list
+     * Gets a todo from the list.
      *
      * @param todoID the ID of the todo.
      * @return a Todo object
@@ -208,7 +207,6 @@ public class User {
     public Todo getTodo(Integer todoID) {
         Optional<Todo> todo = todos.stream().filter(t -> t.getTodoID().equals(todoID)).findFirst();
         return todo.orElse(null);
-
     }
 
     /**
@@ -221,11 +219,6 @@ public class User {
         return todos.stream().map(Todo::getCategory).filter(x -> !x.isEmpty()).collect(Collectors.toSet());
     }
 
-    /**
-     * Returns a string representation of the User object.
-     *
-     * @return a string representation of the User object
-     */
     @Override
     public String toString() {
         return "User{" +
@@ -238,14 +231,14 @@ public class User {
     /**
      * Indicates whether some other object is "equal to" this one.
      *
-     * @param o the reference object with which to compare
+     * @param other the reference object with which to compare
      * @return true if this object is the same as the o argument, false otherwise
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        User user = (User) other;
         return Objects.equals(userID, user.userID);
     }
 
@@ -260,21 +253,12 @@ public class User {
     }
 
     /**
-     * Generates a list of Todos which are completed or not
-     * @param isCompleted a boolean which decides if a list with all completed or incompleted todos is returned
-     * @return a list of Todo which are either completed or not
+     * States if a user has any completed todos or not
+     *
+     * @return a boolean stating if a user has completed todos
      */
     @JsonIgnore
-    public List<Todo> getCompletetOrIncompletedTodos(boolean isCompleted){
-        return todos.stream().filter(t -> (t.isCompleted() == isCompleted)).collect(Collectors.toList());
-    }
-
-    /**
-     * Generates a list of all overdue Todos
-     * @return a list of Todos which are overdue
-     */
-    @JsonIgnore
-    public List<Todo> getAllOverdueTodos(){
-        return todos.stream().filter(t -> (t.isOverdue() == true)).collect(Collectors.toList());
+    public boolean hasCompletedTodos() {
+        return todos.stream().anyMatch(Todo::isCompleted);
     }
 }

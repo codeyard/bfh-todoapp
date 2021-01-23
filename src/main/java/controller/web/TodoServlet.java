@@ -19,10 +19,26 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.logging.Logger;
 
+/**
+ * A servlet for reading and manipulation single todo items.
+ * Listens to "/todo" path.
+ * Redirects to the login page if no user is present/authorized.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/todo")
 public class TodoServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TodoServlet.class.getName());
 
+    /**
+     * Displays a single todo item.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException      if unable to forward to view
+     * @throws ServletException if unable to forward to view
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
@@ -46,7 +62,7 @@ public class TodoServlet extends HttpServlet {
                 if (todoID != null && !todoID.isEmpty()) {
                     try {
                         todo = user.getTodo(Integer.parseInt(todoID));
-                        if(todo == null) throw new UserException("todo not found");
+                        if (todo == null) throw new UserException("todo not found");
                         isNew = false;
                     } catch (Exception e) {
                         response.reset();
@@ -79,6 +95,14 @@ public class TodoServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Updates, creates or deletes a single todo item.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws ServletException if unable to forward to view
+     * @throws IOException      if unable to forward to view
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -200,7 +224,6 @@ public class TodoServlet extends HttpServlet {
      * @return parsed due date if successful
      * @throws DateTimeParseException Exception is thrown if date couldn't be pared
      */
-
     private LocalDate parseUserDate(String dueDateStr) throws DateTimeParseException {
         LocalDate dueDate = null;
         if (dueDateStr != null && !dueDateStr.isEmpty()) {

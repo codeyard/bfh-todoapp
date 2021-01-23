@@ -14,11 +14,24 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.logging.Logger;
 
-
+/**
+ * Register a user via REST API.
+ * Listens to "/api/users" path.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/api/users")
 public class UsersRestServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(UsersRestServlet.class.getName());
 
+    /**
+     * Register a user.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws UnsupportedEncodingException if character encoding is not UTF-8
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");

@@ -8,6 +8,9 @@ import java.util.Objects;
 
 /**
  * The Todo class implements a Todo
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
  */
 public class Todo implements Comparable {
     private static int todoCounter;
@@ -79,11 +82,6 @@ public class Todo implements Comparable {
         this.isCompleted = isCompleted;
     }
 
-    /**
-     * Sets the todoCounter to the defined value
-     *
-     * @param counter the counter that holds the highest assigned todoID
-     */
     public static void setTodoCounter(Integer counter) {
         todoCounter = counter;
     }
@@ -195,11 +193,6 @@ public class Todo implements Comparable {
         }
     }
 
-    /**
-     * Returns a string representation of the Todo object.
-     *
-     * @return a string representation of the Todo object
-     */
     @Override
     public String toString() {
         return "Todo{" +
@@ -217,14 +210,14 @@ public class Todo implements Comparable {
     /**
      * Indicates whether some other object is "equal to" this one.
      *
-     * @param o the reference object with which to compare
+     * @param other the reference object with which to compare
      * @return true if this object is the same as the o argument, false otherwise
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Todo todo = (Todo) other;
         return Objects.equals(todoID, todo.todoID);
     }
 

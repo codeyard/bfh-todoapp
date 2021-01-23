@@ -11,11 +11,22 @@ import javax.servlet.ServletContext;
 import java.io.*;
 import java.util.logging.Logger;
 
+/**
+ * Helper methods for reading and writing XML data.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 public class XmlHelper {
     private static final String fileName = "WEB-INF/xml/Data.xml";
     private static final Logger LOGGER = Logger.getLogger(XmlHelper.class.getName());
 
-
+    /**
+     * Reads XML data.
+     *
+     * @param servletContext the context of the current servlet
+     * @return a User Manager
+     */
     public static UserManager readXmlData(ServletContext servletContext) {
         ObjectMapper mapper = new XmlMapper();
         mapper.registerModule(new JavaTimeModule());
@@ -24,11 +35,15 @@ public class XmlHelper {
             return mapper.readValue(in, UserManager.class);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
-
         }
     }
 
-
+    /**
+     * Writes XML data.
+     *
+     * @param userManager    the User Manager
+     * @param servletContext the context of the current servlet
+     */
     public static void writeXmlData(UserManager userManager, ServletContext servletContext) {
         ObjectMapper mapper = new XmlMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -41,6 +56,4 @@ public class XmlHelper {
             throw new RuntimeException(ex);
         }
     }
-
-
 }

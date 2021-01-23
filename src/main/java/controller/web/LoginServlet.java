@@ -15,10 +15,25 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/**
+ * User login. Listens to "/login" path.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
 
+    /**
+     * Displays the login page.
+     * Redirects to the todo list when a user is authorized.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws IOException if unable to forward to view
+     * @throws ServletException if unable to forward to view
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
@@ -45,6 +60,14 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Authorizes a user.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws IOException if unable to forward to view
+     * @throws ServletException if unable to forward to view
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");

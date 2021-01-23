@@ -15,10 +15,27 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.logging.Logger;
 
+/**
+ * Basic Authentication Filter for REST API.
+ * Listens to "/api/*" path.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebFilter(urlPatterns = "/api/*")
 public class AuthenticationFilter extends HttpFilter {
     private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class.getName());
 
+    /**
+     * Authenticates a user with Basic Authentication.
+     * Authentication will not be applied when the users path is requested.
+     *
+     * @param request  the request
+     * @param response the response
+     * @param chain    the filter chain
+     * @throws IOException      is thrown when the chain couldn't be filtered
+     * @throws ServletException is thrown when the chain couldn't be filtered
+     */
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ServletContext servletContext = getServletContext();
         String pathInfo = request.getServletPath();

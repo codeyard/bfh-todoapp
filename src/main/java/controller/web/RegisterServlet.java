@@ -16,10 +16,26 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/**
+ * Registers a new user.
+ * Listens to "/register" path.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
+ */
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(RegisterServlet.class.getName());
 
+    /**
+     * Renders the register template.
+     * Redirects to the todo list when a user is authorized.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws IOException      if unable to forward to view
+     * @throws ServletException if unable to forward to view
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
@@ -46,6 +62,15 @@ public class RegisterServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Registers a new user.
+     * Redirects to the login page when registering was successful.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws ServletException if unable to forward to view
+     * @throws IOException      if unable to forward to view
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -101,6 +126,4 @@ public class RegisterServlet extends HttpServlet {
             && secondPassword != null && !secondPassword.isEmpty()
             && firstPassword.equals(secondPassword);
     }
-
-
 }

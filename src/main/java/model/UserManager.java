@@ -12,6 +12,9 @@ import java.util.Set;
 
 /**
  * The User Manager is responsible for the registration and authentication of a user.
+ *
+ * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
+ * @version 1.0
  */
 @JacksonXmlRootElement(localName = "root")
 public class UserManager {
@@ -25,7 +28,7 @@ public class UserManager {
 
     /**
      * Instantiates a UserManager as a singleton and sets the static counters
-     * of the Todo and User classes to the highest values
+     * of the Todo and User classes to the highest values.
      *
      * @param servletContext the context of a ServletContext
      * @return an instance of UserManager
@@ -121,6 +124,7 @@ public class UserManager {
 
     /**
      * Returns all registered users.
+     *
      * @return a set with all registered users
      */
     @JacksonXmlElementWrapper(localName = "users")
@@ -133,7 +137,6 @@ public class UserManager {
      * Loads a predefined set of users.
      */
     private static UserManager loadUsers(ServletContext servletContext) {
-        //users.add(new User("admin", "1234"));
         return XmlHelper.readXmlData(servletContext);
     }
 
