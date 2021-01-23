@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author Igor Stojanovic, Sabina Löffel, Christophe Leupi, Raphael Gerber
  * @version 1.0
  */
-public class Todo implements Comparable {
+public class Todo implements Comparable<Todo> {
     private static int todoCounter;
     private Integer todoID;
     private Integer userID;
@@ -147,33 +147,33 @@ public class Todo implements Comparable {
     /**
      * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive
      * integer as this object is less than, equal to, or greater than the specified object.
-     * <p>
+     *
      * The todos are sorted first by due date, then by title and finally by the id of the Todo objects.
      *
-     * @param other the object to be compared
+     * @param other the todo to be compared
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or
      * greater than the specified object
      */
     @Override
-    public int compareTo(Object other) {
+    public int compareTo(Todo other) {
         try {
             if (this.equals(other)) {
                 return 0;
             }
-            LocalDate otherDate = ((Todo) other).getDueDate();
+            LocalDate otherDate = other.getDueDate();
             if (dueDate == null && otherDate == null) {
-                return compareTitleOrTodoID((Todo) other);
+                return compareTitleOrTodoID(other);
             } else if (dueDate == null) {
                 return 1;
             } else if (otherDate == null) {
                 return -1;
             } else if (dueDate.compareTo(otherDate) == 0) {
-                return compareTitleOrTodoID((Todo) other);
+                return compareTitleOrTodoID(other);
             }
             return dueDate.compareTo(otherDate);
         } catch (DateTimeException ex) {
             ex.printStackTrace();
-            return compareTitleOrTodoID((Todo) other);
+            return compareTitleOrTodoID(other);
         }
     }
 
