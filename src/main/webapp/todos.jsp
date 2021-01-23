@@ -102,14 +102,6 @@
                         <div class="control ml-3">
                             <input type="submit" class="button is-light" value="Filter">
                         </div>
-
-                        <c:if test="${(categoryFilter == null && user.hasCompletedTodos())}">
-                            <form action="todos" method="post">
-                                <div class="control ml-3">
-                                    <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
-                                </div>
-                            </form>
-                        </c:if>
                     </div>
                 </form>
             </c:if>
@@ -175,7 +167,21 @@
             </tbody>
         </table>
 
-        <div class="block">${user.getTodosStatistics(categoryFilter, statusFilter)}</div>
+        <div class="columns">
+            <div class="column is-three-quarters">
+                ${user.getTodosStatistics(categoryFilter, statusFilter)}
+            </div>
+
+            <div class="column is-one-quarter has-text-right">
+                <c:if test="${(!listIsFiltered && user.hasCompletedTodos())}">
+                    <form action="todos" method="post">
+                        <div class="control ml-3">
+                            <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
+                        </div>
+                    </form>
+                </c:if>
+            </div>
+        </div>
     </c:if>
 </section>
 
