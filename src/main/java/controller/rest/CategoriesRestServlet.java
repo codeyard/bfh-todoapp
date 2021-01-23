@@ -2,7 +2,7 @@ package controller.rest;
 
 import model.User;
 import model.UserManager;
-import model.helper.JsonHelper;
+import controller.rest.helper.JsonHelper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;

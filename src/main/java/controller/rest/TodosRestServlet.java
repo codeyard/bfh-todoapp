@@ -3,8 +3,7 @@ package controller.rest;
 import model.Todo;
 import model.User;
 import model.UserManager;
-import model.helper.JsonHelper;
-import model.helper.XmlHelper;
+import controller.rest.helper.JsonHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -205,7 +204,7 @@ public class TodosRestServlet extends HttpServlet {
                 Todo todo = user.getTodo(todoID);
                 if (todo != null) {
                     user.deleteTodo(todo);
-                    XmlHelper.writeXmlData(userManager, servletContext);
+                    userManager.writeData(servletContext);
                     writeResponse(response, "", HttpServletResponse.SC_NO_CONTENT);
                     LOGGER.info(" - - - - Todo removed id: " + todo.getTodoID() + "  - - - - ");
                 } else {
@@ -261,7 +260,7 @@ public class TodosRestServlet extends HttpServlet {
             todo.setCompleted(isCompleted);
         }
         user.updateTodo(todo);
-        XmlHelper.writeXmlData(userManager, servletContext);
+        userManager.writeData(servletContext);
         writeResponse(response, "todoId", HttpServletResponse.SC_NO_CONTENT);
         LOGGER.info(" - - - - todo updated: " + todo.getTodoID() + " - - - - ");
     }
@@ -278,7 +277,7 @@ public class TodosRestServlet extends HttpServlet {
         String todoId = todo.getTodoID().toString();
         user.addTodo(todo);
 
-        XmlHelper.writeXmlData(userManager, servletContext);
+        userManager.writeData(servletContext);
         writeResponse(response, todoId, HttpServletResponse.SC_CREATED);
         LOGGER.info(" - - - - Todo with ID: " + todoId + " created  - - - - ");
     }

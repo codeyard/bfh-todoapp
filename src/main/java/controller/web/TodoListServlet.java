@@ -91,7 +91,7 @@ public class TodoListServlet extends HttpServlet {
                 deleteCompletedTodos(user);
                 ServletContext servletContext = getServletContext();
                 UserManager userManager = UserManager.getInstance(servletContext);
-                XmlHelper.writeXmlData(userManager, servletContext);
+                userManager.writeData(servletContext);
             }
 
             request.setAttribute("todos", user.getTodos(category, status));

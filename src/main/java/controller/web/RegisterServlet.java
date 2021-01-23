@@ -83,7 +83,7 @@ public class RegisterServlet extends HttpServlet {
             UserManager userManager = UserManager.getInstance(servletContext);
             try {
                 userManager.register(name, firstPassword);
-                XmlHelper.writeXmlData(userManager, servletContext);
+                userManager.writeData(servletContext);
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
                 LOGGER.info(" - - - - User registered   - - - - ");

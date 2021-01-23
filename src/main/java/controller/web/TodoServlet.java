@@ -131,7 +131,7 @@ public class TodoServlet extends HttpServlet {
             if (isDeleteButtonPressed(deleteButton, todoID)) {
                 try {
                     user.deleteTodo(user.getTodo(todoID));
-                    XmlHelper.writeXmlData(userManager, servletContext);
+                    userManager.writeData(servletContext);
                     response.sendRedirect("todos");
                     LOGGER.info(" - - - - User deleted todo  - - - - ");
                 } catch (IOException ioException) {
@@ -174,7 +174,7 @@ public class TodoServlet extends HttpServlet {
                     updateExistingTodo(title, category, user, todoID, dueDate, isImportant, isCompleted);
                 }
 
-                XmlHelper.writeXmlData(userManager, servletContext);
+                userManager.writeData(servletContext);
                 response.sendRedirect("todos");
                 LOGGER.info(" - - - - User successfully created or updated todo  - - - - ");
             }

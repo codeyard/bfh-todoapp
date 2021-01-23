@@ -36,7 +36,7 @@ public class UserManager {
     public static UserManager getInstance(ServletContext servletContext) {
         try {
             if (UserManager.instance == null) {
-                UserManager.instance = loadUsers(servletContext);
+                UserManager.instance = loadData(servletContext);
                 setCounters();
             }
             return UserManager.instance;
@@ -136,8 +136,12 @@ public class UserManager {
     /**
      * Loads a predefined set of users.
      */
-    private static UserManager loadUsers(ServletContext servletContext) {
+    private static UserManager loadData(ServletContext servletContext) {
         return XmlHelper.readXmlData(servletContext);
+    }
+
+    public void writeData(ServletContext servletContext) {
+        XmlHelper.writeXmlData(this, servletContext);
     }
 
     /**

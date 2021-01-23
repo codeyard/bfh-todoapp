@@ -2,8 +2,7 @@ package controller.rest;
 
 import model.UserException;
 import model.UserManager;
-import model.helper.JsonHelper;
-import model.helper.XmlHelper;
+import controller.rest.helper.JsonHelper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
@@ -54,7 +53,7 @@ public class UsersRestServlet extends HttpServlet {
                     try {
                         if (name != null && !name.isEmpty() && password != null && !password.isEmpty()) {
                             userManager.register(name, password);
-                            XmlHelper.writeXmlData(userManager, servletContext);
+                            userManager.writeData(servletContext);
                             response.setStatus(HttpServletResponse.SC_CREATED); // user registered
                             LOGGER.info(" - - - -  Response given - - - - ");
                         } else {
