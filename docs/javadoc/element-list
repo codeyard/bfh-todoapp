@@ -1,4 +1,5 @@
 controller.rest
+controller.rest.helper
 controller.web
 model
 model.helper
