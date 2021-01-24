@@ -25,6 +25,43 @@ geschützt.
 ### Domänenmodell
 ![Domain Model](docs/DomainModel.png)
 
+* Der `UserManager` ist für die Registrierung und Authentifizierung eines Benutzers zuständig. Er bietet folgende Methoden an:
+    * `getInstance()`: instantiiert einen User Manager als Singleton, liest das Set mit den vorhandenen Benutzern inklusive
+      deren Todos aus dem Data.xml aus, das für die Persistenz gebraucht wird und setzt die Counter (siehe nächste Methode).
+    * `setCounters()`: iteriert durch das obengenannte Set und ermittelt die höchste verwendete userID und todoID. Diese
+      Werte werden in die entsprechenden statischen Klassenvariablen in der dazugehörigen Klasse gespeichert. Beim Erstellen
+      von neuen Benutzern oder Todos, werden diese Counter erhöht. So wird quasi ein auto_increment Primärschlüssel einer
+      Datenbank simuliert.
+    * `register()`: legt einen neuen Benutzer an. Falls der gewählte Benutzername bereits existiert, wird eine `UserException`
+      geworfen.
+    * `authenticate()`: autentifiziert einen Benutzer. Nach erfolgreicher Anmeldung wird ein `User` Objekt zurückgegeben, 
+      welches die Kundendaten sowie eine Liste aller vorhandenen Todos des angemeldeten Benutzers enthält. Falls der 
+      Benutzername nicht existiert oder die Anmeldedaten nicht stimmen, wird eine `UserException` geworfen.
+    * `isNotRegistered()`: gibt true zurück, wenn der angegebene Benutzername noch nicht verwendet wird.
+    * `getUsers()`: gibt ein Set mit den vorhandenen `User` Objekten zurück.
+    * `getUser()`: gibt ein einzelnes `User` Objekt zurück.
+    * `loadData()`: liest die `Data.xml` Datei aus, die für die Persistenz benutzt wird.
+    * `writeData()`: schreibt die aktuellen Daten in die `Data.xml` Datei.
+* Die `UserException` wird geworfen, wenn die Registrierung oder Anmeldung eines Benutzers fehlschlägt.
+* Die `User` Klasse implementiert einen Benutzer mit dessen Todo Liste und enthält zb. folgende Methoden:
+    * `getTodos()`: retourniert eine Liste mit `Todo` Objekten. Diese Liste kann optional nach einer Kategorie oder einem Status
+      (incomplete, complete, overdue, important) gefiltert werden.
+    * `getTodosStatistics()`: gibt einen String mit Statistikangaben zurück: wieviele Todos sind vorhanden, wieviele sind
+      offen, überfällig oder wichtig. Hierbei kann wiederum nach Kategorie und/oder Status gefiltert werden.
+    * `addTodo()`: fügt ein neues Todo der Liste hinzu.
+    * `updateTodo()`: aktualisiert ein angegebenes Todo.
+    * `deleteTodo()`: entfernt ein Todo aus der Liste.
+    * `getTodo()`: gibt ein einzelnes Todo zurück.
+    * `getDistinctCategories()`: retourniert ein Set mit allen benutzten Kategorien des Benutzers zurück, welches keine
+      Duplikate enthält.
+    * `hasCompletedTodos()`: gibt einen boolschen Wert zurück, der besagt, ob der Benutzer bereits erledigte Todos hat.
+* Die `Todo` Klasse implementiert ein Todo und verfügt nebst den Settern und Gettern über diese Methoden:
+    * `isOverdue()`: gibt true zurück, falls auf dem Todo ein Fälligkeitsdatum gesetzt ist, welches in der Vergangenheit
+      liegt.
+    * `compareTo()`: ist für die Sortierung der Todos in der ArrayListe zuständig. Die Sortierung erfolgt zuerst nach dem
+      Fälligkeitsdatum, dann alphabetisch nach dem Titel und schliesslich nach der todoID.
+
+
 ### Page Flow
 ![Page Flow](docs/PageFlow.png)
 
@@ -55,8 +92,8 @@ die auf einen Blick zeigt, wie viele Todos vorhanden und wie viele davon offen, 
 #### Zusätzliche Filtermethoden
 Ein Benutzer hat die Möglichkeit, neben der Filterung nach Kategorien, auch nach dem Status (incomplete, complete, 
 overdue, important) der Todos zu filtern. Eine Filterkombination aus Kategorie und Status ist auch möglich. Wenn
-ein Filter aktiv ist, erscheint rechts daneben ein Papierkorb-Icon über welches die Filter gelöscht, sprich
-bzw. zurückgesetzt werden können.
+ein Filter aktiv ist, erscheint rechts daneben ein Papierkorb-Icon über welches die Filter zurückgesetzt werden 
+können.
 
 
 #### Löschung aller erledigten Todos

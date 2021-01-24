@@ -111,7 +111,7 @@ public class UserManager {
      * Indicates whether a userName is already registered.
      *
      * @param userName the userName to check
-     * @return true if userName is already registered, false otherwise
+     * @return true if userName is not yet registered, false otherwise
      */
     private boolean isNotRegistered(String userName) {
         for (User user : users) {
