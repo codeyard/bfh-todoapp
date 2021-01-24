@@ -55,8 +55,8 @@
 <section class="section">
     <h1 class="title">Todo List</h1>
 
-    <div class="columns">
-        <div class="column is-three-quarters">
+    <div class="columns is-desktop">
+        <div class="column is-half">
             <c:if test="${user.getTodos().size() == 0}">
                 <em class="subtitle is-4">Your Todo List is empty :-(</em>
             </c:if>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
 
-                        <div class="control has-icons-left ml-3">
+                        <div class="control has-icons-left">
                             <div class="select">
                                 <select name="status">
                                     <option value="">Status:</option>
@@ -94,12 +94,12 @@
                         </div>
 
                         <c:if test="${listIsFiltered}">
-                            <div class="control ml-3">
+                            <div class="control">
                                 <a href="todos" title="Delete Filter" class="button is-light"><span class="icon"><i class="fas fa-trash"></i></span></a>
                             </div>
                         </c:if>
 
-                        <div class="control ml-3">
+                        <div class="control">
                             <input type="submit" class="button is-light" value="Filter">
                         </div>
                     </div>
@@ -107,7 +107,17 @@
             </c:if>
         </div>
 
-        <div class="column is-one-quarter has-text-right">
+        <div class="column is-one-quarter">
+            <c:if test="${(!listIsFiltered && user.hasCompletedTodos())}">
+                <form action="todos" method="post">
+                    <div class="control">
+                        <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
+                    </div>
+                </form>
+            </c:if>
+        </div>
+
+        <div class="column is-one-quarter has-text-right-desktop has-text-right-widescreen has-text-right-fullhd">
             <a href="todo" class="button is-success has-text-weight-bold">
                 <span class="icon is-small"><i class="fas fa-plus"></i></span>
                 <span>New Todo</span>
@@ -167,21 +177,7 @@
             </tbody>
         </table>
 
-        <div class="columns">
-            <div class="column is-three-quarters">
-                ${user.getTodosStatistics(categoryFilter, statusFilter)}
-            </div>
-
-            <div class="column is-one-quarter has-text-right">
-                <c:if test="${(!listIsFiltered && user.hasCompletedTodos())}">
-                    <form action="todos" method="post">
-                        <div class="control ml-3">
-                            <input type="submit" name="deleteCompletedTodos" class="button is-danger" value="Delete completed Todos">
-                        </div>
-                    </form>
-                </c:if>
-            </div>
-        </div>
+        <div class="block">${user.getTodosStatistics(categoryFilter, statusFilter)}</div>
     </c:if>
 </section>
 
