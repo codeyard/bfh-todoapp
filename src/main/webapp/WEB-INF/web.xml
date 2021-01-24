@@ -13,10 +13,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
     	<servlet-name>LoginServlet</servlet-name>
     	<servlet-class>controller.web.LoginServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-    	<servlet-name>LoginServlet</servlet-name>
-    	<url-pattern></url-pattern>
-    </servlet-mapping>
     <error-page>
         <!-- Missing resource -->
         <error-code>404</error-code>
