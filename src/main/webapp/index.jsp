@@ -55,7 +55,12 @@
             <form action="login" method="post">
                 <c:if test="${loginFailed == true}">
                     <div class="notification is-warning">
-                        <strong>Login unsuccessful. The entered username or password are invalid. Please try again!</strong>
+                        <strong>The login was not successful. Either the username or the password is invalid. Please try again!</strong>
+                    </div>
+                </c:if>
+                <c:if test="${registerSuccessful == true}">
+                    <div class="notification is-success">
+                        <strong>The registration was successful. You can now log in to your account.</strong>
                     </div>
                 </c:if>
                 <div class="field">

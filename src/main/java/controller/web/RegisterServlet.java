@@ -84,6 +84,7 @@ public class RegisterServlet extends HttpServlet {
             try {
                 userManager.register(name, firstPassword);
                 userManager.writeData(servletContext);
+                request.setAttribute("registerSuccessful", true);
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
                 LOGGER.info(" - - - - User registered   - - - - ");
