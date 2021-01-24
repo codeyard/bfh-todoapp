@@ -20,6 +20,19 @@ werden.
 Damit jeder Benutzer nur seine eigenen Todos einsehen und bearbeiten kann, sind diese durch ein persönliches Login 
 geschützt.
 
+Die Benutzer und deren Todos werden in der `Data.xml` Datei persistiert, welche unter `WEB-INF/xml` abgelegt ist. Sie
+wird dann ausgelesen, wenn eine neue Instanz des `UserManager` erzeugt wird. Beim Anlegen von neuen Benutzern sowie 
+beim Anlegen, Aktualisieren und Löschen von Todos wird die Datei aktualisiert, sprich neu geschrieben.
+
+Die mit JavaDoc generierte Dokumentation der Java-Quelltexte ist im Ordner `docs/javadoc` abgelegt.
+
+Es ist bereits ein Benutzer mit einem Todo zum Testen vorhanden. Die Anmeldedaten lauten `Username: default, Password: 1234`.
+
+Die Applikation ist nach erfolgreicher Tomcat-Konfiguration (siehe Kapitel "Inbetriebnahme") unter 
+[http://localhost:8080/todoapp](http://localhost:8080/todoapp) verfügbar.
+
+Die REST-Schnittstelle ist unter [http://localhost:8080/todoapp/api](http://localhost:8080/todoapp/api) ansprechbar.
+
 ## Design
 
 ### Domänenmodell
@@ -27,11 +40,11 @@ geschützt.
 
 * Der `UserManager` ist für die Registrierung und Authentifizierung eines Benutzers zuständig. Er bietet folgende Methoden an:
     * `getInstance()`: instantiiert einen User Manager als Singleton, liest das Set mit den vorhandenen Benutzern inklusive
-      deren Todos aus dem Data.xml aus, das für die Persistenz gebraucht wird und setzt die Counter (siehe nächste Methode).
+      deren Todos aus der `Data.xml` Datei aus und setzt die Counter (siehe nächste Methode).
     * `setCounters()`: iteriert durch das obengenannte Set und ermittelt die höchste verwendete userID und todoID. Diese
-      Werte werden in die entsprechenden statischen Klassenvariablen in der dazugehörigen Klasse gespeichert. Beim Erstellen
-      von neuen Benutzern oder Todos, werden diese Counter erhöht. So wird quasi ein auto_increment Primärschlüssel einer
-      Datenbank simuliert.
+      Werte werden als statische Klassenvariablen in der `User` bzw. `Todo` Klasse gesetzt. Beim Erfassen von neuen Benutzern 
+      oder Todos wird der entsprechende Wert (userCounter bzw. todoCounter) erhöht und als userID bzw. todoID verwendet. So 
+      wird quasi ein auto_increment Primärschlüssel einer Datenbank simuliert.
     * `register()`: legt einen neuen Benutzer an. Falls der gewählte Benutzername bereits existiert, wird eine `UserException`
       geworfen.
     * `authenticate()`: autentifiziert einen Benutzer. Nach erfolgreicher Anmeldung wird ein `User` Objekt zurückgegeben, 
@@ -40,7 +53,7 @@ geschützt.
     * `isNotRegistered()`: gibt true zurück, wenn der angegebene Benutzername noch nicht verwendet wird.
     * `getUsers()`: gibt ein Set mit den vorhandenen `User` Objekten zurück.
     * `getUser()`: gibt ein einzelnes `User` Objekt zurück.
-    * `loadData()`: liest die `Data.xml` Datei aus, die für die Persistenz benutzt wird.
+    * `loadData()`: liest die `Data.xml` Datei aus.
     * `writeData()`: schreibt die aktuellen Daten in die `Data.xml` Datei.
 * Die `UserException` wird geworfen, wenn die Registrierung oder Anmeldung eines Benutzers fehlschlägt.
 * Die `User` Klasse implementiert einen Benutzer mit dessen Todo Liste und enthält zb. folgende Methoden:
@@ -114,6 +127,7 @@ Für das Abfangen von möglichen Fehlern und beim Zugriff auf nicht vorhandene R
 angezeigt.
 
 
+
 ## TODO: Inbetriebnahme
 Die Applikation lässt sich lokal über einen Tomcat Server starten: [http://localhost:8080/todoapp](http://localhost:8080/todoapp).
 Wenn noch kein persönliches Login existiert, kann über den Button `Register` ein neuer Benutzer registriert werden.
@@ -122,12 +136,10 @@ Nach der Registration kann sich der User einloggen und erhält eine leere Übers
 Nach der Eingabe der Pflichtfelder (Titel) kann das Todo mit dem Button `Save` abgespeichert werden, damit es in der 
 Übersichtsliste erscheint. Die Todos können über die Buttons in der Spalte "Action" bearbeitet und gelöscht werden.
 
-Über die REST-Schnittstelle können die angeforderten Requests gegen die Applikation abgesetzt werden. Die 
-Datenpersistenz wurde mit XML implementiert. Für die REST-Schnittstelle wurde eine JSON Helper Klasse erstellt 
-und für die Datenhaltung dient die XmlHelper Klasse.
 
 ### Konfiguration des Tomcat-Servers
 Damit die Applikation wunschgemäss gestartet werden kann, müssen folgende Einstellungen im Tomcat vorgenommen werden:
+
 ![Tomcat Overivew](docs/Tomcat%20overview.png)
 
 ![Tomcat Overivew](docs/Tomcat%20deployment.png)
