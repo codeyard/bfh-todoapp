@@ -85,6 +85,9 @@ public class User {
      * whose status match the specified status
      */
     public List<Todo> getTodos(String category, String status) {
+        if (todos == null) {
+            return null;
+        }
         Predicate<Todo> filter = (t -> true);
         if (category != null && !category.isEmpty()) {
             filter = filter.and(t -> t.getCategory() != null && t.getCategory().equals(category));
