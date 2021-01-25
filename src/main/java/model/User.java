@@ -86,7 +86,7 @@ public class User {
      */
     public List<Todo> getTodos(String category, String status) {
         if (todos == null) {
-            return null;
+            return new ArrayList<>();
         }
         Predicate<Todo> filter = (t -> true);
         if (category != null && !category.isEmpty()) {
@@ -220,7 +220,7 @@ public class User {
      */
     @JsonIgnore
     public Set<String> getDistinctCategories() {
-        return todos.stream().map(Todo::getCategory).filter(x -> !x.isEmpty()).collect(Collectors.toSet());
+        return (todos != null) ? todos.stream().map(Todo::getCategory).filter(x -> !x.isEmpty()).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
     @Override
@@ -264,6 +264,6 @@ public class User {
     @SuppressWarnings("unused")
     @JsonIgnore
     public boolean hasCompletedTodos() {
-        return todos.stream().anyMatch(Todo::isCompleted);
+        return (todos != null) ? todos.stream().anyMatch(Todo::isCompleted) : false;
     }
 }
