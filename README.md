@@ -131,6 +131,8 @@ Die Views sind die Templates für die Erstellung der serverseitigen Antworten. V
 
 
 ## Implementierung
+Das Frontend wurde mit Hilfe von [Bulma](https://bulma.io/) implementiert und ist vollständig responsive. 
+Im Backend wurden die im CAS gezeigten Technologien (Servlets, JSP, Jackson XMl, Jackson JSON, etc.) verwendet. 
 
 ### Zusätzlich implementierte Features
 
