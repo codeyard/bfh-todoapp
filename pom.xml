@@ -6,7 +6,7 @@
 
     <groupId>ch.bfh.cassd.hs20.gruppe1</groupId>
     <artifactId>todoapp</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-RELEASE</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
