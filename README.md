@@ -77,14 +77,60 @@ Die REST-Schnittstelle ist unter [http://localhost:8080/todoapp/api](http://loca
 
 ### Page Flow
 ![Page Flow](docs/PageFlow.png)
+Ein Benutzer landet auf der Login-Seite, wo er auf die Registrierung abspringen kann und anschliessend auf die Login-Seite weitergeleitet wird.
+Nach erfolgreichem Login gelangt der Benutzer in die Übersicht der Todos, wo er bestehende Todos bearbeiten oder löschen kann. Hier kann er jedoch auch diverse Filter setzen, um die Ansicht seinen Wünschen entsprechend anzupassen.
+Ausserdem kann der User von hier aus zur Todo-Erstellung abspringen, wo ein neues Todo erstellt werden kann.
 
-### TODO: Klassendesign
+### Klassendesign
 
 #### MVC-Modell: 
 ![Page Flow](docs/mvc.png)
 
+##### REST
+Ein Client kann eine REST-Anfrage erstellen, welche durch einen Filter - der die Authentifizierung des Benutzers überprüft - geleitet wird.
+Je nach Typ des Requests kommen unterschiedliche Servlets zum Einsatz, welche je nach Typ des Request diesen verarbeiten:
 
-## TODO: Implementierung
+* `AuthenticationFilter`:
+Sämtliche Requests auf `/api/*` werden durch den AuthenticationFilter bearbeitet. Dieser prüft, ob ein Request durch einen registrierten Benutzer getätigt wird oder nicht.
+Bei `/users` sind nicht registrierte Requests erlaubt.
+* `CategoriesRestServlet`:
+Gibt dem authentifizierten Benutzer eine eindeutige Liste der Kategorien seiner Todos zurück.
+* `TodosRestServlet`:
+Ein authentifizierter Benutzer kann über dieses Servlet Todos erstellen, aktualisieren, löschen, sowie einzelne oder alle Todos abfragen.
+* `UsersRestServet`:
+Auf diesem Servlet werden neue User erstellt. 
+* `JsonHelper`:
+Der JsonHelper übersetzt Requests des Clients von JSON bzw. die Antworten des Servers in JSON.
+
+#### Model
+Das Domänenmodell wurde weiter oben detailliert beschrieben.
+
+##### Datenmodel
+XmlHelper wurde als Hilfsklasse definiert für den Lese- und Schreibzugriff auf Data.xml, wo die Daten gespeichert werden.
+
+* `XmlHelper`: Schreibt und liest den Klassenbaum, ausgehend vom Domänenmodell, in ein einziges XML-File. 
+
+##### WEBAPP
+Die Web-Applikation wird aus dem Browser gestartet. Hier erfolgen Requests an die Servlets, welche mit dem Domänenmodell interagieren und eine Antwort erzeugen.
+
+* `RegisterServlet`: Registriert einen Benutzer und leitet diesen im Erfolgsfall an das LoginServlet weiter. Falls ein User in der Session noch eingeloggt ist, erfolgt eine direkt Weiterleitung an `/todos`.
+* `LoginServlet`: Ist zuständig für die Authentifizierung des Benutzers. Im Erfolgsfall erfolgt eine Weiterleitung an `/tods`, ansonsten wird das Fehlschlagen angezeigt. Falls ein User in der Session noch eingeloggt ist, erfolgt eine direkt Weiterleitung an `/todos`.
+* `LogoutServlet`: Löscht den aktuell in der Session gespeicherten Benutzer und leitet diesen an `/login` weiter.
+* `TodoListServlet`: Ist zuständig für das Anzeigen und Filtern aller erfassten Todos eines Benutzers. Zudem hat der Benutzer die Möglichkeit, alle erledigten Todos auf einmal zu löschen. Bei nicht authentifizierten Zugriff erfolgt eine Weiterleitung an `/login`.
+* `TodoServlet`: Ist zuständig für die Anzeige, Erstellung eines Todos und das Aktualisieren oder Löschen von einem bestehenden Todos. Bei nicht authentifizierten Zugriff erfolgt eine Weiterleitung an `/login`.
+
+##### View
+Die Views sind die Templates für die Erstellung der serverseitigen Antworten. Vorhanden sind folgende .jsp-Files:
+
+* `errors.jsp`: Ist zuständig für die Anzeige von allfälligen Fehlern (inkl. 404)
+* `index.jsp`: Formular für die Authentifizierung des Benutzers.
+* `register.jsp`: Formular für die Registrierung eines neuen Benutzers. 
+* `todo.jsp`: Formular für die Erstellung und Bearbeitung eines Todos.
+* `todoDeletion.jsp`: Anzeige, welche fragt, ob ein Todo wirklich gelöscht werden soll.
+* `todos.jsp`: Anzeige, welche für die Auflistung aller Todos zuständig ist. 
+
+
+## Implementierung
 
 ### Zusätzlich implementierte Features
 
@@ -94,7 +140,7 @@ Die Projektgruppe hat zusätzliche Features erfasst:
 * Zusätzliche Filtermethoden
 * Löschung aller erledigten Todos
 * Weiterleitung von (nicht) eingeloggten Benutzer
-* Error-Page
+* Error-Seite
 
 
 #### Statistiken
@@ -116,19 +162,19 @@ Filter aktiv ist.
 
 
 #### Weiterleitung von (nicht) eingeloggten Benutzer
-Eingeloggte Benutzer werden beim Versuch, auf die Registrier- oder Loginseite zuzugreifen, direkt auf die Todoliste 
+Eingeloggte Benutzer werden beim Versuch, auf die Registrier- oder Login-Seite zuzugreifen, direkt auf die Todoliste 
 weitergeleitet, solange die Session noch aktiv ist.
 Gleichzeitig können nicht eingeloggte Benutzer nicht auf den Userbereich zugreifen und werden zur Loginseite 
 weitergeleitet.
 
 
-#### Error seite
+#### Error-Seite
 Für das Abfangen von möglichen Fehlern und beim Zugriff auf nicht vorhandene Ressourcen (404) wird eine Error-Page 
 angezeigt.
 
 
 
-## TODO: Inbetriebnahme
+## Inbetriebnahme
 Die Applikation lässt sich lokal über einen Tomcat Server starten: [http://localhost:8080/todoapp](http://localhost:8080/todoapp).
 Wenn noch kein persönliches Login existiert, kann über den Button `Register` ein neuer Benutzer registriert werden.
 Nach der Registration kann sich der User einloggen und erhält eine leere Übersichtsliste ohne Todos. Über den Button 
