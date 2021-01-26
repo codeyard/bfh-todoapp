@@ -264,6 +264,6 @@ public class User {
     @SuppressWarnings("unused")
     @JsonIgnore
     public boolean hasCompletedTodos() {
-        return (todos != null) ? todos.stream().anyMatch(Todo::isCompleted) : false;
+        return todos != null && todos.stream().anyMatch(Todo::isCompleted);
     }
 }
