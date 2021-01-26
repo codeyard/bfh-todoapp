@@ -135,7 +135,7 @@ public class User {
             } else {
                 stats += " all are complete";
             }
-            stats += (importantCount > 0 || overdueCount > 0) ? ", " : "";
+            stats += (importantCount > 0) ? ", " : "";
             if (importantCount > 0) {
                 stats += (importantCount > 1) ? importantCount + " are important" : "one is important";
             }
