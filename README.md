@@ -1,5 +1,9 @@
 # Todo Application
 
+Realized as a group work.
+
+Certificate of Advanced Studies (CAS) in Software Development, Bern University of Applied Sciences.
+
 * CAS: Software Development (SD-HS20)
 * Kurs: Web Applikationen
 * Gruppe 1:
